@@ -1,5 +1,8 @@
+
+Potential site name: Slightly Sketchy Game Things 
+
 product we gonna be sellin: retro games and systems
-    - need up to like 
+    - need up to like 10 to 20 items
 selling table: 
     - users
         pimary keys
@@ -41,4 +44,4 @@ order of opps
         - either 'keep shopping'
         - or 'proceed to check out'
 
-    
+
