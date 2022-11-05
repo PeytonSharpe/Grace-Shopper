@@ -5,22 +5,21 @@ const { createProduct } = require('./products')
 async function dropTables() {
   try {
     console.log('Dropping Tables')
-    // add code here
     await client.query(`
       DROP TABLE IF EXISTS products;
+      DROP TABLE IF EXISTS users;
     `)
     
     console.log('Finished Dropping Tables')
   } 
   catch(ex) {
-    console.log('error dropping tables')
+    console.log('Error dropping tables')
   }
 }
 
 async function createTables() {
   try {
     console.log('Creating Tables')
-    // add code here
     await client.query(`
       CREATE TABLE products (
         id SERIAL PRIMARY KEY,
@@ -32,13 +31,27 @@ async function createTables() {
     console.log('Finished Creating Tables')
   } 
   catch(ex) {
-    console.log('error creating tables')
+    console.log('Error creating tables')
+  }
+}
+
+async function createInitialUsers() {
+  try {
+    console.log('Starting to create users...')
+    await createUser({
+      username: 'username',
+      password: 'stupid',
+      name: 'Bob'
+    })
+    console.log('Finished creating users')
+  } catch(ex) {
+    console.log("Error creating users")
   }
 }
 
 async function createInitialProducts() {
   try {
-    console.log('Creating Products')
+    console.log('Starting to create products...')
     await createProduct({
       title:
         "The first most amazing product",
@@ -63,7 +76,7 @@ async function createInitialProducts() {
     console.log('Finished creating Products')
   } 
   catch(ex) {
-    console.log('error creating Products')
+    console.log('Error creating Products')
   }
 }
 
@@ -73,6 +86,7 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
+    await createInitialUsers();
     await createInitialProducts();
   }
   catch(ex) {
