@@ -11,7 +11,7 @@ async function createProduct({title, description}) {
     return product;
   }
   catch(ex) {
-    console.log('error in creatPruduct adapter function')
+    console.log('error in createPruduct adapter function')
   }
 }
 
