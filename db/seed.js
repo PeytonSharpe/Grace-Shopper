@@ -9,6 +9,7 @@ async function dropTables() {
     await client.query(`
       DROP TABLE IF EXISTS wishlist;
       DROP TABLE IF EXISTS addresses;
+      DROP TABLE IF EXISTS purchases;
       DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS categories;
       DROP TABLE IF EXISTS products;
@@ -54,15 +55,23 @@ async function createTables() {
       );
 
       CREATE TABLE cart (
-        "cartId" INTEGER REFERENCES users(id),
-        "productId" INTEGER REFERENCES product(id),
-        purchased BOOLEAN DEFAULT false,
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES product(id), 
         total_price NUMERIC(10,2) NOT NULL,
-        UNIQUE ("cartId")
 
       );
       
+      CREATE TABLE purchases (
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id),
+        "cartId" INTEGER, 
+        date DATETIME,
+        price NUMERIC(10,2),
+      );  
+
       CREATE TABLE addresses (
+        id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES user(id),
         label VARCHAR(255) NOT NULL,
         street1 VARCHAR(255) NOT NULL,
