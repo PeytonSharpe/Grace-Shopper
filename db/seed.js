@@ -7,7 +7,12 @@ async function dropTables() {
     console.log('Dropping Tables')
     // add code here
     await client.query(`
+      DROP TABLE IF EXISTS wishlist;
+      DROP TABLE IF EXISTS addresses;
+      DROP TABLE IF EXISTS cart;
+      DROP TABLE IF EXISTS categories;
       DROP TABLE IF EXISTS products;
+      DROP TABLE IF EXISTS users;
     `)
     
     console.log('Finished Dropping Tables')
@@ -22,11 +27,60 @@ async function createTables() {
     console.log('Creating Tables')
     // add code here
     await client.query(`
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        username varchar(255) UNIQUE NOT NULL,
+        password varchar(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        active BOOLEAN DEFAULT true,
+        isAdmin BOOLEAN DEFAULT false
+      );
+
       CREATE TABLE products (
         id SERIAL PRIMARY KEY,
-        title VARCHAR(255),
+        title VARCHAR(255) NOT NULL, 
         description VARCHAR(255)
+        price NUMERIC(10,2),
+        count INTEGER,
+        active BOOLEAN DEFAULT true,
+        isPublic BOOLEAN DEFAULT true,
       );
+
+      CREATE TABLE categories (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255),
+        description(),
+        isPublic BOOLEAN DEFAULT true,        
+      );
+
+      CREATE TABLE cart (
+        "cartId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES product(id),
+        purchased BOOLEAN DEFAULT false,
+        total_price NUMERIC(10,2) NOT NULL,
+        UNIQUE ("cartId")
+
+      );
+      
+      CREATE TABLE addresses (
+        "userId" INTEGER REFERENCES user(id),
+        label VARCHAR(255) NOT NULL,
+        street1 VARCHAR(255) NOT NULL,
+        street2 VARCHAR(255),
+        city VARCHAR(255) NOT NULL,
+        state VARCHAR(2) NOT NULL,
+        zip INTEGER NOT NULL,
+
+      );
+
+      CREATE TABLE wishlist (
+        "userId" INTEGER REFERENCES user(id),
+        "productId" INTEGER REFERENCES product(id)
+      )
+      
+
+
+
     `)
     
     console.log('Finished Creating Tables')
