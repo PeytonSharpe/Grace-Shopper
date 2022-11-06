@@ -78,7 +78,7 @@ Table Creation (PSQL)[goes in seed.js]
 
 - Shopping Cart
     - id SERIAL PRIMARY KEY
-    - user_id INTEGER REFERENCES users(id)
+    - user_id INTEGER REFERENCES 
     - productID INTEGER REFERENCES products(id)
     - quantity INTEGER NOT NULL
     - total_price NUMERIC(10,2) NOT NULL
