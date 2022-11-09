@@ -2,6 +2,10 @@ const { createUser } = require('../../../juicebox/db')
 const { client } = require('./')
 
 const { createProduct } = require('./products')
+const { createUser } = require('./users')
+const { createCategory } = require('./categories')
+
+
 
 async function dropTables() {
   try {
@@ -123,9 +127,10 @@ async function createInitialUsers() {
 
     console.log ("---INITIAL USERS---", admin, testUser1, testUser2)
 
-    console.log('Finished creating users')
-  } catch(ex) {
-    console.log("Error creating users")
+    console.log('Finished creating users');
+  } catch(error) {
+    console.log("Error creating users");
+    throw (error);
   }
 }
 
@@ -134,21 +139,21 @@ async function createInitialProducts() {
     console.log('Starting to create products...')
     await createProduct({
       title:
-        "The first most amazing product",
+        "Game Place Holder 1",
       description:
         "Description for the first most amazing product ever...."
     });
     
     await createProduct({
       title:
-        "The second most amazing product",
+        "Game Place Holder 2",
       description:
         "Description for the second most amazing product ever...."
     });
     
     await createProduct({
       title:
-        "The third most amazing product",
+        "Game Place Holder 3",
       description:
         "Description for the third most amazing product ever...."
     });
@@ -157,6 +162,66 @@ async function createInitialProducts() {
   } 
   catch(ex) {
     console.log('Error creating Products')
+    throw error;
+  }
+}
+
+async function createInitialCategories() {
+  try {
+    console.log('Creating initial categories')
+    const consoles = await createCategory({
+      name: "Consoles",
+      description: "Console Systems"
+    });
+
+    const cabinets = await createCategory({
+      name: "Cabinets",
+      description: "Arcade Style Cabinet Games"
+    });
+
+    const games = await createCategory({
+      name: "Games",
+      description: "List of games"
+    });
+
+    const cartridges = await createCategory({
+      name: "Cartridges",
+      description: "Cartridge Style Games"
+    });
+
+    const pinball = await createCategory({
+      name: "Pinball Machines",
+      description: "Pinball Machines"
+    });
+
+    const handhelds = await createCategory({
+      name: "Handheld Systems",
+      description: "Handheld Systems"
+    });
+
+    const cds = await createCategory({
+      name: "CDs",
+      description: "CD Style Games"
+    });
+
+    const accessories = await createCategory({
+      name: "Accessories",
+      description: "Accessories"
+    });
+
+    const controllers = await createCategory({
+      name: "Controllers",
+      description: "Constrollers"
+    });
+
+    const other = await createCategory({
+      name: "Other",
+      description: "Other"
+    });
+  }
+  catch(error) {
+    console.log("Error creating categories")
+    throw error;
   }
 }
 
@@ -171,6 +236,7 @@ async function buildDB() {
   }
   catch(ex) {
     console.log('Error building the DB')
+    throw error;
   }
 }
 
