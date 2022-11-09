@@ -1,3 +1,4 @@
+const { createUser } = require('../../../juicebox/db')
 const { client } = require('./')
 
 const { createProduct } = require('./products')
@@ -92,19 +93,36 @@ async function createTables() {
     
     console.log('Finished Creating Tables')
   } 
-  catch(ex) {
+  catch(error) {
     console.log('Error creating tables')
+    throw error;
   }
 }
 
 async function createInitialUsers() {
   try {
     console.log('Starting to create users...')
-    await createUser({
-      username: 'username',
-      password: 'stupid',
-      name: 'Bob'
-    })
+    const admin = await createUser({
+      username: 'admin',
+      password: '8675309',
+      name: 'Site Admin',
+      isAdmin: true
+    });
+
+    const testUser1 = await createUser({
+      username:'testuser1',
+      password: 'test1234',
+      name: 'Test User One'
+    });
+
+    const testUser2 = await createUser({
+      username:'testuser2',
+      password: 'test1234',
+      name: 'Test User Two'
+    });
+
+    console.log ("---INITIAL USERS---", admin, testUser1, testUser2)
+
     console.log('Finished creating users')
   } catch(ex) {
     console.log("Error creating users")
