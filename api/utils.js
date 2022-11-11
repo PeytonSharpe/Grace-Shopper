@@ -2,7 +2,7 @@ function requireUser(req, res, next) {
     if (!req.user) {
       res.status(401)
       next({
-        error: 'no user',
+        error: 'No user',
         name: "MissingUserError",
         message: "You must be logged in to perform this action"
       });
@@ -15,4 +15,4 @@ function requireUser(req, res, next) {
     requireUser
   }
 
-  // function requireAdmin?
+  // function requireAdmin will be needed here
