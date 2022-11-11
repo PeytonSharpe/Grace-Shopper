@@ -3,7 +3,8 @@ const { client } = require('./client')
 
 const { createProduct } = require('./products')
 const { createUser } = require('./users')
-const { createCategory } = require('./categories')
+const { createCategory, getAllCategories } = require('./categories')
+
 
 
 
@@ -33,8 +34,9 @@ async function createTables() {
     await client.query(`
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
-        username varchar(255) UNIQUE NOT NULL,
-        password varchar(255) NOT NULL,
+        username VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
         name VARCHAR(255) NOT NULL,
         active BOOLEAN DEFAULT true,
         isAdmin BOOLEAN DEFAULT false
@@ -47,21 +49,20 @@ async function createTables() {
         price NUMERIC(10,2),
         count INTEGER,
         active BOOLEAN DEFAULT true,
-        isPublic BOOLEAN DEFAULT true,
+        isPublic BOOLEAN DEFAULT true
       );
 
       CREATE TABLE categories (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255),
-        description(),
-        isPublic BOOLEAN DEFAULT true,        
+        description VARCHAR(255),
+        isPublic BOOLEAN DEFAULT true        
       );
 
       CREATE TABLE cart (
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        "productId" INTEGER REFERENCES product(id), 
-        total_price NUMERIC(10,2) NOT NULL,
+        "productId" INTEGER REFERENCES product(id)
 
       );
       
@@ -70,7 +71,7 @@ async function createTables() {
         "userId" INTEGER REFERENCES users(id),
         "cartId" INTEGER, 
         date DATETIME,
-        price NUMERIC(10,2),
+        price NUMERIC(10,2)
       );  
 
       CREATE TABLE addresses (
@@ -81,7 +82,7 @@ async function createTables() {
         street2 VARCHAR(255),
         city VARCHAR(255) NOT NULL,
         state VARCHAR(2) NOT NULL,
-        zip INTEGER NOT NULL,
+        zip INTEGER NOT NULL
 
       );
 
@@ -90,6 +91,10 @@ async function createTables() {
         "productId" INTEGER REFERENCES product(id)
       )
       
+      CREATE TABLE prod_categories (
+        "productId" INTEGER REFERENCES product(id),
+        "categoryId" INTEGER REFERENCES category(id)
+      )
 
 
 
@@ -141,21 +146,24 @@ async function createInitialProducts() {
       title:
         "Game Place Holder 1",
       description:
-        "Description for the first most amazing product ever...."
+        "Description for the first most amazing product ever....",
+      count: 100
     });
     
     await createProduct({
       title:
         "Game Place Holder 2",
       description:
-        "Description for the second most amazing product ever...."
+        "Description for the second most amazing product ever....",
+      count: 100
     });
     
     await createProduct({
       title:
         "Game Place Holder 3",
       description:
-        "Description for the third most amazing product ever...."
+        "Description for the third most amazing product ever....",
+      count: 100
     });
     
     console.log('Finished creating Products')
@@ -233,6 +241,7 @@ async function buildDB() {
     await createTables();
     await createInitialUsers();
     await createInitialProducts();
+    await createInitialCategories();
   }
   catch(ex) {
     console.log('Error building the DB')
@@ -240,7 +249,41 @@ async function buildDB() {
   }
 }
 
+async function testDB() {
+  try {
+    console.log("Starting DB tests")
+
+    console.log("Calling getAllUsers");
+    // need a getAllUsers function in ./db/users.js
+    const users = await getAllUsers();
+    console.log("User Test Result:", users);
+
+    console.log("Calling getAllProduct")
+    // need a getAllProducts function in ./db/products.js
+    const products = await getAllProducts();
+    console.log ("Product Test Result:", products)
+    
+    console.log("Adding Category to Product")
+    const [productOne, productTwo, productThree] = await getAllProducts();
+    // need addCategoryToProduct function in ./db/products.js
+    await addCategoryToProduct()(productOne.id, ["consoles"]);
+
+    await addCategoryToProduct()(productTwo.id, ["games"]);
+
+    await addCategoryToProduct()(productThree.id, ["cabinets"]);
+    console.log("Categories added to Products:", productOne, productTwo, productThree)
+
+    console.log("Calling getAllCategories");
+    const categories = await getAllCategories();
+    console.log ("Categories Test: Result:", categories)
+
+  } catch (error) {
+    console.error ("testDB-seed.js FAILED", error)
+  }
+}
+
 
 buildDB()
+  .then(testDB)
   .catch(console.error)
   .finally(() => client.end())
