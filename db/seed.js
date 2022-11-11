@@ -1,5 +1,5 @@
-const { createUser } = require('../../../juicebox/db')
-const { client } = require('./')
+const { client } = require('./client')
+
 
 const { createProduct } = require('./products')
 const { createUser } = require('./users')
