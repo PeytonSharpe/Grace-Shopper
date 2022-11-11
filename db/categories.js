@@ -10,8 +10,8 @@ async function createCategory({name, description}) {
     
     return category;
   }
-  catch(ex) {
-    console.log('error in createCategory adapter function')
+  catch(error) {
+    console.error('createCategory-categories.js FAILED', error)
   }
 }
 
@@ -34,8 +34,7 @@ async function updateCategory(id, fields = {}
 
     return category
   } catch (error) {
-    console.error("Error in updateCategory function")
-    throw error
+    console.error("updateCategory-categories.js FAILED", error);
   }
 }
 
@@ -49,7 +48,7 @@ async function getAllCategories() {
       return rows;
     }
     catch (error) {
-      console.error("getAllCategories FAILED:", error);
+      console.error("getAllCategories-categories.js FAILED:", error);
     }
   }
 
@@ -63,8 +62,8 @@ async function deleteCategory(id) {
         
         return [category];
     }
-    catch (err) {
-        console.error('destroyRoutine-routines.js FAILED:', err);
+    catch (error) {
+        console.error('deleteCategory-categories.js FAILED:', error);
     }
         
 }
@@ -74,5 +73,6 @@ module.exports = {
   createCategory,
   updateCategory,
   getAllCategories,
+  deleteCategory,
 
 }
