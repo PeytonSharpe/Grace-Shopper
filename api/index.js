@@ -15,7 +15,6 @@ const singleProduct = require('./singleProduct');
 apiRouter.use('/:productId', singleProduct);
 
 const cartRouter = require('./cartRouter');
-const categoriesRouter = require('./categoriesRouter');
 apiRouter.use('/cart', cartRouter);
 
 module.exports = apiRouter;
