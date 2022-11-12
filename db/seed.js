@@ -2,8 +2,9 @@ const { client } = require('./client')
 
 
 const { createProduct } = require('./products')
-const { createUser } = require('./users')
+const { createUser } = require('./index')
 const { createCategory, getAllCategories } = require('./categories')
+
 
 
 
@@ -12,6 +13,7 @@ async function dropTables() {
   try {
     console.log('Dropping Tables')
     await client.query(`
+      DROP TABLE IF EXISTS prod_categories;
       DROP TABLE IF EXISTS wishlist;
       DROP TABLE IF EXISTS addresses;
       DROP TABLE IF EXISTS purchases;
@@ -45,7 +47,7 @@ async function createTables() {
       CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL, 
-        description VARCHAR(255)
+        description VARCHAR(255),
         price NUMERIC(10,2),
         count INTEGER,
         active BOOLEAN DEFAULT true,
@@ -62,7 +64,7 @@ async function createTables() {
       CREATE TABLE cart (
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        "productId" INTEGER REFERENCES product(id)
+        "productId" INTEGER REFERENCES products(id)
 
       );
       
@@ -70,35 +72,34 @@ async function createTables() {
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "cartId" INTEGER, 
-        date DATETIME,
+        date TIMESTAMP,
         price NUMERIC(10,2)
       );  
 
       CREATE TABLE addresses (
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES user(id),
+        "userId" INTEGER REFERENCES users(id),
         label VARCHAR(255) NOT NULL,
         street1 VARCHAR(255) NOT NULL,
         street2 VARCHAR(255),
         city VARCHAR(255) NOT NULL,
         state VARCHAR(2) NOT NULL,
         zip INTEGER NOT NULL
-
       );
 
       CREATE TABLE wishlist (
-        "userId" INTEGER REFERENCES user(id),
-        "productId" INTEGER REFERENCES product(id)
-      )
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES products(id)
+      );
       
       CREATE TABLE prod_categories (
-        "productId" INTEGER REFERENCES product(id),
-        "categoryId" INTEGER REFERENCES category(id)
-      )
+        "productId" INTEGER REFERENCES products(id),
+        "categoryId" INTEGER REFERENCES categories(id)
+      );
 
 
 
-    `)
+    `);
     
     console.log('Finished Creating Tables')
   } 
@@ -181,16 +182,19 @@ async function createInitialCategories() {
       name: "Consoles",
       description: "Console Systems"
     });
+    console.log("Created Consoles Category", consoles)
 
     const cabinets = await createCategory({
       name: "Cabinets",
       description: "Arcade Style Cabinet Games"
     });
+    console.log("Created Cabinets Category", cabinets)
 
     const games = await createCategory({
       name: "Games",
       description: "List of games"
     });
+    console.log("Created Games Category", games)
 
     const cartridges = await createCategory({
       name: "Cartridges",
@@ -226,6 +230,7 @@ async function createInitialCategories() {
       name: "Other",
       description: "Other"
     });
+
   }
   catch(error) {
     console.log("Error creating categories")
@@ -239,11 +244,11 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
-    await createInitialUsers();
-    await createInitialProducts();
+    //await createInitialUsers();
+    //await createInitialProducts();
     await createInitialCategories();
   }
-  catch(ex) {
+  catch(error) {
     console.log('Error building the DB')
     throw error;
   }
