@@ -1,12 +1,13 @@
-const { client } = require('./client')
-
-
-const { createProduct } = require('./products')
-const { createUser } = require('./index')
-const { createCategory, getAllCategories } = require('./categories')
-
-
-
+const {
+  client,
+  createProduct,
+  getAllProducts,
+  createUser,
+  getAllUsers,
+  createCategory,
+  addCategoryToProduct,
+  getAllCategories 
+} = require('./index')
 
 
 async function dropTables() {
@@ -41,7 +42,7 @@ async function createTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         name VARCHAR(255) NOT NULL,
         active BOOLEAN DEFAULT true,
-        "isAdmin" BOOLEAN 
+        "isAdmin" BOOLEAN DEFAULT false
       );
 
       CREATE TABLE products (
@@ -136,7 +137,7 @@ async function createInitialUsers() {
     //   active:true
     // });
 
-    console.log ("---INITIAL USERS---", admin, testUser1, testUser2)
+    console.log ("---INITIAL USERS---", admin)
 
     console.log('Finished creating users');
   } catch(error) {
