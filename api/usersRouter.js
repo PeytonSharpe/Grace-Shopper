@@ -94,6 +94,13 @@ usersRouter.get('/me', requireUser, async (req, res, next) => {
   res.send(user)
 })
 
+usersRouter.get('/', async (req, res) => {
+  const users = await getAllUsers();
+
+  res.send({
+      users
+  });
+});
 
 // GET /api/users/:username/cart
 usersRouter.get(`/:username/cart`, async (req, res, next) => {
