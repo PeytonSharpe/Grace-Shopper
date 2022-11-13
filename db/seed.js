@@ -1,13 +1,8 @@
 const { client } = require('./client')
 
-
-const { createProduct } = require('./products')
+const { getAllProducts, createProduct, addCategoryToProduct } = require('./products')
 const { createUser } = require('./index')
 const { createCategory, getAllCategories } = require('./categories')
-
-
-
-
 
 async function dropTables() {
   try {
@@ -245,8 +240,8 @@ async function buildDB() {
     await dropTables();
     await createTables();
     //await createInitialUsers();
-    //await createInitialProducts();
-    await createInitialCategories();
+    await createInitialProducts();
+    // await createInitialCategories();
   }
   catch(error) {
     console.log('Error building the DB')
@@ -260,10 +255,10 @@ async function testDB() {
 
     console.log("Calling getAllUsers");
     // need a getAllUsers function in ./db/users.js
-    const users = await getAllUsers();
-    console.log("User Test Result:", users);
+    // const users = await getAllUsers();
+    // console.log("User Test Result:", users);
 
-    console.log("Calling getAllProduct")
+    console.log("Calling getAllProducts")
     // need a getAllProducts function in ./db/products.js
     const products = await getAllProducts();
     console.log ("Product Test Result:", products)
@@ -271,13 +266,12 @@ async function testDB() {
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
     // need addCategoryToProduct function in ./db/products.js
-    await addCategoryToProduct()(productOne.id, ["consoles"]);
+    await addCategoryToProduct(productOne.id, ["consoles"]);
 
-    await addCategoryToProduct()(productTwo.id, ["games"]);
+    await addCategoryToProduct(productTwo.id, ["games"]);
 
-    await addCategoryToProduct()(productThree.id, ["cabinets"]);
+    await addCategoryToProduct(productThree.id, ["cabinets"]);
     console.log("Categories added to Products:", productOne, productTwo, productThree)
-
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
     console.log ("Categories Test: Result:", categories)

@@ -164,6 +164,6 @@ module.exports = {
   convertCartToPurchased,
   getActiveCart,
   getAllPurchasedCarts,
-  getActiveCartId,
+  // getActiveCartId,
   deleteAbandonedGuestCarts
 };

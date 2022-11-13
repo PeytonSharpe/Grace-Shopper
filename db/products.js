@@ -95,14 +95,14 @@ async function updateProduct(id, fields = {}) {
 async function addCategoryToProduct(productId, categoryId) {
   try {
     const { rows: [productCategory] } = await client.query(`
-    INSERT INTO product_categories(productId, categoryId)
+    INSERT INTO prod_categories("productId", "categoryId")
     VALUES ($1, $2)
     RETURNING *;
     `, [productId, categoryId])
 
-    return productCategory;
-  } catch (err) {
-    console.log('addCategoryToProduct-products.js FAILED', err)
+    return productCategory
+  } catch(err) {
+    console.log('addCategoryToProduct-product.js FAILED', err)
   }
 }
 
@@ -125,6 +125,7 @@ module.exports = {
   getProductById,
   getProductByName,
   getProductByCategory,
+  addCategoryToProduct,
   createProduct,
   updateProduct,
   deleteProduct
