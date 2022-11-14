@@ -1,6 +1,15 @@
 const express = require('express');
 
 const apiRouter = express.Router();
+// GET /api/health
+apiRouter.get('/health', async (req, res, next) => {
+    res.status(200).json({
+      uptime: process.uptime(),
+      message: 'All is well',
+      timestamp: Date.now()
+    });
+    next()
+  });
 
 const usersRouter = require('./usersRouter');
 apiRouter.use('/users', usersRouter);

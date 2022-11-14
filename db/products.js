@@ -94,39 +94,13 @@ async function updateProduct(id, fields = {}) {
 
 async function createProductCategory ({productId, categoryId}) {
   try {
-      const { rows: [productCategory] } = await client.query(`
-          INSERT INTO product_categories("productId", "categoryId")
-          VALUES ($1, $2)
-          RETURNING *;
-          `, [productId, categoryId])
+    const { rows: [productCategory] } = await client.query(`
+    INSERT INTO prod_categories("productId", "categoryId")
+    VALUES ($1, $2)
+    RETURNING *;
+    `, [productId, categoryId])
 
-          return productCategory;
-
-  } catch (error) {
-      console.error("Error creating product category");
-      console.error(error);
-  }
-};
-
-async function addCategoryToProduct(products) {
-  const productsToReturn = [...products]
-  const binds = products.map((_, index) => `$${index + 1}`).join(', ');
-  if (!productsId.length) return []
-  try {
-    const { rows: products} = await client.query(`
-    SELECT categories.*
-    FROM products
-    JOIN categories ON categories.product_id = product.id
-    WHERE categories.product_id IN (${binds})
-    `, [productsIds])
-
-    for(const product of productsToReturn) {
-      const productsToAdd = products.filter((product) => category.product_id === product.id)
-
-      product.category = productsToAdd
-    }
-
-    return productsToReturn
+    return productCategory
   } catch(err) {
     console.log('addCategoryToProduct-product.js FAILED', err)
   }
@@ -151,7 +125,6 @@ module.exports = {
   getProductById,
   getProductByName,
   getProductByCategory,
-  createProductCategory,
   addCategoryToProduct,
   createProduct,
   updateProduct,
