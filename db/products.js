@@ -92,7 +92,7 @@ async function updateProduct(id, fields = {}) {
   }
 }
 
-async function createProductCategory ({productId, categoryId}) {
+async function addCategoryToProduct({productId, categoryId}) {
   try {
     const { rows: [productCategory] } = await client.query(`
     INSERT INTO prod_categories("productId", "categoryId")

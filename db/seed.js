@@ -251,7 +251,7 @@ async function buildDB() {
     await dropTables();
     await createTables();
     await createInitialUsers();
-    //await createInitialProducts();
+    await createInitialProducts();
     await createInitialCategories();
   }
   catch(error) {
