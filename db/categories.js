@@ -54,16 +54,11 @@ async function getAllCategories() {
 
   async function getCategoryById(id) {
     try {
-      const {
-        rows: [category],
-      } = await client.query(
-        `
+      const {rows: [category] } = await client.query(`
           SELECT *
           FROM category
           WHERE id=$1;
-          `,
-        [id]
-      );
+          `, [id]);
   
           return category;
       } catch(err) {

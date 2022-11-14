@@ -51,7 +51,7 @@ async function createTables() {
 
       CREATE TABLE categories (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
+        name VARCHAR(255) UNIQUE NOT NULL,
         description VARCHAR(255),
         isPublic BOOLEAN DEFAULT true        
       );
