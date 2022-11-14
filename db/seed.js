@@ -1,7 +1,7 @@
 const { client } = require('./client')
 
 const { getAllProducts, createProduct, addCategoryToProduct } = require('./products')
-const { createUser } = require('./index')
+const { createUser, getAllUsers } = require('./users')
 const { createCategory, getAllCategories } = require('./categories')
 
 async function dropTables() {
@@ -91,9 +91,6 @@ async function createTables() {
         "productId" INTEGER REFERENCES products(id),
         "categoryId" INTEGER REFERENCES categories(id)
       );
-
-
-
     `);
     
     console.log('Finished Creating Tables')
@@ -239,9 +236,9 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
-    //await createInitialUsers();
+    await createInitialUsers();
     await createInitialProducts();
-    // await createInitialCategories();
+    await createInitialCategories();
   }
   catch(error) {
     console.log('Error building the DB')
@@ -255,8 +252,8 @@ async function testDB() {
 
     console.log("Calling getAllUsers");
     // need a getAllUsers function in ./db/users.js
-    // const users = await getAllUsers();
-    // console.log("User Test Result:", users);
+    const users = await getAllUsers();
+    console.log("User Test Result:", users);
 
     console.log("Calling getAllProducts")
     // need a getAllProducts function in ./db/products.js
