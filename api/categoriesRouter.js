@@ -2,7 +2,7 @@ const express = require('express');
 
 const categoriesRouter = express.Router();
 
-categoriesRouter.get('/categories', (req, res, next) => {
+categoriesRouter.get('/', (req, res, next) => {
   res.send('CATEGORIES')
 });
 

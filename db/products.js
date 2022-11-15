@@ -55,16 +55,15 @@ async function getProductByCategory(category) {
 async function createProduct({
   title,
   description,
-  category,
   price,
-  image
+  count
 }) {
   try {
     const { rows: [product] } = await client.query(`
-      INSERT INTO products (title, description, category, price, image)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO products (title, description, price, count)
+      VALUES ($1, $2, $3, $4)
       RETURNING *;
-    `, [title, description, category, price, image])
+    `, [title, description, price, count])
 
     return product;
   }
@@ -93,17 +92,17 @@ async function updateProduct(id, fields = {}) {
   }
 }
 
-async function addCategoryToProduct(productId, categoryId) {
+async function addCategoryToProduct({productId, categoryId}) {
   try {
     const { rows: [productCategory] } = await client.query(`
-    INSERT INTO product_categories(productId, categoryId)
+    INSERT INTO prod_categories("productId", "categoryId")
     VALUES ($1, $2)
     RETURNING *;
     `, [productId, categoryId])
 
-    return productCategory;
-  } catch (err) {
-    console.log('addCategoryToProduct-products.js FAILED', err)
+    return productCategory
+  } catch(err) {
+    console.log('addCategoryToProduct-product.js FAILED', err)
   }
 }
 
@@ -126,6 +125,7 @@ module.exports = {
   getProductById,
   getProductByName,
   getProductByCategory,
+  addCategoryToProduct,
   createProduct,
   updateProduct,
   deleteProduct

@@ -1,12 +1,13 @@
-const { client } = require('./client')
-
-
-const { createProduct } = require('./products')
-const { createUser } = require('./index')
-const { createCategory, getAllCategories } = require('./categories')
-
-
-
+const {
+  client,
+  createProduct,
+  getAllProducts,
+  createUser,
+  getAllUsers,
+  createCategory,
+  addCategoryToProduct,
+  getAllCategories 
+} = require('./index')
 
 
 async function dropTables() {
@@ -41,7 +42,7 @@ async function createTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         name VARCHAR(255) NOT NULL,
         active BOOLEAN DEFAULT true,
-        isAdmin BOOLEAN DEFAULT false
+        "isAdmin" BOOLEAN DEFAULT false
       );
 
       CREATE TABLE products (
@@ -51,14 +52,14 @@ async function createTables() {
         price NUMERIC(10,2),
         count INTEGER,
         active BOOLEAN DEFAULT true,
-        isPublic BOOLEAN DEFAULT true
+        "isPublic" BOOLEAN DEFAULT true
       );
 
       CREATE TABLE categories (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
+        name VARCHAR(255) UNIQUE NOT NULL,
         description VARCHAR(255),
-        isPublic BOOLEAN DEFAULT true        
+        "isPublic" BOOLEAN DEFAULT true        
       );
 
       CREATE TABLE cart (
@@ -115,23 +116,30 @@ async function createInitialUsers() {
     const admin = await createUser({
       username: 'admin',
       password: '8675309',
+      email: 'whatever@email.com',
       name: 'Site Admin',
+      active:true,
       isAdmin: true
     });
 
     const testUser1 = await createUser({
       username:'testuser1',
       password: 'test1234',
-      name: 'Test User One'
+      name: 'Test User One',
+      email: 'whatever1@email.com',
+      active:true
+  
     });
 
     const testUser2 = await createUser({
       username:'testuser2',
       password: 'test1234',
-      name: 'Test User Two'
+      name: 'Test User Two',
+      email: 'whatever2@email.com',
+      active:true
     });
 
-    console.log ("---INITIAL USERS---", admin, testUser1, testUser2)
+    console.log ("---INITIAL USERS---", admin)
 
     console.log('Finished creating users');
   } catch(error) {
@@ -244,8 +252,8 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
-    //await createInitialUsers();
-    //await createInitialProducts();
+    await createInitialUsers();
+    await createInitialProducts();
     await createInitialCategories();
   }
   catch(error) {
@@ -263,7 +271,7 @@ async function testDB() {
     const users = await getAllUsers();
     console.log("User Test Result:", users);
 
-    console.log("Calling getAllProduct")
+    console.log("Calling getAllProducts")
     // need a getAllProducts function in ./db/products.js
     const products = await getAllProducts();
     console.log ("Product Test Result:", products)
@@ -271,13 +279,12 @@ async function testDB() {
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
     // need addCategoryToProduct function in ./db/products.js
-    await addCategoryToProduct()(productOne.id, ["consoles"]);
+    await addCategoryToProduct(productOne.id, ["consoles"]);
 
-    await addCategoryToProduct()(productTwo.id, ["games"]);
+    await addCategoryToProduct(productTwo.id, ["games"]);
 
-    await addCategoryToProduct()(productThree.id, ["cabinets"]);
+    await addCategoryToProduct(productThree.id, ["cabinets"]);
     console.log("Categories added to Products:", productOne, productTwo, productThree)
-
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
     console.log ("Categories Test: Result:", categories)

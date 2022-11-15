@@ -4,6 +4,11 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { requireUser } = require('./utils');
+const {
+  getAllUsers,
+  getUserByUsername,
+  createUser
+} = require('../db')
 
 // POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
@@ -68,6 +73,10 @@ usersRouter.post('/register', async (req, res, next) => {
     const user = await createUser({
       username,
       password,
+      email,
+      name,
+      active,
+      isAdmin
     });
 
     const token = jwt.sign({
@@ -94,6 +103,13 @@ usersRouter.get('/me', requireUser, async (req, res, next) => {
   res.send(user)
 })
 
+usersRouter.get('/', async (req, res) => {
+  const users = await getAllUsers();
+
+  res.send({
+      users
+  });
+});
 
 // GET /api/users/:username/cart
 usersRouter.get(`/:username/cart`, async (req, res, next) => {
