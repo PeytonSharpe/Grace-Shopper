@@ -4,6 +4,11 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { requireUser } = require('./utils');
+const {
+  getAllUsers,
+  getUserByUsername,
+  createUser
+} = require('../db')
 
 // POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
@@ -68,6 +73,10 @@ usersRouter.post('/register', async (req, res, next) => {
     const user = await createUser({
       username,
       password,
+      email,
+      name,
+      active,
+      isAdmin
     });
 
     const token = jwt.sign({

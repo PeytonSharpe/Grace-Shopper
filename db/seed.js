@@ -57,7 +57,7 @@ async function createTables() {
 
       CREATE TABLE categories (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
+        name VARCHAR(255) UNIQUE NOT NULL,
         description VARCHAR(255),
         "isPublic" BOOLEAN DEFAULT true        
       );
@@ -122,20 +122,22 @@ async function createInitialUsers() {
       isAdmin: true
     });
 
-    // const testUser1 = await createUser({
-    //   username:'testuser1',
-    //   password: 'test1234',
-    //   name: 'Test User One',
-    //   active:true
+    const testUser1 = await createUser({
+      username:'testuser1',
+      password: 'test1234',
+      name: 'Test User One',
+      email: 'whatever1@email.com',
+      active:true
   
-    // });
+    });
 
-    // const testUser2 = await createUser({
-    //   username:'testuser2',
-    //   password: 'test1234',
-    //   name: 'Test User Two',
-    //   active:true
-    // });
+    const testUser2 = await createUser({
+      username:'testuser2',
+      password: 'test1234',
+      name: 'Test User Two',
+      email: 'whatever2@email.com',
+      active:true
+    });
 
     console.log ("---INITIAL USERS---", admin)
 
@@ -251,7 +253,7 @@ async function buildDB() {
     await dropTables();
     await createTables();
     await createInitialUsers();
-    //await createInitialProducts();
+    await createInitialProducts();
     await createInitialCategories();
   }
   catch(error) {
@@ -269,7 +271,7 @@ async function testDB() {
     const users = await getAllUsers();
     console.log("User Test Result:", users);
 
-    console.log("Calling getAllProduct")
+    console.log("Calling getAllProducts")
     // need a getAllProducts function in ./db/products.js
     const products = await getAllProducts();
     console.log ("Product Test Result:", products)
@@ -277,13 +279,12 @@ async function testDB() {
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
     // need addCategoryToProduct function in ./db/products.js
-    await addCategoryToProduct()(productOne.id, ["consoles"]);
+    await addCategoryToProduct(productOne.id, ["consoles"]);
 
-    await addCategoryToProduct()(productTwo.id, ["games"]);
+    await addCategoryToProduct(productTwo.id, ["games"]);
 
-    await addCategoryToProduct()(productThree.id, ["cabinets"]);
+    await addCategoryToProduct(productThree.id, ["cabinets"]);
     console.log("Categories added to Products:", productOne, productTwo, productThree)
-
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
     console.log ("Categories Test: Result:", categories)

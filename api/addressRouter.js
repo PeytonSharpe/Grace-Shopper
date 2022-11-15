@@ -4,7 +4,7 @@ const {
   updateAddress,
   deleteAddress,
   getAddressByUserId,
-} = require("../db/address");
+} = require("../db");
 const { requireUser } = require("./utils");
 const router = express.Router();
 
@@ -64,15 +64,19 @@ router.patch("/:addressId/:userId", requireUser, async (req, res, next) => {
 });
 
 // Get /api/address/:userId
-router.get("/:userId", requireUser, async (req, res, next) => {
-  const userId = req.params.userId;
-  try {
-    const address = await getAddressByUserId(userId);
-    res.send(address);
-  } catch ({ name, message }) {
-    next({ name, message });
-  }
+
+router.get('/', (req, res, next) => {
+  res.send('LIST OF ADDRESSES')
 });
+// router.get("/:userId", requireUser, async (req, res, next) => {
+//   const userId = req.params.userId;
+//   try {
+//     const address = await getAddressByUserId(userId);
+//     res.send(address);
+//   } catch ({ name, message }) {
+//     next({ name, message });
+//   }
+// });
 
 // DELETE /api/address/:addressId/deleteaddress
 router.delete("/:addressId/:userId", requireUser, async (req, res, next) => {
