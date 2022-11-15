@@ -6,18 +6,21 @@ const bcrypt = require('bcrypt');
 async function createUser({ username, password, email, name, active, isAdmin }) { // isAdmin might need later
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
-
+try {
   const { rows: [user] } = await client.query(`
     INSERT INTO users(username, password, email, name, active, "isAdmin") 
     VALUES($1, $2, $3, $4, $5, $6) 
     ON CONFLICT (username) DO NOTHING 
     RETURNING *;
-  `, [username, hashedPassword, email,name,active, isAdmin]);
+  `, [username, hashedPassword, email, name, active, isAdmin]);
   if (hashedPassword) {
     delete user.password
     return user;
   }
   return user;
+  } catch(err) {
+    console.log('createUser-users.js FAILED', err)
+  }
 }
 
 async function updateUser(id, fields = {}) {
@@ -40,8 +43,8 @@ async function updateUser(id, fields = {}) {
     `, Object.values(fields));
 
     return user;
-  } catch (error) {
-    throw error;
+  } catch (err) {
+    console.log('updateUser-users.js FAILED', err)
   }
 }
 
@@ -66,8 +69,8 @@ async function getAllUsers() {
     `);
 
     return rows;
-  } catch (error) {
-    throw error;
+  } catch (err) {
+    console.log('getAllUsers-users.js FAILED', err)
   }
 }
 
@@ -104,5 +107,5 @@ module.exports = {
   getUser,
   getUserById,
   getUserByUsername,
-  getAllUsers,
+  getAllUsers
 }
