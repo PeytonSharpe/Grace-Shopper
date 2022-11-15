@@ -20,8 +20,11 @@ apiRouter.use('/products', productsRouter);
 const categoriesRouter = require('./categoriesRouter');
 apiRouter.use('/categories', categoriesRouter);
 
-const singleProduct = require('./singleProduct');
-apiRouter.use('/:productId', singleProduct);
+const addressRouter = require('./addressRouter');
+apiRouter.use('/address', addressRouter)
+
+// const singleProduct = require('./singleProduct');
+// apiRouter.use('/:productId', singleProduct);
 
 const cartRouter = require('./cartRouter');
 apiRouter.use('/cart', cartRouter);
