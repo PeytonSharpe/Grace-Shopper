@@ -2,10 +2,19 @@ const {
   client,
   createProduct,
   getAllProducts,
+  getProductById,
+  getProductByCategory,
   createUser,
   getAllUsers,
+  getUser,
+  getUserByUsername,
+  updateUser,
+  getUserById,
   createCategory,
+  updateCategory,
+  deleteCategory,
   addCategoryToProduct,
+  deleteProduct,
   getAllCategories 
 } = require('./index')
 
@@ -49,7 +58,7 @@ async function createTables() {
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL, 
         description VARCHAR(255),
-        price NUMERIC(10,2),
+        price DECIMAL(10,2) DEFAULT 999.99,
         count INTEGER,
         active BOOLEAN DEFAULT true,
         "isPublic" BOOLEAN DEFAULT true
@@ -118,7 +127,7 @@ async function createInitialUsers() {
       password: '8675309',
       email: 'whatever@email.com',
       name: 'Site Admin',
-      active:true,
+      active: true,
       isAdmin: true
     });
 
@@ -139,7 +148,7 @@ async function createInitialUsers() {
       active:true
     });
 
-    console.log ("---INITIAL USERS---", admin)
+    console.log ("---INITIAL USERS---", admin, testUser1, testUser2)
 
     console.log('Finished creating users');
   } catch(error) {
@@ -156,6 +165,7 @@ async function createInitialProducts() {
         "Game Place Holder 1",
       description:
         "Description for the first most amazing product ever....",
+      price: 999.99,
       count: 100
     });
     
@@ -239,6 +249,10 @@ async function createInitialCategories() {
       description: "Other"
     });
 
+    const test = await createCategory({
+      name: "test to Delete",
+      description: "Delete this Category"
+    })
   }
   catch(error) {
     console.log("Error creating categories")
@@ -267,14 +281,38 @@ async function testDB() {
     console.log("Starting DB tests")
 
     console.log("Calling getAllUsers");
-    // need a getAllUsers function in ./db/users.js
     const users = await getAllUsers();
     console.log("User Test Result:", users);
 
+    console.log("Getting user by Id '1'")
+    const user1 = await getUserById(1)
+    console.log("user 1 = ", user1)
+
+    console.log ("Geting User with name and password of 'testuser1'")
+    const authUser = await getUser({
+      username: 'testuser1',
+      password: 'test1234'
+    })
+    console.log ("autheticated user = ", authUser)
+
+    console.log ("Getting User by username of 'admin'")
+    const userByUsername = await getUserByUsername ('admin')
+    console.log ("username of 'admin' = ", userByUsername)
+
+    console.log ("Updating user 'testuser2' to 'testuser02'")
+    const updatedUser = await updateUser (users[2].id, {
+      username: "testuser02"
+    });
+    console.log ("Updated User = ", updatedUser)
+
     console.log("Calling getAllProducts")
-    // need a getAllProducts function in ./db/products.js
     const products = await getAllProducts();
     console.log ("Product Test Result:", products)
+
+    console.log("Getting product by id")
+    const product1 = await getProductById(1)
+    console.log ("Product by id = ", product1)
+
     
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
@@ -285,9 +323,31 @@ async function testDB() {
 
     await addCategoryToProduct(productThree.id, ["cabinets"]);
     console.log("Categories added to Products:", productOne, productTwo, productThree)
+
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
     console.log ("Categories Test: Result:", categories)
+
+    console.log ("Getting Product by Category 'games'")
+    const productsInGamesCat = await getProductByCategory("games");
+    console.log("Result", productsInGamesCat)
+    
+    console.log ("Updating a Category")
+    const updatedCategory = await updateCategory(categories[0].id, {
+      name:"Consoles EDITED",
+      description: "Console Systems EDITED"
+    });
+    console.log("The Updated Category Result:", updatedCategory)
+
+    console.log ("Deleting Test Category")
+    await deleteCategory(categories[10].id);
+    console.log(categories[10])
+    // Delete category failing but not at the actual function
+
+    console.log ("Deleting product 3")
+    await deleteProduct(products[2].id);
+    console.log(products[2])
+    // Delete product not working
 
   } catch (error) {
     console.error ("testDB-seed.js FAILED", error)
