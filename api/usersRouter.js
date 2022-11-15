@@ -1,6 +1,5 @@
 const express = require('express');
 const usersRouter = express.Router();
-const { getUserByUsername, createUser } = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { requireUser } = require('./utils');
