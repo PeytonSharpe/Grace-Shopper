@@ -122,20 +122,22 @@ async function createInitialUsers() {
       isAdmin: true
     });
 
-    // const testUser1 = await createUser({
-    //   username:'testuser1',
-    //   password: 'test1234',
-    //   name: 'Test User One',
-    //   active:true
+    const testUser1 = await createUser({
+      username:'testuser1',
+      password: 'test1234',
+      name: 'Test User One',
+      email: 'whatever1@email.com',
+      active:true
   
-    // });
+    });
 
-    // const testUser2 = await createUser({
-    //   username:'testuser2',
-    //   password: 'test1234',
-    //   name: 'Test User Two',
-    //   active:true
-    // });
+    const testUser2 = await createUser({
+      username:'testuser2',
+      password: 'test1234',
+      name: 'Test User Two',
+      email: 'whatever2@email.com',
+      active:true
+    });
 
     console.log ("---INITIAL USERS---", admin)
 

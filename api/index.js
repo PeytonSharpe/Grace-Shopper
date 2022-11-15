@@ -21,7 +21,7 @@ const categoriesRouter = require('./categoriesRouter');
 apiRouter.use('/categories', categoriesRouter);
 
 const addressRouter = require('./addressRouter');
-apiRouter.use('/address', addressRouter)
+apiRouter.use('/address', addressRouter);
 
 // const singleProduct = require('./singleProduct');
 // apiRouter.use('/:productId', singleProduct);

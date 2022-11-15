@@ -3,20 +3,20 @@ const bcrypt = require('bcrypt');
 
 // database functions
 // user functions
-async function createUser({ username, password, email, name,active, isAdmin }) { // isAdmin might need later
-  // const SALT_COUNT = 10;
-  // const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+async function createUser({ username, password, email, name, active, isAdmin }) { // isAdmin might need later
+  const SALT_COUNT = 10;
+  const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 try {
   const { rows: [user] } = await client.query(`
     INSERT INTO users(username, password, email, name, active, "isAdmin") 
     VALUES($1, $2, $3, $4, $5, $6) 
     ON CONFLICT (username) DO NOTHING 
     RETURNING *;
-  `, [username, password, email,name,active, isAdmin]);
-  // if (hashedPassword) {
-  //   delete users.password
-  //   return users;
-  // }
+  `, [username, hashedPassword, email, name, active, isAdmin]);
+  if (hashedPassword) {
+    delete user.password
+    return user;
+  }
   return user;
   } catch(err) {
     console.log('createUser-users.js FAILED', err)
