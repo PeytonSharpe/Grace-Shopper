@@ -1,10 +1,16 @@
 const express = require('express');
+const { getAllProducts } = require('../db');
 
 const productsRouter = express.Router();
 
 // const { getAllProducts, createProduct, editProduct, getProductById, getProductsByCategory, getProductByName } and whatever else we need
-productsRouter.get('/', (req, res, next) => {
-  res.send('LIST OF PRODUCTS')
+productsRouter.get('/', async (req, res, next) => {
+  try {
+    const allProducts = await getAllProducts();
+    res.send(allProducts)
+  } catch(err) {
+    console.log('productsRouter.get-productsRouter.js FAILED', err)
+  }
 });
 
 productsRouter.post('/create-product', (req, res, next) => {

@@ -3,6 +3,7 @@ const {
   createProduct,
   getAllProducts,
   getProductById,
+  getAllProdCategories,
   getProductByCategory,
   createUser,
   getAllUsers,
@@ -347,7 +348,8 @@ async function testDB() {
     
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
-    await addCategoryToProduct({ 
+    
+await addCategoryToProduct({ 
       productId: productOne.id,
       categoryId: 3});
 
@@ -365,20 +367,12 @@ async function testDB() {
 
     console.log(await getAllProdCategories())
 
-    // await addCategoryToProduct(productThree.id, ["cabinets"]);
-    // console.log("Categories added to Products:", productOne, productTwo, productThree)
-
-    // await addCategoryToProduct(productTwo.id, ["games"]);
-
-    // await addCategoryToProduct(productThree.id, ["cabinets"]);
-    // console.log("Categories added to Products:", productOne, productTwo, productThree)
-
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
     console.log ("Categories Test: Result:", categories)
 
     console.log ("Getting Product by Category 'games'")
-    const productsInGamesCat = await getProductByCategory("games");
+    const productsInGamesCat = await getProductByCategory("Games");
     console.log("Result", productsInGamesCat)
     
     console.log ("Updating a Category")

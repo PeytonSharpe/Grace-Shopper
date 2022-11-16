@@ -52,15 +52,15 @@ async function getAllCategories() {
     }
   }
 
-  async function getCategoryById(id) {
+  async function getCategoryById(categoryId) {
     try {
-      const {rows: [category] } = await client.query(`
+      const {rows: [categories] } = await client.query(`
           SELECT *
-          FROM category
-          WHERE id=$1;
+          FROM categories
+          WHERE id=${categoryId}
           `, [id]);
   
-          return category;
+          return categories;
       } catch(err) {
           console.log('getCategoryById-categories.js FAILED', err);
       }
