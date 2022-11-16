@@ -16,7 +16,12 @@ const {
   deleteCategory,
   addCategoryToProduct,
   deleteProduct,
-  getAllCategories 
+  getAllCategories, 
+  createAddress,
+  getAddressByUserId,
+  updateAddress,
+  deleteAddress,
+
 } = require('./index')
 
 
@@ -95,7 +100,8 @@ async function createTables() {
         street2 VARCHAR(255),
         city VARCHAR(255) NOT NULL,
         state VARCHAR(2) NOT NULL,
-        zip INTEGER NOT NULL
+        zipcode INTEGER NOT NULL,
+        phone_number CHAR(10)
       );
 
       CREATE TABLE wishlist (
@@ -261,6 +267,30 @@ async function createInitialCategories() {
   }
 }
 
+async function createInitialAddress() {
+  try {
+const admin = await getUserByUsername("admin");
+
+    console.log("Creating Initial Address")
+    const adminAddress = createAddress({
+      user_id: admin.id,
+      label:"DEFAULT",
+      street1: "221 Baker St",
+      street2: "Apartment B",
+      city: "London",
+      state: "OH",
+      zipcode: "43140",
+      phone_number: "5555555555"
+
+    });
+    console.log ("Admin Address", adminAddress)
+  }
+  catch(error) {
+    console.log("Error creating address")
+    throw error;
+  }
+}
+
 async function buildDB() {
   try {
     // need to add something here
@@ -270,6 +300,7 @@ async function buildDB() {
     await createInitialUsers();
     await createInitialProducts();
     await createInitialCategories();
+    await createInitialAddress();
   }
   catch(error) {
     console.log('Error building the DB')
@@ -317,21 +348,24 @@ async function testDB() {
     
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
-    // need addCategoryToProduct function in ./db/products.js
-    await addCategoryToProduct({ 
+    
+await addCategoryToProduct({ 
       productId: productOne.id,
       categoryId: 3});
 
-      await addCategoryToProduct({ 
-        productId: productTwo.id,
-        categoryId: 3});
+    await addCategoryToProduct({ 
+      productId: productTwo.id,
+      categoryId: 3});
+      
+    await addCategoryToProduct({
+      productId: productTwo.id,
+      categoryId: 2});
 
-      console.log(await getAllProdCategories())
+    await addCategoryToProduct({
+      productId: productThree.id,
+      categoryId: 1});
 
-    // await addCategoryToProduct(productTwo.id, ["games"]);
-
-    // await addCategoryToProduct(productThree.id, ["cabinets"]);
-    // console.log("Categories added to Products:", productOne, productTwo, productThree)
+    console.log(await getAllProdCategories())
 
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
@@ -349,14 +383,32 @@ async function testDB() {
     console.log("The Updated Category Result:", updatedCategory)
 
     console.log ("Deleting Test Category")
-    await deleteCategory(categories[10].id);
-    console.log(categories[10])
-    // Delete category failing but not at the actual function
+    const result = await deleteCategory(categories[10].id);
+    
+    console.log(result)
+    const updatedCategories = await getAllCategories();
+    console.log ("Categories without 11", updatedCategories)
+    
 
     console.log ("Deleting product 3")
     await deleteProduct(products[2].id);
     console.log(products[2])
     // Delete product not working
+
+    console.log ("Getting address by user id '1'")
+    const user0Address = await getAddressByUserId(1);
+    console.log ("user id 0 address = ", user0Address)
+
+    console.log ("Updating address for 'admin'")
+    const updatedAddress = await updateAddress(user0Address.id, {
+      label: 'Home',
+      phone_number: '7403853774'
+    });
+    console.log ("Updated address = ", updatedAddress)
+
+    console.log ("deleting address for 'admin'")
+    await deleteAddress(user0Address.userId, 1)
+
 
   } catch (error) {
     console.error ("testDB-seed.js FAILED", error)
