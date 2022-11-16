@@ -82,22 +82,38 @@ async function updateProduct(id, fields = {}) {
 }
 
 async function getProductByCategory(categoryName) {
+  console.log(categoryName)
   try {
     const {
       rows: products,
     } = await client.query(`
     SELECT products.*
-    FROM products
-    JOIN prod_categories ON products.id=prod_categories."productId"
-    JOIN categories ON categories.id=prod_categories."categoryId"
+    FROM categories
+    JOIN prod_categories ON categories.id=prod_categories."categoryId"
+    JOIN products ON products.id=prod_categories."productId"
     WHERE categories.name=$1;
     `, [categoryName]
     );
 
-    return await Promise.all(products.map(
-      product => getProductById(product.id)));
+    // return await Promise.all(products.map(
+    //   product => getProductById(product.id)));
+
+    return products;
   } catch (err) {
     console.log('getProductByCategory-products.js FAILED', err);
+  }
+}
+
+async function getAllProdCategories() {
+  try {
+    const { rows: result } = await client.query(`
+    SELECT *
+    FROM prod_categories;
+    `)
+
+    return result;
+  } catch(err) {
+    console.log('Error')
   }
 }
 
@@ -177,6 +193,7 @@ module.exports = {
   getAllProducts,
   getProductById,
   getProductByName,
+  getAllProdCategories,
   addCategoryToProduct,
   getProductByCategory,
   createProduct,
