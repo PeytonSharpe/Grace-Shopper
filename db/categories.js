@@ -67,14 +67,15 @@ async function getAllCategories() {
   };
 
 async function deleteCategory(id) {
-    
+    console.log(id)
     try {
         const { rows: [ category ] } = await client.query(`
         DELETE FROM categories
-        WHERE categories.id=$1;
+        WHERE categories.id=$1
+        RETURNING *;
     `, [ id ]);    
         
-        return [category];
+        return category;
     }
     catch (error) {
         console.error('deleteCategory-categories.js FAILED:', error);
