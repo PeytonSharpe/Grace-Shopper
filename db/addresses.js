@@ -1,13 +1,14 @@
-const client = require('./client');
+const {client} = require('./client');
 
 async function createAddress({
   user_id,
-  phone_number,
-  street01,
-  street02,
+  label,
+  street1,
+  street2,
   city,
   state,
   zipcode,
+  phone_number,
 }) {
   console.log('Starting to create Address.. db/addresses.js');
   try {
@@ -16,11 +17,11 @@ async function createAddress({
     } = await client.query(
       `
             INSERT INTO addresses
-            (user_id, phone_number, street01, street02, city, state, zipcode) 
-            VALUES($1, $2, $3, $4, $5, $6, $7)
+            ("userId", label, street1, street2, city, state, zipcode, phone_number) 
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING *;
           `,
-      [user_id, phone_number, street01, street02, city, state, zipcode]
+      [user_id, label, street1, street2, city, state, zipcode, phone_number]
     );
     console.log('Address created..');
     console.log(address);
@@ -31,6 +32,7 @@ async function createAddress({
     throw error;
   }
 }
+
 async function getAddressByUserId(user_id) {
   console.log('Starting to get address by user_id... addresses.js');
   try {
@@ -40,7 +42,7 @@ async function getAddressByUserId(user_id) {
       `
       SELECT *   
       FROM addresses
-      WHERE user_id= $1;
+      WHERE "userId"= $1;
       `,
       [user_id]
     );
@@ -64,7 +66,7 @@ async function updateAddress(address_id, fields = {}) {
       rows: [address],
     } = await client.query(
       `
-          UPDATE addreses
+          UPDATE addresses
           SET ${setString}
           WHERE id=${address_id}
           RETURNING *;
@@ -87,7 +89,7 @@ async function deleteAddress(user_id, address_id) {
       `
           DELETE FROM addresses
           WHERE 
-          user_id=$1
+          "userId"=$1
           AND
           id=${address_id}
           RETURNING *;
