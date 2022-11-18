@@ -20,7 +20,7 @@ const {
   createAddress,
   getAddressByUserId,
   updateAddress,
-  deleteAddress,
+  // deleteAddress,
 
 } = require('./index')
 
@@ -406,8 +406,8 @@ await addCategoryToProduct({
     });
     console.log ("Updated address = ", updatedAddress)
 
-    console.log ("deleting address for 'admin'")
-    await deleteAddress(user0Address.userId, 1)
+    // console.log ("deleting address for 'admin'")
+    // await deleteAddress(user0Address.userId, 1)
 
 
   } catch (error) {

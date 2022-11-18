@@ -91,13 +91,13 @@ async function getUserById(userId) {
 }
 
 async function getUserByUsername(username) {
-
+console.log("inside usernAME",username)
   const { rows: [user] } = await client.query(`
       SELECT *
       FROM users
       WHERE username=$1;
     `, [username]);
-
+console.log("after query",user)
   return user;
 }
 

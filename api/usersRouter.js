@@ -49,10 +49,11 @@ usersRouter.post('/login', async (req, res, next) => {
 // POST /api/users/register
 usersRouter.post('/register', async (req, res, next) => {
   const { username, password, email, name, active, isAdmin } = req.body;
-
+console.log(req.body)
   try {
+    console.log("above54",username)
     const _user = await getUserByUsername(username);
-
+console.log("Something",_user)
     if (_user) {
       next({
         error: `api error`,
