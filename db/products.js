@@ -25,7 +25,6 @@ async function getProductById(id) {
   }
 }
 
-
 async function getProductByName(name) {
   try {
     const { rows: [product] } = await client.query(`
@@ -95,9 +94,6 @@ async function getProductByCategory(categoryName) {
     `, [categoryName]
     );
 
-    // return await Promise.all(products.map(
-    //   product => getProductById(product.id)));
-
     return products;
   } catch (err) {
     console.log('getProductByCategory-products.js FAILED', err);
@@ -130,50 +126,6 @@ async function addCategoryToProduct({ productId, categoryId }) {
     console.log('addCategoryToProduct-product.js FAILED', err)
   }
 }
-
-
-// async function addCategoryToProduct(products) {
-//   const productsToReturn = [...products]
-//   const binds = products.map((_, index) => `$${index + 1}`).join(', ')
-//   const productIds = products.map(product => product.id)
-//   if(!productIds?.length) return []
-
-//   try {
-//     const { rows: categories } = await client.query(`
-//     SELECT categories.*, prod_categories."productId", prod_categories."categoryId"
-//     FROM categories
-//     JOIN prod_categories ON prod_categories."productId" = products.id
-//     WHERE prod_categories."categoryId" IN (${ binds })
-//     `, productIds)
-
-//     for(const products of productsToReturn) {
-//       const categoriesToAdd = categories.filter(category => category.productId === product.id)
-//     product.categories = categoriesToAdd
-//     }
-//     return productsToReturn
-//   } catch(err) {
-//     console.log('addCategoryToProduct-product.js FAILED', err)
-//   }
-// }
-
-// async function getProductByCategory(category) {
-//   try {
-//     const { rows: products } = await client.query(`
-//       SELECT products.*
-//       FROM products
-//       JOIN prod_categories ON products.id=prod_categories."productId"
-//       JOIN categories ON categories.id=prod_categories."categoryId"
-//       WHERE categories.name=$1;
-//     `, [category]);
-
-//     return products;
-//     // return await Promise.all(products.map(
-//     //   products => getProductById(products.id)
-//     // ));
-//   } catch (error) {
-//     throw error;
-//   }
-// }
 
 async function deleteProduct(id) {
   try {

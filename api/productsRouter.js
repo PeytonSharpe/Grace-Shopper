@@ -1,5 +1,6 @@
 const express = require('express');
-const { getAllProducts } = require('../db');
+const { getAllProducts, createProduct } = require('../db');
+const { requireAdmin } = require('./utils');
 
 const productsRouter = express.Router();
 
@@ -13,8 +14,20 @@ productsRouter.get('/', async (req, res, next) => {
   }
 });
 
-productsRouter.post('/create-product', (req, res, next) => {
-  res.send('Create product admin only')
+productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
+  try {
+    const product = await createProduct(requireAdmin)
+    if(product) {
+      res.send(product)
+    } else {
+      next({
+        name: 'CreateProductError',
+        message: 'Error creating product'
+      })
+    }
+  } catch(err) {
+    console.log('productsRouter.post FAILED', err)
+  }
 });
 
 productsRouter.patch('/edit-product', (req, res, next) => {
