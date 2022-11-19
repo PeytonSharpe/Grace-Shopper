@@ -45,6 +45,10 @@ const App = () => {
                 element={<Products />}
                 />
                 <Route
+                path='/cart'
+                element={<Cart />}
+                />
+                <Route
                 path='/login'
                 element={<Login
                 setToken={setToken}
