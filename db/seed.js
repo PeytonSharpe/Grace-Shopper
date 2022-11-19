@@ -101,7 +101,7 @@ async function createTables() {
         street2 VARCHAR(255),
         city VARCHAR(255) NOT NULL,
         state VARCHAR(2) NOT NULL,
-        zipcode INTEGER NOT NULL,
+        zipcode VARCHAR(8) NOT NULL,
         phone_number CHAR(10)
       );
 
@@ -273,8 +273,8 @@ async function createInitialAddress() {
 const admin = await getUserByUsername("admin");
 
     console.log("Creating Initial Address")
-    const adminAddress = createAddress({
-      user_id: admin.id,
+    const adminAddress = await createAddress({
+      userId: admin.id,
       label:"DEFAULT",
       street1: "221 Baker St",
       street2: "Apartment B",
