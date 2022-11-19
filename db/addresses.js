@@ -1,7 +1,7 @@
 const {client} = require('./client');
 
 async function createAddress({
-  user_id,
+  userId,
   label,
   street1,
   street2,
@@ -21,7 +21,7 @@ async function createAddress({
             VALUES($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING *;
           `,
-      [user_id, label, street1, street2, city, state, zipcode, phone_number]
+      [userId, label, street1, street2, city, state, zipcode, phone_number]
     );
     console.log('Address created..');
     console.log(address);
@@ -33,8 +33,8 @@ async function createAddress({
   }
 }
 
-async function getAddressByUserId(user_id) {
-  console.log('Starting to get address by user_id... addresses.js');
+async function getAddressByUserId(userId) {
+  console.log('Starting to get address by userId... addresses.js');
   try {
     const {
       rows: [address],
@@ -44,7 +44,7 @@ async function getAddressByUserId(user_id) {
       FROM addresses
       WHERE "userId"= $1;
       `,
-      [user_id]
+      [userId]
     );
     console.log('Finished Getting Address By UserId! addresses.js');
     return address;
@@ -81,7 +81,7 @@ async function updateAddress(address_id, fields = {}) {
   }
 }
 
-async function deleteAddress(user_id, address_id) {
+async function deleteAddress(userId, address_id) {
   try {
     const {
       rows: [address],
@@ -94,7 +94,7 @@ async function deleteAddress(user_id, address_id) {
           id=${address_id}
           RETURNING *;
           `,
-      [user_id, address_id]
+      [userId, address_id]
     );
     return address;
   } catch (error) {
