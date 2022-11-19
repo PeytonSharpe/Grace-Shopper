@@ -7,8 +7,8 @@ const Navbar = ({ logout, token }) => {
         <header>
             <nav>
                 <Link to='/'>HOME</Link>
-                <Link to='/profile'>PRODUCTS</Link>
-                <Link to='/posts'>CART</Link>
+                <Link to='/products'>PRODUCTS</Link>
+                <Link to='/cart'>CART</Link>
                 <Link to='/register'>REGISTER</Link>
                 <Link to='/login'>LOGIN</Link>
 

@@ -67,6 +67,8 @@ productsRouter.patch('/:productId', requireAdmin, async (req, res, next) => {
 
     if (updatedProduct) {
       res.send(updatedProduct)
+    } else {
+      res.send('Error updating product.')
     }
   } catch (err) {
     console.log('productsRouter.patch FAILED', err)
@@ -78,8 +80,11 @@ productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
     const product = await getProductById(productId)
     const deletedProduct = await deleteProduct(product.id, { active: false })
 
-    res.send(deletedProduct)
-    console.log('This product was deleted.')
+    if(deletedProduct) {
+    res.send(deletedProduct, 'This product was deleted.')
+    } else {
+      res.send('Error deleting product.')
+    }
   } catch (err) {
     console.log('productRouter.delete FAILED', err)
   }
