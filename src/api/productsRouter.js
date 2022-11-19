@@ -1,12 +1,10 @@
 const express = require('express');
-const { updateProduct, deleteProduct } = require('../../db/products');
-const {
+const { 
   getAllProducts,
   createProduct,
   updateProduct,
   getProductById,
-  deleteProduct
-} = require('../db');
+  deleteProduct } = require('../../db');
 
 const { requireAdmin } = require('./utils');
 
