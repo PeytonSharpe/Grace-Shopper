@@ -11,7 +11,7 @@ const {
   getCategoryById,
   deleteCategory,
   getCategoryByName,
-} = require ('../db');
+} = require ('../../db');
 
 categoriesRouter.get('/', async (req, res, next) => {
     try {
@@ -49,32 +49,49 @@ categoriesRouter.post('/create-category', async (req, res, next) => {
     }
 });
 
-// NEED TO FINISH
-// categoriesRouter.patch('/edit-category', async (req, res, next) => {
-//     const { name, description } = req.body;
-//     const updateFields = {};
 
-//     if (name) {
-//         updateFields.name = name;
-//     }
+categoriesRouter.patch('/:categoryId', async (req, res, next) => {
+    const { categoryId } = req.params;
+    const { name, description } = req.body;
+    const updateFields = {};
 
-//     if (description) {
-//         updateFields.description = description;
-//     }
+    if (name) {
+        updateFields.name = name;
+    }
 
-//     try {
-//         const Category = await getCategoryByName(name)
-//         const editedCategory = await updateCategory (updateFields)
-//         res.send({
-//             message:``
-//         })
+    if (description) {
+        updateFields.description = description;
+    }
+
+    try {
         
-//     }
+        const updatedCategory = await updateCategory (categoryId, updateFields)
 
-// })
+        if (updatedCategory) {
+            res.send(updatedCategory)
+        } else {
+        res.send (`Error updating category`)
+        }
+        
+    } catch (error) {
+        console.log('categoriesRouter.patch FAILED', error)
+    }
 
-categoriesRouter.delete('/edit-category', (req, res, next) => {
-    res.send('Delete category admin only')
 })
+
+categoriesRouter.delete('/:categoryId', async (req, res, next) => {
+    try {
+        
+        const deletedCategory = await deleteCategory(categoryId)
+
+        if(deletedCategory) {
+            res.send(deletedCategory, 'This Category was deleted.')
+            } else {
+              res.send('Error deleting Category.')
+            }
+          } catch (err) {
+            console.log('categoriesRouter.delete FAILED', err)
+          }
+});
 
 module.exports = categoriesRouter;
