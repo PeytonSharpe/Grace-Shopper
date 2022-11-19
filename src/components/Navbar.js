@@ -9,9 +9,18 @@ const Navbar = ({ logout, token }) => {
                 <Link to='/'>HOME</Link>
                 <Link to='/products'>PRODUCTS</Link>
                 <Link to='/cart'>CART</Link>
-                <Link to='/register'>REGISTER</Link>
-                <Link to='/login'>LOGIN</Link>
-
+                {token ? (
+                    <>
+                        <Link to='/'
+                            onClick={() => logout()}>LOGOUT</Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to='/register'>REGISTER</Link>
+                        <Link to='/login'>LOGIN</Link>
+                    </>
+                )
+                }
             </nav>
 
         </header>

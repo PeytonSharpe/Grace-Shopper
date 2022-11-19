@@ -410,9 +410,9 @@ await addCategoryToProduct({
     // console.log ("deleting address for 'admin'")
     // await deleteAddress(user0Address.userId, 1)
 
-    console.log ("Getting category by name")
-    const catByName = await getCategoryByName("Games");
-    console.log("Result = ", catByName);
+    // console.log ("Getting category by name")
+    // const catByName = await getCategoryByName("Games");
+    // console.log("Result = ", catByName);
 
 
   } catch (error) {

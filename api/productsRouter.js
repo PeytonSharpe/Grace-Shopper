@@ -4,7 +4,7 @@ const {
   createProduct,
   updateProduct,
   getProductById,
-  deleteProduct } = require('../../db');
+  deleteProduct } = require('../db');
 
 const { requireAdmin } = require('./utils');
 

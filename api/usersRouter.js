@@ -7,7 +7,8 @@ const {
   getAllUsers,
   getUserByUsername,
   createUser
-} = require('../../db')
+} = require('../db');
+const { loginUser } = require('../api');
 
 // POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
@@ -27,7 +28,7 @@ usersRouter.post('/login', async (req, res, next) => {
   }
 
   try {
-    const user = await getUserByUsername(username);
+    const user = await loginUser({ username, password });
     if (user && comparePassword(password, '10')) {
       const id = user.id
       // create token & return to user

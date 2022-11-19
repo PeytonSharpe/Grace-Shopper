@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "start-server": "nodemon -L index.js",
-    "start-react": "react-scripts start",
+    "start-react": "PORT=3001 react-scripts start",
     "seed:dev": "nodemon -L ./db/seed.js"
   },
   "keywords": [],
