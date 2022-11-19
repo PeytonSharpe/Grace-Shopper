@@ -15,8 +15,9 @@ import {
     Products,
     Profile,
     Register,
-    Review
-} from '../components'
+    Review,
+    SingleProductView
+} from './components'
 
 const App = () => {
 

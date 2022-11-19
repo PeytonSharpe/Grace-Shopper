@@ -15,7 +15,7 @@ server.use((req, res, next) => {
   next();
 })
 
-const apiRouter = require('./api');
+const apiRouter = require('./src/api');
 server.use('/api', apiRouter);
 
 server.listen(PORT, () => {

@@ -4,7 +4,7 @@ const apiRouter = express.Router();
 const {
   getUserById
   
-} = require('../db')
+} = require('../../db')
 // GET /api/health
 apiRouter.get('/health', async (req, res, next) => {
     res.status(200).json({

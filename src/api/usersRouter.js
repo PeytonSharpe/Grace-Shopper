@@ -7,7 +7,7 @@ const {
   getAllUsers,
   getUserByUsername,
   createUser
-} = require('../db')
+} = require('../../db')
 
 // POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
