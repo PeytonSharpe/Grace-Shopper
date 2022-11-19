@@ -83,6 +83,21 @@ async function deleteCategory(id) {
         
 }
 
+async function getCategoryByName(catName) {
+    try {
+        const { rows: [ name ] } = await client.query (`
+        SELECT *
+        FROM categories
+        WHERE name=$1;
+        `, [catName]);
+
+        return name;
+    }
+    catch (error) {
+        console.error('getCategoryByName-categories.js FAILED', error)
+    }
+}
+
 
 module.exports = {
   createCategory,
@@ -90,5 +105,6 @@ module.exports = {
   getAllCategories,
   getCategoryById,
   deleteCategory,
+  getCategoryByName,
 
 }
