@@ -4,7 +4,7 @@ const {
   updateAddress,
   deleteAddress,
   getAddressByUserId,
-} = require("../db");
+} = require("../../db");
 const { requireUser } = require("./utils");
 const router = express.Router();
 
