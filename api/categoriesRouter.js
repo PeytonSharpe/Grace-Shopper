@@ -11,7 +11,7 @@ const {
   getCategoryById,
   deleteCategory,
   getCategoryByName,
-} = require ('../../db');
+} = require ('../db');
 
 categoriesRouter.get('/', async (req, res, next) => {
     try {
