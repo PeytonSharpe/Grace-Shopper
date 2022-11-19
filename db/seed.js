@@ -5,6 +5,7 @@ const {
   getProductById,
   getAllProdCategories,
   getProductByCategory,
+  getCategoryByName,
   createUser,
   getAllUsers,
   getUser,
@@ -406,8 +407,12 @@ await addCategoryToProduct({
     });
     console.log ("Updated address = ", updatedAddress)
 
-    console.log ("deleting address for 'admin'")
-    await deleteAddress(user0Address.userId, 1)
+    // console.log ("deleting address for 'admin'")
+    // await deleteAddress(user0Address.userId, 1)
+
+    console.log ("Getting category by name")
+    const catByName = await getCategoryByName("Games");
+    console.log("Result = ", catByName);
 
 
   } catch (error) {
