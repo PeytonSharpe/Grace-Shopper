@@ -14,6 +14,10 @@ productsRouter.get('/', async (req, res, next) => {
   try {
     const allProducts = await getAllProducts();
     res.send(allProducts)
+
+    if(!allProducts) {
+      res.send('No products found.')
+    }
   } catch (err) {
     console.log('productsRouter.get-productsRouter.js FAILED', err)
   }
@@ -26,9 +30,10 @@ productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
       description,
       price,
       count
+      // req.body instead?
     })
 
-    if (product) {
+    if (product && requireAdmin) {
       res.send(product)
     }
   } catch (err) {
