@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar } from '../App';
 
 const Navbar = ({ logout, token }) => {
 
@@ -10,8 +9,8 @@ const Navbar = ({ logout, token }) => {
                 <Link to='/'>HOME</Link>
                 <Link to='/profile'>PRODUCTS</Link>
                 <Link to='/posts'>CART</Link>
-                <Link to='/register' style={linkStyle}>REGISTER</Link>
-                <Link to='/login' style={linkStyle}>LOGIN</Link>
+                <Link to='/register'>REGISTER</Link>
+                <Link to='/login'>LOGIN</Link>
 
             </nav>
 
