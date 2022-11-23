@@ -9,14 +9,11 @@ const Login = ({ setToken, navigate }) => {
         try {
 
         const results = await loginUser(username, password)
-            
+            console.log(results)
             if (results.token) {
             setToken(results.token)
             window.localStorage.setItem('token', results.token)
             navigate('/')
-        // } else {
-        //     console.log('Error logging in')
-        // }
         } 
     } catch (err) {
             console.log('Error logging in')
