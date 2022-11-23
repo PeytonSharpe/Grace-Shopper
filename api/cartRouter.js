@@ -7,7 +7,7 @@ cartRouter.get("/:cartId", async (req, res) => {
       const { cartId } = req.params
       const carts = await getActiveCart(cartId)
       res.send({
-        carts,
+        carts
       });
     } catch (error) {
       throw error;

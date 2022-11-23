@@ -20,7 +20,7 @@ async function updateCategory(id, fields = {}
     const setString = Object.keys(fields).map((key, index)=> 
   `"${key}"=$${index + 1}`).join(",")
 
-  if (setString === 0){
+  if (!setString.length ){
     return
   }
 
@@ -29,10 +29,10 @@ async function updateCategory(id, fields = {}
     UPDATE categories
     SET ${setString}
     WHERE id = ${id}
-    RETURNING *
+    RETURNING *;
     `, Object.values(fields))
 
-    return category
+    return await getCategoryById(id);
   } catch (error) {
     console.error("updateCategory-categories.js FAILED", error);
   }
@@ -57,8 +57,8 @@ async function getAllCategories() {
       const {rows: [categories] } = await client.query(`
           SELECT *
           FROM categories
-          WHERE id=${categoryId}
-          `, [id]);
+          WHERE id=$1;
+          `, [categoryId]);
   
           return categories;
       } catch(err) {
@@ -71,7 +71,7 @@ async function deleteCategory(id) {
     try {
         const { rows: [ category ] } = await client.query(`
         DELETE FROM categories
-        WHERE categories.id=$1
+        WHERE id=$1
         RETURNING *;
     `, [ id ]);    
         

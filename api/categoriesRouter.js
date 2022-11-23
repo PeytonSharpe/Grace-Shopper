@@ -81,11 +81,12 @@ categoriesRouter.patch('/:categoryId', async (req, res, next) => {
 
 categoriesRouter.delete('/:categoryId', async (req, res, next) => {
     try {
+        const {categoryId} = req.params;      
         
         const deletedCategory = await deleteCategory(categoryId)
 
         if(deletedCategory) {
-            res.send(deletedCategory, 'This Category was deleted.')
+            res.send( 'This Category was deleted.')
             } else {
               res.send('Error deleting Category.')
             }
