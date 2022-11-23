@@ -6,19 +6,19 @@ const bcrypt = require('bcrypt');
 async function createUser({ username, password, email, name, active, isAdmin }) { // isAdmin might need later
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
-try {
-  const { rows: [user] } = await client.query(`
+  try {
+    const { rows: [user] } = await client.query(`
     INSERT INTO users(username, password, email, name, active, "isAdmin") 
     VALUES($1, $2, $3, $4, $5, $6) 
     ON CONFLICT (username) DO NOTHING 
     RETURNING *;
   `, [username, hashedPassword, email, name, active, isAdmin]);
-  if (hashedPassword) {
-    delete user.password
+    if (hashedPassword) {
+      delete user.password
+      return user;
+    }
     return user;
-  }
-  return user;
-  } catch(err) {
+  } catch (err) {
     console.log('createUser-users.js FAILED', err)
   }
 }
@@ -91,13 +91,13 @@ async function getUserById(userId) {
 }
 
 async function getUserByUsername(username) {
-console.log("inside usernAME",username)
+  console.log("inside usernAME", username)
   const { rows: [user] } = await client.query(`
       SELECT *
       FROM users
       WHERE username=$1;
     `, [username]);
-console.log("after query",user)
+  console.log("after query", user)
   return user;
 }
 

@@ -49,11 +49,11 @@ usersRouter.post('/login', async (req, res, next) => {
 // POST /api/users/register
 usersRouter.post('/register', async (req, res, next) => {
   const { username, password, email, name, active, isAdmin } = req.body;
-console.log(req.body)
+  console.log(req.body)
   try {
-    console.log("above54",username)
+    console.log("above54", username)
     const _user = await getUserByUsername(username);
-console.log("Something",_user)
+    console.log("Something", _user)
     if (_user) {
       next({
         error: `api error`,
@@ -107,7 +107,7 @@ usersRouter.get('/', async (req, res) => {
   const users = await getAllUsers();
 
   res.send({
-      users
+    users
   });
 });
 
@@ -116,7 +116,7 @@ usersRouter.get(`/:username/cart`, async (req, res, next) => {
   const { username } = req.params
 
   // try {
-    
+
   // } catch ({ name, message }) {
   //   next({ name, message })
   // }

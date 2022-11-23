@@ -17,7 +17,7 @@ const {
   deleteCategory,
   addCategoryToProduct,
   deleteProduct,
-  getAllCategories, 
+  getAllCategories,
   createAddress,
   getAddressByUserId,
   updateAddress,
@@ -39,10 +39,10 @@ async function dropTables() {
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
     `)
-    
+
     console.log('Finished Dropping Tables')
-  } 
-  catch(ex) {
+  }
+  catch (ex) {
     console.log('Error dropping tables')
   }
 }
@@ -118,10 +118,10 @@ async function createTables() {
 
 
     `);
-    
+
     console.log('Finished Creating Tables')
-  } 
-  catch(error) {
+  }
+  catch (error) {
     console.log('Error creating tables')
     throw error;
   }
@@ -140,26 +140,26 @@ async function createInitialUsers() {
     });
 
     const testUser1 = await createUser({
-      username:'testuser1',
+      username: 'testuser1',
       password: 'test1234',
       name: 'Test User One',
       email: 'whatever1@email.com',
-      active:true
-  
+      active: true
+
     });
 
     const testUser2 = await createUser({
-      username:'testuser2',
+      username: 'testuser2',
       password: 'test1234',
       name: 'Test User Two',
       email: 'whatever2@email.com',
-      active:true
+      active: true
     });
 
-    console.log ("---INITIAL USERS---", admin, testUser1, testUser2)
+    console.log("---INITIAL USERS---", admin, testUser1, testUser2)
 
     console.log('Finished creating users');
-  } catch(error) {
+  } catch (error) {
     console.log("Error creating users");
     throw (error);
   }
@@ -176,7 +176,7 @@ async function createInitialProducts() {
       price: 999.99,
       count: 100
     });
-    
+
     await createProduct({
       title:
         "Game Place Holder 2",
@@ -184,7 +184,7 @@ async function createInitialProducts() {
         "Description for the second most amazing product ever....",
       count: 100
     });
-    
+
     await createProduct({
       title:
         "Game Place Holder 3",
@@ -192,10 +192,10 @@ async function createInitialProducts() {
         "Description for the third most amazing product ever....",
       count: 100
     });
-    
+
     console.log('Finished creating Products')
-  } 
-  catch(ex) {
+  }
+  catch (ex) {
     console.log('Error creating Products')
     throw error;
   }
@@ -262,7 +262,7 @@ async function createInitialCategories() {
       description: "Delete this Category"
     })
   }
-  catch(error) {
+  catch (error) {
     console.log("Error creating categories")
     throw error;
   }
@@ -270,12 +270,12 @@ async function createInitialCategories() {
 
 async function createInitialAddress() {
   try {
-const admin = await getUserByUsername("admin");
+    const admin = await getUserByUsername("admin");
 
     console.log("Creating Initial Address")
     const adminAddress = await createAddress({
       userId: admin.id,
-      label:"DEFAULT",
+      label: "DEFAULT",
       street1: "221 Baker St",
       street2: "Apartment B",
       city: "London",
@@ -284,9 +284,9 @@ const admin = await getUserByUsername("admin");
       phone_number: "5555555555"
 
     });
-    console.log ("Admin Address", adminAddress)
+    console.log("Admin Address", adminAddress)
   }
-  catch(error) {
+  catch (error) {
     console.log("Error creating address")
     throw error;
   }
@@ -303,7 +303,7 @@ async function buildDB() {
     await createInitialCategories();
     await createInitialAddress();
   }
-  catch(error) {
+  catch (error) {
     console.log('Error building the DB')
     throw error;
   }
@@ -321,102 +321,92 @@ async function testDB() {
     const user1 = await getUserById(1)
     console.log("user 1 = ", user1)
 
-    console.log ("Geting User with name and password of 'testuser1'")
+    console.log("Geting User with name and password of 'testuser1'")
     const authUser = await getUser({
       username: 'testuser1',
       password: 'test1234'
     })
-    console.log ("autheticated user = ", authUser)
+    console.log("autheticated user = ", authUser)
 
-    console.log ("Getting User by username of 'admin'")
-    const userByUsername = await getUserByUsername ('admin')
-    console.log ("username of 'admin' = ", userByUsername)
+    console.log("Getting User by username of 'admin'")
+    const userByUsername = await getUserByUsername('admin')
+    console.log("username of 'admin' = ", userByUsername)
 
-    console.log ("Updating user 'testuser2' to 'testuser02'")
-    const updatedUser = await updateUser (users[2].id, {
+    console.log("Updating user 'testuser2' to 'testuser02'")
+    const updatedUser = await updateUser(users[2].id, {
       username: "testuser02"
     });
-    console.log ("Updated User = ", updatedUser)
+    console.log("Updated User = ", updatedUser)
 
     console.log("Calling getAllProducts")
     const products = await getAllProducts();
-    console.log ("Product Test Result:", products)
+    console.log("Product Test Result:", products)
 
     console.log("Getting product by id")
     const product1 = await getProductById(1)
-    console.log ("Product by id = ", product1)
+    console.log("Product by id = ", product1)
 
-    
+
     console.log("Adding Category to Product")
     const [productOne, productTwo, productThree] = await getAllProducts();
-    
-await addCategoryToProduct({ 
-      productId: productOne.id,
-      categoryId: 3});
 
-    await addCategoryToProduct({ 
-      productId: productTwo.id,
-      categoryId: 3});
-      
+    await addCategoryToProduct({
+      productId: productOne.id,
+      categoryId: 3
+    });
+
     await addCategoryToProduct({
       productId: productTwo.id,
-      categoryId: 2});
+      categoryId: 3
+    });
+
+    await addCategoryToProduct({
+      productId: productTwo.id,
+      categoryId: 2
+    });
 
     await addCategoryToProduct({
       productId: productThree.id,
-      categoryId: 1});
+      categoryId: 1
+    });
 
     console.log(await getAllProdCategories())
 
     console.log("Calling getAllCategories");
     const categories = await getAllCategories();
-    console.log ("Categories Test: Result:", categories)
+    console.log("Categories Test: Result:", categories)
 
-    console.log ("Getting Product by Category 'games'")
+    console.log("Getting Product by Category 'games'")
     const productsInGamesCat = await getProductByCategory("Games");
     console.log("Result", productsInGamesCat)
-    
-    console.log ("Updating a Category")
+
+    console.log("Updating a Category")
     const updatedCategory = await updateCategory(categories[0].id, {
-      name:"Consoles EDITED",
+      name: "Consoles EDITED",
       description: "Console Systems EDITED"
     });
     console.log("The Updated Category Result:", updatedCategory)
 
-    console.log ("Deleting Test Category")
+    console.log("Deleting Test Category")
     const result = await deleteCategory(categories[10].id);
-    
+
     console.log(result)
     const updatedCategories = await getAllCategories();
-    console.log ("Categories without 11", updatedCategories)
-    
+    console.log("Categories without 11", updatedCategories)
 
-    console.log ("Deleting product 3")
-    await deleteProduct(products[2].id);
-    console.log(products[2])
-    // Delete product not working
-
-    console.log ("Getting address by user id '1'")
+    console.log("Getting address by user id '1'")
     const user0Address = await getAddressByUserId(1);
-    console.log ("user id 0 address = ", user0Address)
+    console.log("user id 0 address = ", user0Address)
 
-    console.log ("Updating address for 'admin'")
+    console.log("Updating address for 'admin'")
     const updatedAddress = await updateAddress(user0Address.id, {
       label: 'Home',
       phone_number: '7403853774'
     });
-    console.log ("Updated address = ", updatedAddress)
-
-    // console.log ("deleting address for 'admin'")
-    // await deleteAddress(user0Address.userId, 1)
-
-    // console.log ("Getting category by name")
-    // const catByName = await getCategoryByName("Games");
-    // console.log("Result = ", catByName);
-
+    console.log("Updated address = ", updatedAddress)
 
   } catch (error) {
-    console.error ("testDB-seed.js FAILED", error)
+    console.error("testDB-seed.js FAILED", error)
   }
 }
 
