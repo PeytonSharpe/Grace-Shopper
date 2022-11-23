@@ -1,22 +1,22 @@
-const {client} = require("./client.js");
+const { client } = require("./client.js");
 // const {  } = require("./");
 
 //returns cart object, created with supplied user
 async function createCart({ id }) {
-    try {
-        if (id) {
-            const { rows: [cart] } = await client.query
-                (`
+  try {
+    if (id) {
+      const { rows: [cart] } = await client.query
+        (`
                 INSERT INTO cart("userId")
                 VALUES($1)
                 RETURNING *;
-                `, [id] );
-                
-                return cart;
-        }
-    } catch(error) {
-        throw('Nope, no Cart for you, my bad G. find me in cart.js');
+                `, [id]);
+
+      return cart;
     }
+  } catch (error) {
+    throw ('Nope, no Cart for you, my bad G. find me in cart.js');
+  }
 }
 
 //sets the cart to purchased; arameter is a cart object, returns cart object
@@ -43,26 +43,26 @@ async function createCart({ id }) {
 
 //deletes non-purchased carts -- parameter is a user object, returns nothing
 async function deleteActiveCart({ id }) {
-    try {
-      if (id) {
-        //need to get cart to delete, delete its items, then delete the cart
-        const rows = await client.query
-                  (`SELECT * FROM cart
+  try {
+    if (id) {
+      //need to get cart to delete, delete its items, then delete the cart
+      const rows = await client.query
+        (`SELECT * FROM cart
                    WHERE "userId" = $1                                    
                    `, [id]);
 
-        const cartId = rows[0]?.id;
-        await client.query
-            (`DELETE FROM cart_items
+      const cartId = rows[0]?.id;
+      await client.query
+        (`DELETE FROM cart_items
               WHERE cart_id = $1;
               DELETE FROM cart
               WHERE id = $1;`, [cartId]);
-      }
-    } catch (error) {
-      throw error;
     }
+  } catch (error) {
+    throw error;
   }
-  
+}
+
 //gets all the carts; parameter is a user object, returns an array of carts with cart_items attached
 // async function getPurchasedCartsByUser({ id }) {
 //     try {
@@ -79,29 +79,29 @@ async function deleteActiveCart({ id }) {
 //       }
 //   }
 
-  //attaches the order to the cart
+//attaches the order to the cart
 async function attachOrdertoCart(carts) {
   const cartsToReturn = [...carts];
   const binds = carts.map((_, index) => `$${index + 1}`).join(", ");
-    if (!cartsIds?.length) return [];
-      try {
-        const { rows: orders } = await client.query
-            (`
+  if (!cartsIds?.length) return [];
+  try {
+    const { rows: orders } = await client.query
+      (`
               SELECT orders.*
               FROM cart 
               JOIN orders ON orders.cart_id = cart.id
               WHERE orders.cart_id IN (${binds});
             `, cartsIds);
 
-        for (const cart of cartsToReturn) {
-          const ordersToAdd = orders.filter((order) => order.cart_id === cart.id);
+    for (const cart of cartsToReturn) {
+      const ordersToAdd = orders.filter((order) => order.cart_id === cart.id);
 
-          cart.order = ordersToAdd;
-        }
-        return cartsToReturn;
-      } catch (error) {
-        console.error(error);
-      }
+      cart.order = ordersToAdd;
+    }
+    return cartsToReturn;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 
@@ -113,8 +113,8 @@ async function getActiveCart({ id }) {
       (`SELECT * FROM cart
         WHERE cart."userId" = $1       
         `, [id]);
-    
-        return cart     
+
+    return cart
 
     // if (cart) return attachItemsToCarts([cart]);
     // const newCart = createCart({ id });
@@ -155,7 +155,7 @@ async function getActiveCart({ id }) {
 //     throw error;
 //   }
 // }
-  
+
 
 module.exports = {
   createCart,

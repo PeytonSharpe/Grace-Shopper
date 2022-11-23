@@ -23,7 +23,7 @@ router.post("/guestaddress", async (req, res, next) => {
 router.post("/createaddress", requireUser, async (req, res, next) => {
   console.log(req.body)
   const { userId, label, street1, street2, city, state, zipcode } = req.body;
-  console.log('everything else',userId,label,street1, street2, city, state, zipcode)
+  console.log('everything else', userId, label, street1, street2, city, state, zipcode)
 
   try {
     const address = await createAddress({

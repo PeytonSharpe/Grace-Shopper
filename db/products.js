@@ -108,7 +108,7 @@ async function getAllProdCategories() {
     `)
 
     return result;
-  } catch(err) {
+  } catch (err) {
     console.log('Error')
   }
 }

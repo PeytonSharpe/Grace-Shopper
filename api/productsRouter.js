@@ -1,5 +1,5 @@
 const express = require('express');
-const { 
+const {
   getAllProducts,
   createProduct,
   updateProduct,
@@ -15,7 +15,7 @@ productsRouter.get('/', async (req, res, next) => {
     const allProducts = await getAllProducts();
     res.send(allProducts)
 
-    if(!allProducts) {
+    if (!allProducts) {
       res.send('No products found.')
     }
   } catch (err) {
@@ -80,8 +80,8 @@ productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
     const product = await getProductById(productId)
     const deletedProduct = await deleteProduct(product.id, { active: false })
 
-    if(deletedProduct) {
-    res.send(deletedProduct, 'This product was deleted.')
+    if (deletedProduct) {
+      res.send(deletedProduct, 'This product was deleted.')
     } else {
       res.send('Error deleting product.')
     }
