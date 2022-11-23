@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "start-server": "nodemon -L index.js",
+    "build":"webpack",
     "start-react": "PORT=3002 react-scripts start",
     "seed:dev": "nodemon -L ./db/seed.js"
   },
