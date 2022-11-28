@@ -11,6 +11,8 @@ import {
   CardActionArea,
   CardActions,  
 } from "@mui/material";
+
+
 const Register = ({ setToken, navigate }) => {
 
   const [username, setUsername] = useState('');
@@ -20,8 +22,8 @@ const Register = ({ setToken, navigate }) => {
   const [name, setName] = useState('');
   const [active, setActive] = useState('');
   const [isAdmin, setIsAdmin] = useState('');
-  const handleSubmit = async () => {
-  
+  const handleSubmit = async ({id}) => {
+    console.log(username, password, 'testing UN/PW')
     if (password.search(/[A-Z]/) === -1) {
       alert('Need UpperCase')
       return null
@@ -30,13 +32,14 @@ const Register = ({ setToken, navigate }) => {
       alert('Password Don\'t Match')
       return null
     }
-    const results = await registerUser(username, password, email, name, active, isAdmin);
+    const results = await registerUser(username, password, email,{id});
 
-    if (results.token) {
+    if (results.success) {
       console.log('token acquired')
-      setToken(results.token)
-      window.localStorage.setItem('token', results.token)
-      navigate('/Home')
+      setToken(results.data.token)
+      window.localStorage.setItem('token', results.data.token)
+      navigate('/');
+      console.log(results,'RegisterUSER')
     } else {
       console.log(results.error.message)
     }
@@ -55,7 +58,7 @@ const Register = ({ setToken, navigate }) => {
       <h1>REGISTER</h1>
       <form onSubmit={(event) => {
         event.preventDefault();
-        handleSubmit();
+        handleSubmit(username, password, email);
       }}>
         
         <TextField style={{ 
@@ -68,7 +71,7 @@ const Register = ({ setToken, navigate }) => {
         type='text'
         label='Enter Username'
         required={{minLength: 3,maxLength:13}}
-        onChange={(event) => setUsername(event.target.value)}
+        onChange={(event) => {console.log(event.target.value),setUsername(event.target.value),'Username'}}
       />
         <TextField style={{ margin: '.25rem', width: '100%', backgroundColor: '#FFFCFF' }}
           type='password'
@@ -91,6 +94,7 @@ const Register = ({ setToken, navigate }) => {
         label='Enter Email *'        
         onChange={(event) => setEmail(event.target.value)}
       />
+<Boolean>true</Boolean>
         <TextField style={{ 
           flexWrap:'center',
           margin: '.25rem',         
