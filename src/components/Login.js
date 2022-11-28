@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 const Login = ({ setToken, navigate }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    
+    const [isAdmin, setIsAdmin] = useState('');
     const handleSubmit = async () => {
         try {
 
         const results = await loginUser(username, password)
+       
             console.log(results)
             if (results.token) {
             setToken(results.token)
@@ -17,6 +18,7 @@ const Login = ({ setToken, navigate }) => {
         } 
     } catch (err) {
             console.log('Error logging in')
+            
         }
     }
 
