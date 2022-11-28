@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client'
 import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
-
+import { CssBaseline, Paper } from '@mui/material';
 import {
     Cart,
     Category,
@@ -19,9 +19,18 @@ import {
     SingleProductView
 } from './components'
 
+import {
+    getProducts,
+    getUserDetails,
+    createProduct,
+    updateProduct,
+    deleteProduct
+} from './api';
+
 const App = () => {
 
     const [products, setProducts] = useState([]);
+    const [isAdmin, setIsAdmin] = useState('');
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate;
@@ -31,40 +40,104 @@ const App = () => {
         setToken('')
         setUser({})
     }
+    async function fetchProducts() {
+        const results = await getProducts()
+        setProducts(results);
 
+    }
+
+    async function getMe() {
+        const storedToken = window.localStorage.getItem('token');
+
+        if (!token) {
+            if (storedToken) {
+                setToken(storedToken);
+            }
+            return;
+        }
+
+        const results = await getUserDetails(token);
+        if (results) {
+            setUser(results);
+        } else {
+            console.log('failed to get user details', results);
+        }
+    }
+
+    useEffect(() => {
+        fetchProducts()
+    }, [])
+
+    useEffect(() => {
+        getMe();
+    }, [token])
     return (
-        <div id='main-nav'>
+        <React.Fragment>
+        <CssBaseline />
+        <Paper  elevation={16} 
+        style={{
+          background:'#CBD4C2',
+          width:'100%',
+          height: '100%'
+           }}>
+        <header>
+        <nav id='main-nav'>
             <Navbar />
             <Routes>
                 <Route
-                path='/'
-                element={<Home />}
+                    path='/'
+                    element={<Home />}
                 />
                 <Route
-                path='/products'
-                element={<Products />}
-                />
-                <Route
-                path='/cart'
-                element={<Cart />}
-                />
-                <Route
-                path='/login'
-                element={<Login
-                setToken={setToken}
+                    path='/products'
+                    element={<Products
+                        user={user}
                 navigate={navigate}
-            />}
+                products={products} 
+                isAdmin={isAdmin}
+                token={token} />}
+                />
+                 <Route
+              path='/products/create-product'
+              element={<CreateProduct
+                fetchProducts={fetchProducts}
+                isAdmin={isAdmin}
+                token={token}
+                navigate={navigate} />}
+            />
+            <Route
+              path='/activities/edit-activity/:activityID'
+              element={<EditProduct
+                navigate={navigate}
+                products={products}
+                isAdmin={isAdmin}
+                token={token}
+              />}
             />
                 <Route
-                path='/register'
-                element={<Register
-                setToken={setToken}
-                token={token}
-                navigate={navigate}
-                />}
+                    path='/cart'
+                    element={<Cart />}
+                />
+                <Route
+                    path='/login'
+                    element={<Login
+                        setToken={setToken}
+                        navigate={navigate}
+                    />}
+                />
+                <Route
+                    path='/register'
+                    element={<Register
+                        setToken={setToken}
+                        token={token}
+                        navigate={navigate}
+                    />}
                 />
             </Routes>
-        </div>
+        </nav>
+        </header>
+        </Paper>
+    </React.Fragment>
     )
 }
 
