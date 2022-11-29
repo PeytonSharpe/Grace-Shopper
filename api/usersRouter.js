@@ -12,7 +12,7 @@ const {
 // POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
-
+  console.log(username, password, "API LOGIN")
   // request must have both
   if (!username || !password) {
     next({
@@ -22,14 +22,17 @@ usersRouter.post('/login', async (req, res, next) => {
   }
 
   async function comparePassword(plaintextPassword, hash) {
+    console.log(process.env.JWT_SECRET, "JWT")
+    console.log(plaintextPassword, hash, "Passwords")
     const result = await bcrypt.compare(plaintextPassword, hash);
     return result;
   }
 
   try {
     const user = await getUserByUsername(username);
-    if (user && comparePassword(password, '10')) {
+    if (user && comparePassword(password, user.password)) {
       const id = user.id
+      console.log(id,"IDcheck")
       // create token & return to user
       const token = jwt.sign({ id: id, username: username }, process.env.JWT_SECRET, { expiresIn: '1w' })
 
@@ -78,7 +81,7 @@ usersRouter.post('/register', async (req, res, next) => {
       active,
       isAdmin
     });
-
+    console.log('created user', user)
     const token = jwt.sign({
       id: user.id,
       username

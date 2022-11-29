@@ -91,7 +91,7 @@ async function getUserById(userId) {
 }
 
 async function getUserByUsername(username) {
-  console.log("inside usernAME", username)
+  console.log("inside username", username)
   const { rows: [user] } = await client.query(`
       SELECT *
       FROM users
