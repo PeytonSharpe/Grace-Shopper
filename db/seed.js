@@ -404,7 +404,7 @@ async function testDB() {
       phone_number: '7403853774'
     });
     console.log("Updated address = ", updatedAddress)
-
+console.log('Finished')
   } catch (error) {
     console.error("testDB-seed.js FAILED", error)
   }

@@ -22,6 +22,8 @@ const Register = ({ setToken, navigate }) => {
   const [name, setName] = useState('');
   const [active, setActive] = useState('');
   const [isAdmin, setIsAdmin] = useState('');
+
+
   const handleSubmit = async ({id}) => {
     console.log(username, password, 'testing UN/PW')
     if (password.search(/[A-Z]/) === -1) {
@@ -41,7 +43,7 @@ const Register = ({ setToken, navigate }) => {
       navigate('/');
       console.log(results,'RegisterUSER')
     } else {
-      console.log(results.error.message)
+      console.log(results)
     }
   }
   return (
@@ -94,7 +96,7 @@ const Register = ({ setToken, navigate }) => {
         label='Enter Email *'        
         onChange={(event) => setEmail(event.target.value)}
       />
-<Boolean>true</Boolean>
+
         <TextField style={{ 
           flexWrap:'center',
           margin: '.25rem',         

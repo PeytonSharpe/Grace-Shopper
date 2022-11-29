@@ -11,10 +11,12 @@ export const getProducts = async () => {
       return results;
     } catch (error) {
       console.log('error getting all products')
+      console.log(error)
+      throw error
     }
   }
 
-export const registerUser = async (username, password) => {
+export const registerUser = async (username, password,email,name, active, isAdmin) => {
     try {
       const response = await fetch(`${baseURL}/users/register`, {
         method: "POST",
@@ -24,7 +26,11 @@ export const registerUser = async (username, password) => {
         body: JSON.stringify({
   
           username: username,
-          password: password
+          password: password,
+          email: email,
+          name: name,
+          active: active,
+          isAdmin: isAdmin
   
         })
       })
@@ -33,6 +39,8 @@ export const registerUser = async (username, password) => {
       return result;
     } catch (error) {
       console.log('error registering user')
+      console.log(error)
+      throw error
     }
   }
 
@@ -44,10 +52,10 @@ export const loginUser = async (username, password) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                user: {
+               
                     username,
                     password
-                }
+               
             })
         })
         console.log(response)
@@ -55,6 +63,8 @@ export const loginUser = async (username, password) => {
         return result;
       } catch (error) {
         console.log('Error logging in user');
+        console.log(error)
+      throw error
       }
 }
 
@@ -70,6 +80,8 @@ export const getUserDetails = async (token) => {
       return result
     } catch (error) {
       console.log('error getting users details')
+      console.log(error)
+      throw error
     }
   }
   export const createProduct = async (isAdmin, { name, description }) => {
@@ -78,7 +90,7 @@ export const getUserDetails = async (token) => {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer isAdmin`
+          'Authorization': `Bearer ${isAdmin}`
         },
         body: JSON.stringify({
   
@@ -91,6 +103,8 @@ export const getUserDetails = async (token) => {
       return (results)
     } catch (error) {
       console.log('error creating a new product')
+      console.log(error)
+      throw error
     }
   }
   
@@ -100,7 +114,7 @@ export const getUserDetails = async (token) => {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer isAdmin`
+          'Authorization': `Bearer ${isAdmin}`
         },
         body: JSON.stringify({
   
@@ -115,6 +129,8 @@ export const getUserDetails = async (token) => {
   
     } catch (ex) {
       console.log('error updating product')
+      console.log(error)
+      throw error
     }
   }
   export const deleteProduct = async(isAdmin, id) => {
@@ -123,12 +139,14 @@ export const getUserDetails = async (token) => {
         method: "DELETE",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer isAdmin`
+          'Authorization': `Bearer ${isAdmin}`
         }
       })
       const result = await response.json();
       return result
     } catch (error) {
       console.log(`error deleting product`)
+      console.log(error)
+      throw error
     }
   }
