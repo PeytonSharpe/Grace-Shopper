@@ -33,7 +33,7 @@ const App = () => {
     const [isAdmin, setIsAdmin] = useState('');
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
-    const navigate = useNavigate;
+    const navigate = useNavigate();
 
     function logout() {
         window.localStorage.removeItem('token');
@@ -82,7 +82,7 @@ const App = () => {
            }}>
         <header>
         <nav id='main-nav'>
-            <Navbar />
+            <Navbar  logout={logout} token={token}/>
             <Routes>
                 <Route
                     path='/'

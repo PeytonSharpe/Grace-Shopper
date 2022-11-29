@@ -108,25 +108,25 @@ const Register = ({ setToken, navigate }) => {
         label='Enter Name *'        
         onChange={(event) => setName(event.target.value)}
       />  
-      <TextField style={{ 
+      <input style={{ 
         flexWrap:'center',
         margin: '.25rem',         
          width: '100%', 
          backgroundColor: '#FFFCFF',
          
          }}
-      type='text'
+      type='checkbox'
       label='Enter Active *'        
       onChange={(event) => setActive(event.target.value)}
     />
-    <TextField style={{ 
+    <input style={{ 
         flexWrap:'center',
         margin: '.25rem',         
          width: '100%', 
          backgroundColor: '#FFFCFF',
          
          }}
-      type='text'
+      type='checkbox'
       label='Enter isAdmin *'        
       onChange={(event) => setIsAdmin(event.target.value)}
     />
