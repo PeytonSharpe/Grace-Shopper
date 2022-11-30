@@ -11,15 +11,19 @@ const { requireAdmin } = require('./utils');
 const productsRouter = express.Router();
 
 productsRouter.get('/', async (req, res, next) => {
+  console.log('in products route')
   try {
     const allProducts = await getAllProducts();
-    res.send(allProducts)
-
+    console.log(allProducts,'allprods')
     if (!allProducts) {
       res.send('No products found.')
     }
+    res.send(allProducts)
+
+   
   } catch (err) {
     console.log('productsRouter.get-productsRouter.js FAILED', err)
+    next(err)
   }
 });
 
@@ -30,7 +34,7 @@ productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
       description,
       price,
       count
-      // req.body instead?
+      
     })
 
     if (product && requireAdmin) {
@@ -38,6 +42,7 @@ productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
     }
   } catch (err) {
     console.log('productsRouter.post FAILED', err)
+    next(err)
   }
 });
 
@@ -72,6 +77,7 @@ productsRouter.patch('/:productId', requireAdmin, async (req, res, next) => {
     }
   } catch (err) {
     console.log('productsRouter.patch FAILED', err)
+    next(err)
   }
 });
 
@@ -87,6 +93,7 @@ productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
     }
   } catch (err) {
     console.log('productRouter.delete FAILED', err)
+    next(err)
   }
 });
 

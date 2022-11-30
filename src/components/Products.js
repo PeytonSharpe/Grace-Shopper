@@ -2,13 +2,16 @@ import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Paper, TextField } from '@mui/material';
 
-const Products = ({ products, isAdmin}) => {
+const Products = ({ products, isAdmin, user}) => {
+    console.log(user,"user")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         const { 
             id,
             title,
-            description
+            description,
+            price,
+            count
              } = products;
             //  console.log(products)
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
@@ -47,7 +50,7 @@ const Products = ({ products, isAdmin}) => {
 
                 </div>
                 <div>
-                    {isAdmin ? (
+                    {user.isAdmin ? (
 <div>
                         <Link style={{
                              textDecoration: 'none'
@@ -63,7 +66,7 @@ const Products = ({ products, isAdmin}) => {
                             Create Product
                         </Button></Link>
 
-                         <Link
+                         {/* <Link
                          style={{
                              textDecoration: 'none'
                          }}
@@ -78,7 +81,7 @@ const Products = ({ products, isAdmin}) => {
                          }}
                          variant='contained'
                          type='submit'>Edit Product
-                         </Button> </Link>
+                         </Button> </Link> */}
 </div>
                     ) : (
                         null

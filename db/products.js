@@ -1,14 +1,16 @@
 const { client } = require('./client');
 
 async function getAllProducts() {
+  console.log(' in get all prods')
   try {
     const { rows } = await client.query(`
     SELECT * FROM products;
     `)
-
+console.log(rows)
     return rows;
   } catch (err) {
     console.log('getAllProducts-products.js FAILED', err)
+    throw err
   }
 }
 
@@ -22,6 +24,7 @@ async function getProductById(id) {
     return product;
   } catch (err) {
     console.log('getProductById-products.js FAILED', err)
+    throw err
   }
 }
 
@@ -35,6 +38,7 @@ async function getProductByName(name) {
     return product;
   } catch (err) {
     console.log('getProductByName-products.js FAILED', err)
+    throw err
   }
 }
 
@@ -57,6 +61,7 @@ async function createProduct({
   }
   catch (err) {
     console.log('createProduct-products.js FAILED', err)
+    throw err
   }
 }
 
@@ -77,6 +82,7 @@ async function updateProduct(id, fields = {}) {
     return await getProductById(id);
   } catch (err) {
     console.log('updateProduct-products.js FAILED', err)
+    throw err
   }
 }
 
@@ -97,6 +103,7 @@ async function getProductByCategory(categoryName) {
     return products;
   } catch (err) {
     console.log('getProductByCategory-products.js FAILED', err);
+    throw err
   }
 }
 
@@ -110,6 +117,7 @@ async function getAllProdCategories() {
     return result;
   } catch (err) {
     console.log('Error')
+    throw err
   }
 }
 
@@ -124,6 +132,7 @@ async function addCategoryToProduct({ productId, categoryId }) {
     return productCategory
   } catch (err) {
     console.log('addCategoryToProduct-product.js FAILED', err)
+    throw err
   }
 }
 
@@ -138,6 +147,7 @@ async function deleteProduct(id) {
     return product;
   } catch (err) {
     console.log('deleteProduct-products.js FAILED', err)
+    throw err
   }
 }
 

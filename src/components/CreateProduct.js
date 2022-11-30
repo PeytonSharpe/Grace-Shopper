@@ -12,17 +12,18 @@ import { Card,
 } from '@mui/material'
 
 const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
   const [count, setCount] = useState('')
-
+  
   const newProduct = {
-    // id, 
+     
     title,
     description,
     price,
-    count 
+    count,
+    
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -72,7 +73,7 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
           </Typography>
           <TextField style={{ background: '#FFFCFF', color: '#000000'}}
             type='text'
-            label="title*"
+            label="Title*"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
@@ -81,6 +82,18 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
             label="Description*"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
+          />
+             <TextField style={{ background: '#FFFCFF', color: '#000000'}}
+            type='text'
+            label="Price*"
+            value={price}
+            onChange={(event) => setPrice(event.target.value)}
+          />
+             <TextField style={{ background: '#FFFCFF', color: '#000000'}}
+            type='text'
+            label="Count*"
+            value={count}
+            onChange={(event) => setCount(event.target.value)}
           />
         </CardContent>
 
