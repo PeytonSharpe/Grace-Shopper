@@ -411,7 +411,6 @@ console.log('Finished')
 }
 
 
-buildDB()
-  .then(testDB)
+buildDB()  
   .catch(console.error)
   .finally(() => client.end())
