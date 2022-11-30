@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from 'react-router-dom';
 import './Register';
-// const navigate = useNavigate();
+
 const Login = ({ setToken, navigate }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
