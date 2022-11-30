@@ -11,9 +11,8 @@ import {
   CardActionArea,
   CardActions,
 } from "@mui/material";
-import { Link, useNavigate } from 'react-router-dom';
 import './Register';
-// const navigate = useNavigate();
+
 const Login = ({ setToken, navigate }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -35,7 +34,7 @@ const Login = ({ setToken, navigate }) => {
         }
 
     }
-  }
+  
 
   return (
     <>
@@ -80,6 +79,6 @@ const Login = ({ setToken, navigate }) => {
     </Card>
     </>
   )
-}
+        }
 
 export default Login;
