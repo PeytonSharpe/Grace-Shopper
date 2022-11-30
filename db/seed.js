@@ -293,8 +293,7 @@ async function createInitialAddress() {
 }
 
 async function buildDB() {
-  try {
-    // need to add something here
+  try {    
     client.connect();
     await dropTables();
     await createTables();
@@ -411,6 +410,7 @@ console.log('Finished')
 }
 
 
-buildDB()  
+buildDB()
+  .then(testDB)  
   .catch(console.error)
   .finally(() => client.end())
