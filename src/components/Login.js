@@ -5,17 +5,16 @@ import {
   Button,
   Typography,
   TextField,
-  Card,  
+  Card,
   CardContent,
   CardMedia,
   CardActionArea,
-  CardActions, 
+  CardActions,
 } from "@mui/material";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Register';
-
+// const navigate = useNavigate();
 const Login = ({ setToken, navigate }) => {
-
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [isAdmin, setIsAdmin] = useState('');
@@ -34,10 +33,12 @@ const Login = ({ setToken, navigate }) => {
             console.log(error)
             throw error
         }
-    }
 
-    return (
-        <>
+    }
+  }
+
+  return (
+    <>
     <Card className='register-main-card' elevation={6} style={{ 
       margin:'2rem 4rem ',
       background: '#50514F',
@@ -78,8 +79,7 @@ const Login = ({ setToken, navigate }) => {
     </form>
     </Card>
     </>
-
-    )
+  )
 }
 
 export default Login;

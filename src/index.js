@@ -83,7 +83,7 @@ const App = () => {
            }}>
         <header>
         <nav id='main-nav'>
-            <Navbar />
+            <Navbar  logout={logout} token={token}/>
             <Routes>
                 <Route
                     path='/'
