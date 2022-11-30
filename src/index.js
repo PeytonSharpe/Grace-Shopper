@@ -71,6 +71,7 @@ const App = () => {
     useEffect(() => {
         getMe();
     }, [token])
+
     return (
         <React.Fragment>
         <CssBaseline />

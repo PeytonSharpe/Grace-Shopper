@@ -15,26 +15,25 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Register';
 
 const Login = ({ setToken, navigate }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  // const [isAdmin, setIsAdmin] = useState('');
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [isAdmin, setIsAdmin] = useState('');
 
+    const handleSubmit = async () => {
+        try {
+            const results = await loginUser(username, password)
+            console.log(results)
+            if (results.token) {
+                setToken(results.token)
+                window.localStorage.setItem('token', results.token)
+                navigate('/products')
+            }
+        } catch (error) {
+            console.log('Error logging in')
+            console.log(error)
+            throw error
+        }
 
-  const handleSubmit = async () => {
-    try {
-
-      const results = await loginUser(username, password)
-      console.log(results)
-      
-      if (results.token) {
-        setToken(results.token)
-        window.localStorage.setItem('token', results.token)
-        navigate('/')
-      }
-    } catch (error) {
-      console.log('Error logging in', results)
-      console.log(error)
-      throw error
     }
   }
 

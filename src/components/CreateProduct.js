@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createProduct } from '../api';
+import { Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  TextField,
+  CardActionArea,
+  CardActions,
+  Button,
+  Popover
+} from '@mui/material'
 
 const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
-    const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('')
+  const [count, setCount] = useState('')
+
   const newProduct = {
-    id, 
+    // id, 
     title,
     description,
     price,
@@ -47,12 +60,12 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
 
         <CardContent>
         <CardMedia>
-          <img style={{
+          {/* <img style={{
             backgroundImage: `url(${navPIC})`, height: '25rem', width: '100%',
             backgroundPosition: 'top',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
-          }} src={navPIC} />
+          }} src={navPIC} /> */}
         </CardMedia>
           <Typography variant='h1' component='h3' style={{ color: '#C3B299' }}>
             Create Product
