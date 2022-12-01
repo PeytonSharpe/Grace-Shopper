@@ -152,3 +152,24 @@ export const deleteProduct = async (isAdmin, id) => {
     throw error
   }
 }
+
+export const createReview = async ({ productId, token, Review }) => {
+  try {
+    const response = await fetch(`${baseURL}/products/${productId}/reviews`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        review
+      })
+    })
+    const results = await response.json();
+    console.log(results)
+  } catch (error) {
+    console.log('error creating review')
+    console.log(error)
+    throw error
+  }
+}

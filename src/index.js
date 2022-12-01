@@ -116,6 +116,20 @@ const App = () => {
                 token={token}
               />}
             />
+            <Route
+                path='/products/:productId'
+                element={<SingleProductView
+                  products={products}
+                  token={token}
+                  navigate={navigate}
+                />}
+              />
+             <Route
+                path='/profile'
+                element={<Profile
+                  user={user}
+                  navigate={navigate} />}
+              />
                 <Route
                     path='/cart'
                     element={<Cart />}
