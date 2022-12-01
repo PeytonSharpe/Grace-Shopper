@@ -9,29 +9,31 @@ import {
 } from "@mui/material";
 
 
-const EditProduct = ({ products, fetchProducts, navigate, user }) => {
+const EditProduct = ({ products, fetchProducts, navigate, token }) => {
     const { productId } = useParams();
+    console.log(productId)
     if (products.length) {
         const currentProduct = products.filter(product => product.id === parseInt(productId));
-
+console.log(currentProduct)
         console.log(products)
-        const { name, description, price, count } = currentProduct;
-
-        const [newName, setNewName] = useState(name);
+        const { title, description, price, count } = currentProduct[0];
+console.log(title,description,price,count)
+        const [newTitle, setNewTitle] = useState(title);
         const [newDescription, setNewDescription] = useState(description);
         const [newPrice, setNewPrice] = useState(price)
         const [newCount, setNewCount] = useState(count)
 
         async function EditProduct() {
             const updatedProduct = {
-                name: newName,
+                title: newTitle,
                 description: newDescription,
                 id: productId,
                 price: newPrice,
                 count: newCount
             }
 
-            await updateProduct(updatedproduct, user.isAdmin)
+         const newProduct =   await updateProduct(updatedProduct, token)
+         console.log(newProduct)
             navigate('/products')
             fetchProducts()
         }
@@ -50,6 +52,7 @@ const EditProduct = ({ products, fetchProducts, navigate, user }) => {
                     <form onSubmit={(event) => {
                         event.preventDefault();
                         EditProduct();
+                        
 
 
                     }}>
@@ -63,8 +66,8 @@ const EditProduct = ({ products, fetchProducts, navigate, user }) => {
 
                         }}
                             type='text'
-                            placeholder={name}
-                            onChange={(event) => setNewName(event.target.value)}
+                            placeholder={title}
+                            onChange={(event) => setNewTitle(event.target.value)}
                         />
                         <TextField style={{
                             flexWrap: 'center',
@@ -74,7 +77,8 @@ const EditProduct = ({ products, fetchProducts, navigate, user }) => {
 
                         }}
                             type='text'
-                            placeholder={description}
+                            value={newDescription}
+                            label='description'
                             onChange={(event) => setNewDescription(event.target.value)}
                         />
                         <TextField style={{

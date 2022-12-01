@@ -1,12 +1,12 @@
 const { client } = require('./client');
 
 async function getAllProducts() {
-  console.log(' in get all prods')
+  // console.log(' in get all prods')
   try {
     const { rows } = await client.query(`
     SELECT * FROM products;
     `)
-console.log(rows)
+// console.log(rows)
     return rows;
   } catch (err) {
     console.log('getAllProducts-products.js FAILED', err)
@@ -20,7 +20,11 @@ async function getProductById(id) {
     SELECT * FROM products
     WHERE id = $1
     `, [id])
-
+//     const{rows: reviews}= await client.query(`
+//     SELECT * FROM reviews
+//     WHERE "productId" = $1
+//   `, [id])
+// product.reviews = reviews
     return product;
   } catch (err) {
     console.log('getProductById-products.js FAILED', err)
@@ -138,8 +142,12 @@ async function addCategoryToProduct({ productId, categoryId }) {
 
 async function deleteProduct(id) {
   try {
+    const { rows: prod_categories} = await client.query(`
+    DELETE FROM prod_categories
+    WHERE "productId" = $1
+    RETURNING *;`,[id])
     const { rows: product } = await client.query(`
-    DELETE FROM products
+    DELETE FROM products 
     WHERE id = $1
     RETURNING *;
     `, [id])

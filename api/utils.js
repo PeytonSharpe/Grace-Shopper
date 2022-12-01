@@ -14,6 +14,7 @@ function requireUser(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
+  console.log('In Reqiure Admin')
   if (!req.user.isAdmin) {
     res.status(401);
     next({
@@ -22,6 +23,7 @@ function requireAdmin(req, res, next) {
       message: "You must be an Admin to perform this action",
     });
   }
+  console.log("Admin has been found")
   next();
 }
 
