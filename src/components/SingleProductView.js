@@ -41,7 +41,7 @@ const SendReview = ({ productId, token, navigate }) => {
     )
 }
 
-const SingleProductView = ({ products, user, navigate, getMe }) => {
+const SingleProductView = ({ products, fetchProducts, user, navigate, getMe }) => {
     const [activeReview, setActiveReview] = useState(false);
     const { productId } = useParams();
 

@@ -91,7 +91,7 @@ const Products = ({ products, user,token, fetchProducts}) => {
                                         <Link  style={{
                                                 textDecoration: 'none'
                                                         }}
-                                                        to={`/products/categories/${id}`}>
+                                                        to={`/products/${id}`}>
                                                         <h3>{title}</h3></Link>
                                                         <p>Description: {description}</p>
                                                         <p>Price: {price}</p>

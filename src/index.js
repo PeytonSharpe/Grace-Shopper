@@ -120,6 +120,8 @@ const App = () => {
                 path='/products/:productId'
                 element={<SingleProductView
                   products={products}
+                  fetchProducts={fetchProducts}
+                  user={user}
                   token={token}
                   navigate={navigate}
                 />}
