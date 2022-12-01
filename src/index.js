@@ -22,9 +22,7 @@ import {
 import {
     getProducts,
     getUserDetails,
-    createProduct,
-    updateProduct,
-    deleteProduct
+  
 } from './api';
 
 const App = () => {
@@ -97,13 +95,14 @@ const App = () => {
                 navigate={navigate}
                 products={products} 
                 isAdmin={isAdmin}
-                token={token} />}
+                token={token}
+                fetchProducts={fetchProducts} />}
                 />
                  <Route
               path='/products/add-product'
               element={<AddProduct
                 fetchProducts={fetchProducts}
-                isAdmin={isAdmin}
+                user={user}
                 token={token}
                 navigate={navigate} />}
             />
@@ -112,7 +111,8 @@ const App = () => {
               element={<EditProduct
                 navigate={navigate}
                 products={products}
-                isAdmin={isAdmin}
+                fetchProducts={fetchProducts}
+                user={user}
                 token={token}
               />}
             />

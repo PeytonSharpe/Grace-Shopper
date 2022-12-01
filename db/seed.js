@@ -30,6 +30,7 @@ async function dropTables() {
   try {
     console.log('Dropping Tables')
     await client.query(`
+      DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS prod_categories;
       DROP TABLE IF EXISTS wishlist;
       DROP TABLE IF EXISTS addresses;
@@ -38,6 +39,7 @@ async function dropTables() {
       DROP TABLE IF EXISTS categories;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
+     
     `)
 
     console.log('Finished Dropping Tables')
@@ -114,6 +116,13 @@ async function createTables() {
         "productId" INTEGER REFERENCES products(id),
         "categoryId" INTEGER REFERENCES categories(id)
       );
+      
+      CREATE TABLE reviews (
+        review VARCHAR(500),
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES products(id),
+        stars INTEGER 
+      )
 
 
 
@@ -293,7 +302,7 @@ async function createInitialAddress() {
 }
 
 async function buildDB() {
-  try {    
+  try {
     client.connect();
     await dropTables();
     await createTables();
@@ -403,7 +412,7 @@ async function testDB() {
       phone_number: '7403853774'
     });
     console.log("Updated address = ", updatedAddress)
-console.log('Finished')
+    console.log('Finished')
   } catch (error) {
     console.error("testDB-seed.js FAILED", error)
   }
@@ -411,6 +420,6 @@ console.log('Finished')
 
 
 buildDB()
-  .then(testDB)  
+  .then(testDB)
   .catch(console.error)
   .finally(() => client.end())

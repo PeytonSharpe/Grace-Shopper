@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Paper, TextField } from '@mui/material';
+import { deleteProduct } from '../api';
 
-const Products = ({ products, user}) => {
+const Products = ({ products, user,token, fetchProducts}) => {
     console.log(user,"user")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
@@ -65,28 +66,14 @@ const Products = ({ products, user}) => {
                             + ADD Product
                         </Button></Link>
 
-                         {/* <Link key={id}
-                         style={{
-                             textDecoration: 'none'
-                         }}
-                         to={`/products/edit-products/${id}`}
-                     ><Button
-                         style={{
-                             height: '3rem',
-                             margin: '.25rem',
-                             width: '100%',
-                             borderRadius: 15,
-                             backgroundColor: ' #50514F'
-                         }}
-                         variant='contained'
-                         type='submit'>Edit Product
-                         </Button> </Link> */}
+                         
 </div>
                     ) : (
                         null
                     )}
                     {
                         productsToDisplay.map((product) => {
+                            console.log(product)
                             const { 
                                 id, 
                                 title,
@@ -110,6 +97,42 @@ const Products = ({ products, user}) => {
                                                         <p>Price: {price}</p>
                                                         <p>Count: {count}</p>
                                     </div>
+                                    {user.isAdmin ?
+                                    <div>
+                                    <Link key={id}
+                                    style={{
+                                        textDecoration: 'none'
+                                    }}
+                                    to={`/products/edit-products/${id}`}
+                                ><Button
+                                    style={{
+                                        height: '3rem',
+                                        margin: '.25rem',
+                                        width: '100%',
+                                        borderRadius: 15,
+                                        backgroundColor: ' #50514F'
+                                    }}
+                                    variant='contained'
+                                    type='submit'>Edit Product
+                                    </Button> </Link>
+                                    
+                                <Button
+                                    style={{
+                                        height: '3rem',
+                                        margin: '.25rem',
+                                        width: '100%',
+                                        borderRadius: 15,
+                                        backgroundColor: ' #50514F'
+                                    }}
+                                    variant='contained'
+                                    type='submit' onClick={async () => {
+                                        await deleteProduct(token, id)
+                                        fetchProducts()
+                                    }}>Delete Product
+                                    </Button> 
+                                    </div>:
+                                    null}
+                                    
                                 </Card>
                             )
                         })

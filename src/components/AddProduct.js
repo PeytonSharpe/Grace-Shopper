@@ -11,27 +11,29 @@ import { Card,
   Popover
 } from '@mui/material'
 
-const CreateProduct = ({  user, fetchProducts, navigate }) => {
+const CreateProduct = ({  user, fetchProducts, navigate, token }) => {
+  console.log(user)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
   const [count, setCount] = useState('')
   
-  const newProduct = {
-     
-    title,
-    description,
-    price,
-    count,
-    
-  }
+ 
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [error, setError] = useState('')
 
   const handleClick = async (event) => {
+    const newProduct = {
+     
+      title,
+      description,
+      price,
+      count,
+      
+    }
     setAnchorEl(event.currentTarget);
-    const results = await createProduct(isAdmin, newProduct);
+    const results = await createProduct(token, newProduct);
     console.log(results, "TEST")
     if ("error" in results) {
 

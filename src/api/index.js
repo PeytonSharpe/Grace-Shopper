@@ -84,13 +84,14 @@ export const getUserDetails = async (token) => {
     throw error
   }
 }
-export const createProduct = async (isAdmin, { title, description, price, count }) => {
+export const createProduct = async (token, { title, description, price, count }) => {
   try {
+    console.log(title)
     const response = await fetch(`${baseURL}/products/create-product`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${isAdmin}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
 
@@ -110,38 +111,41 @@ export const createProduct = async (isAdmin, { title, description, price, count 
   }
 }
 
-export const updateProduct = async ({ name, description, id }, isAdmin) => {
+export const updateProduct = async ({ title, description, price, count, id }, token) => {
   try {
+
     const response = await fetch(`${baseURL}/products/${id}`, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${isAdmin}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
 
-        name,
+        title,
         description,
+        price,
+        count
 
       })
     })
     const results = await response.json();
-    console.log(results)
+    console.log(results,"updating Product")
     return (results)
 
   } catch (ex) {
     console.log('error updating product')
-    console.log(error)
-    throw error
+    console.log(ex)
+    throw ex
   }
 }
-export const deleteProduct = async (isAdmin, id) => {
+export const deleteProduct = async (token, id) => {
   try {
     const response = await fetch(`${baseURL}/products/${id}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${isAdmin}`
+        'Authorization': `Bearer ${token}`
       }
     })
     const result = await response.json();
