@@ -11,7 +11,7 @@ import { Card,
   Popover
 } from '@mui/material'
 
-const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
+const CreateProduct = ({  user, fetchProducts, navigate }) => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
@@ -31,7 +31,7 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
 
   const handleClick = async (event) => {
     setAnchorEl(event.currentTarget);
-    const results = await createProduct(token, newProduct);
+    const results = await createProduct(isAdmin, newProduct);
     console.log(results, "TEST")
     if ("error" in results) {
 
@@ -69,7 +69,7 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
           }} src={navPIC} /> */}
         </CardMedia>
           <Typography variant='h1' component='h3' style={{ color: '#C3B299' }}>
-            Create Product
+             Add Product
           </Typography>
           <TextField style={{ background: '#FFFCFF', color: '#000000'}}
             type='text'
@@ -100,7 +100,7 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
         <CardActionArea>
           <CardActions>
             <Button style={{ height: '3rem', margin: '.25rem' }} aria-describedby={id} variant="contained" onClick={handleClick}>
-              Create A New Activity
+             + ADD Product
             </Button>
             <Popover
               id={id}

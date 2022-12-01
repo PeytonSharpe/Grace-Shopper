@@ -1,7 +1,7 @@
 export { default as Cart } from './Cart'
 export { default as Category } from './Category'
 export { default as Checkout } from './Checkout'
-export { default as CreateProduct } from './CreateProduct'
+export { default as AddProduct } from './AddProduct'
 export { default as EditCart } from './EditCart'
 export { default as EditProduct } from './EditProduct'
 export { default as Home } from './Home'

@@ -6,7 +6,7 @@ import {
     Cart,
     Category,
     Checkout,
-    CreateProduct,
+    AddProduct,
     EditCart,
     EditProduct,
     Home,
@@ -100,15 +100,15 @@ const App = () => {
                 token={token} />}
                 />
                  <Route
-              path='/products/create-product'
-              element={<CreateProduct
+              path='/products/add-product'
+              element={<AddProduct
                 fetchProducts={fetchProducts}
                 isAdmin={isAdmin}
                 token={token}
                 navigate={navigate} />}
             />
             <Route
-              path='/activities/edit-activity/:activityID'
+              path='/products/edit-products/:productId'
               element={<EditProduct
                 navigate={navigate}
                 products={products}
