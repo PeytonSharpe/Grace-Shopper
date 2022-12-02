@@ -130,7 +130,7 @@ export const updateProduct = async ({ title, description, price, count, id }, to
       })
     })
     const results = await response.json();
-    console.log(results,"updating Product")
+    console.log(results, "updating Product")
     return (results)
 
   } catch (ex) {
@@ -176,18 +176,20 @@ export const createReview = async ({ productId, token, Review }) => {
     console.log('error creating review')
     console.log(error)
     throw error
-  }};
-  export const getCategories = async () => {
-    try {
-      const response = await fetch(`${baseURL}/categories`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const results = await response.json();
-      return results;
-    } catch (error) {
-      console.log('error getting all categories')
-      console.log(error)
-      throw error
-    }}
+  }
+};
+export const getCategories = async () => {
+  try {
+    const response = await fetch(`${baseURL}/categories`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const results = await response.json();
+    return results;
+  } catch (error) {
+    console.log('error getting all categories')
+    console.log(error)
+    throw error
+  }
+}
