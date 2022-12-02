@@ -31,13 +31,14 @@ productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
   try {
     console.log(req.body)
     console.log('In Products Router Testing')
-    const {title, description, price, count}= req.body
+    const {title, description, price, count, image}= req.body
     console.log(title)
     const product = await createProduct({
       title,
       description,
       price,
-      count      
+      count,
+      image     
     })
 
       res.send(product)
@@ -50,7 +51,7 @@ productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
 
 productsRouter.patch('/:productId', requireAdmin, async (req, res, next) => {
   const { productId } = req.params;
-  const { title, description, price, count } = req.body;
+  const { title, description, price, count, image } = req.body;
   const updateFields = {};
 
   if (title) {
@@ -67,7 +68,10 @@ productsRouter.patch('/:productId', requireAdmin, async (req, res, next) => {
 
   if (count) {
     updateFields.count = count;
+  }
 
+  if(image) {
+    updateFields.image = image;
   }
   try {
     const updatedProduct = await updateProduct(productId, updateFields)

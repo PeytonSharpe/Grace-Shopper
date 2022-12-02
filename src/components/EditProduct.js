@@ -52,9 +52,6 @@ console.log(title,description,price,count)
                     <form onSubmit={(event) => {
                         event.preventDefault();
                         EditProduct();
-                        
-
-
                     }}>
                         <h1>Edit Product</h1>
 

@@ -70,7 +70,8 @@ async function createTables() {
         price DECIMAL(10,2) DEFAULT 999.99,
         count INTEGER,
         active BOOLEAN DEFAULT true,
-        "isPublic" BOOLEAN DEFAULT true
+        "isPublic" BOOLEAN DEFAULT true,
+        image VARCHAR(255)
       );
 
       CREATE TABLE categories (
@@ -183,7 +184,8 @@ async function createInitialProducts() {
       description:
         "Description for the first most amazing product ever....",
       price: 999.99,
-      count: 100
+      count: 100,
+      image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
     });
 
     await createProduct({
@@ -191,7 +193,8 @@ async function createInitialProducts() {
         "Game Place Holder 2",
       description:
         "Description for the second most amazing product ever....",
-      count: 100
+      count: 100,
+      image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
     });
 
     await createProduct({
@@ -199,7 +202,8 @@ async function createInitialProducts() {
         "Game Place Holder 3",
       description:
         "Description for the third most amazing product ever....",
-      count: 100
+      count: 100,
+      image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
     });
 
     console.log('Finished creating Products')

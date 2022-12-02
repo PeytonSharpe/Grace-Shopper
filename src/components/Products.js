@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, Paper, TextField } from '@mui/material';
+import { Button, Card, CardMedia, Paper, TextField } from '@mui/material';
+import { Image } from 'mui-image';
 import { deleteProduct } from '../api';
 
-const Products = ({ products, user,token, fetchProducts}) => {
+const Products = ({ products, user, token, fetchProducts}) => {
     console.log(user,"user")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
@@ -79,7 +80,8 @@ const Products = ({ products, user,token, fetchProducts}) => {
                                 title,
                                 description,
                                 price,
-                                count } = product;
+                                count,
+                                image } = product;
 
                             return (
                                 <Card key={id} style={{
@@ -88,11 +90,15 @@ const Products = ({ products, user,token, fetchProducts}) => {
                                     background: '#FFFCFF'
                                     }}>
                                     <div  >
-                                        <Link  style={{
+                                        <Link style={{
                                                 textDecoration: 'none'
                                                         }}
-                                                        to={`/products/${id}`}>
-                                                        <h3>{title}</h3></Link>
+                                                        to={`/products/${id}`}></Link>
+                                                            <Image src={image} style={{
+                                                                height: '20%',
+                                                                width: '20%'
+                                                            }} />
+                                                        <h3>{title}</h3>
                                                         <p>Description: {description}</p>
                                                         <p>Price: {price}</p>
                                                         <p>Count: {count}</p>
