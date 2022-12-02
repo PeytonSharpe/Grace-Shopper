@@ -13,7 +13,7 @@ const Products = ({ products, user,token, fetchProducts}) => {
             description,
        
              } = products;
-            //  console.log(products)
+             console.log(products)
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
             return products;
         }
