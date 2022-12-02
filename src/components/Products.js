@@ -94,7 +94,7 @@ const Products = ({ products, user,token, fetchProducts}) => {
                                                         to={`/products/${id}`}>
                                                         <h3>{title}</h3></Link>
                                                         <p>Description: {description}</p>
-                                                        <p>Price: {price}</p>
+                                                        <p>Price: ${price}</p>
                                                         <p>Count: {count}</p>
                                     </div>
                                     {user.isAdmin ?
