@@ -52,14 +52,15 @@ async function createProduct({
   title,
   description,
   price,
-  count
+  count,
+  image
 }) {
   try {
     const { rows: [product] } = await client.query(`
-    INSERT INTO products (title, description, price, count)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO products (title, description, price, count, image)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
-    `, [title, description, price, count])
+    `, [title, description, price, count, image])
 
     return product;
   }

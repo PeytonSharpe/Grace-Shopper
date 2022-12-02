@@ -84,7 +84,7 @@ export const getUserDetails = async (token) => {
     throw error
   }
 }
-export const createProduct = async (token, { title, description, price, count }) => {
+export const createProduct = async (token, { title, description, price, count, image }) => {
   try {
     console.log(title)
     const response = await fetch(`${baseURL}/products/create-product`, {
@@ -98,8 +98,8 @@ export const createProduct = async (token, { title, description, price, count })
         title,
         description,
         price,
-        count
-
+        count,
+        image
       })
     })
     const results = await response.json();
@@ -111,7 +111,7 @@ export const createProduct = async (token, { title, description, price, count })
   }
 }
 
-export const updateProduct = async ({ title, description, price, count, id }, token) => {
+export const updateProduct = async ({ title, description, price, count, image, id }, token) => {
   try {
 
     const response = await fetch(`${baseURL}/products/${id}`, {
@@ -125,7 +125,8 @@ export const updateProduct = async ({ title, description, price, count, id }, to
         title,
         description,
         price,
-        count
+        count,
+        image
 
       })
     })
@@ -158,7 +159,7 @@ export const deleteProduct = async (token, id) => {
 }
 
 
-export const createReview = async ({ productId, token, Review }) => {
+export const createReview = async ({ productId, token, review }) => {
   try {
     const response = await fetch(`${baseURL}/products/${productId}/reviews`, {
       method: "POST",

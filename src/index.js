@@ -26,6 +26,8 @@ import {
   
 } from './api';
 
+import './style.css'
+
 const App = () => {
 
     const [products, setProducts] = useState([]);
