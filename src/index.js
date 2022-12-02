@@ -22,6 +22,7 @@ import {
 import {
     getProducts,
     getUserDetails,
+    getCategories,
   
 } from './api';
 
@@ -32,6 +33,7 @@ const App = () => {
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate();
+    const [category, setCategories] = useState([]);
 
     function logout() {
         window.localStorage.removeItem('token');
@@ -42,6 +44,10 @@ const App = () => {
         const results = await getProducts()
         setProducts(results);
 
+    }
+    async function fetchCategories() {
+        const results = await getCategories()
+        setCategories(results);
     }
 
     async function getMe() {
@@ -70,6 +76,11 @@ const App = () => {
     useEffect(() => {
         getMe();
     }, [token])
+
+    useEffect (() => {
+        fetchCategories()
+    }, [])
+    
 
     return (
         <React.Fragment>
@@ -126,6 +137,16 @@ const App = () => {
                   navigate={navigate}
                 />}
               />
+            <Route
+                path='/categories'
+                element={<Category
+                    user={user}
+            navigate={navigate}
+            category={category} 
+            isAdmin={isAdmin}
+            token={token}
+            fetchCategories={fetchCategories} />}
+            />
              <Route
                 path='/profile'
                 element={<Profile
