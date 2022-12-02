@@ -150,3 +150,19 @@ export const getUserDetails = async (token) => {
       throw error
     }
   }
+
+  export const getCategories = async () => {
+    try {
+      const response = await fetch(`${baseURL}/categories`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const results = await response.json();
+      return results;
+    } catch (error) {
+      console.log('error getting all categories')
+      console.log(error)
+      throw error
+    }
+  }
