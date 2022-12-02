@@ -11,24 +11,27 @@ import { Card,
   Popover
 } from '@mui/material'
 
-const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+const CreateProduct = ({  user, fetchProducts, navigate, token }) => {
+  console.log(user)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
   const [count, setCount] = useState('')
-
-  const newProduct = {
-    // id, 
-    title,
-    description,
-    price,
-    count 
-  }
+  
+ 
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [error, setError] = useState('')
 
   const handleClick = async (event) => {
+    const newProduct = {
+     
+      title,
+      description,
+      price,
+      count,
+      
+    }
     setAnchorEl(event.currentTarget);
     const results = await createProduct(token, newProduct);
     console.log(results, "TEST")
@@ -68,11 +71,11 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
           }} src={navPIC} /> */}
         </CardMedia>
           <Typography variant='h1' component='h3' style={{ color: '#C3B299' }}>
-            Create Product
+             Add Product
           </Typography>
           <TextField style={{ background: '#FFFCFF', color: '#000000'}}
             type='text'
-            label="title*"
+            label="Title*"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
@@ -82,12 +85,24 @@ const CreateProduct = ({ token, isAdmin, fetchProducts, navigate }) => {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
           />
+             <TextField style={{ background: '#FFFCFF', color: '#000000'}}
+            type='text'
+            label="Price*"
+            value={price}
+            onChange={(event) => setPrice(event.target.value)}
+          />
+             <TextField style={{ background: '#FFFCFF', color: '#000000'}}
+            type='text'
+            label="Count*"
+            value={count}
+            onChange={(event) => setCount(event.target.value)}
+          />
         </CardContent>
 
         <CardActionArea>
           <CardActions>
             <Button style={{ height: '3rem', margin: '.25rem' }} aria-describedby={id} variant="contained" onClick={handleClick}>
-              Create A New Activity
+             + ADD Product
             </Button>
             <Popover
               id={id}

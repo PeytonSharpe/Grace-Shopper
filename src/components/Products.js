@@ -1,14 +1,17 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Paper, TextField } from '@mui/material';
+import { deleteProduct } from '../api';
 
-const Products = ({ products, isAdmin}) => {
+const Products = ({ products, user,token, fetchProducts}) => {
+    console.log(user,"user")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         const { 
-            id,
+            
             title,
-            description
+            description,
+       
              } = products;
             //  console.log(products)
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
@@ -47,11 +50,11 @@ const Products = ({ products, isAdmin}) => {
 
                 </div>
                 <div>
-                    {isAdmin ? (
+                    {user.isAdmin ? (
 <div>
                         <Link style={{
                              textDecoration: 'none'
-                             }} to='/products/create-product'><Button
+                             }} to='/products/add-product'><Button
                             style={{
                              height: '4rem',
                              width: '100%',
@@ -60,31 +63,17 @@ const Products = ({ products, isAdmin}) => {
                              }}
                             variant='contained'
                             type='submit'>
-                            Create Product
+                            + ADD Product
                         </Button></Link>
 
-                         <Link
-                         style={{
-                             textDecoration: 'none'
-                         }}
-                         to={`/products/edit-products/${id}`}
-                     ><Button
-                         style={{
-                             height: '3rem',
-                             margin: '.25rem',
-                             width: '100%',
-                             borderRadius: 15,
-                             backgroundColor: ' #50514F'
-                         }}
-                         variant='contained'
-                         type='submit'>Edit Product
-                         </Button> </Link>
+                         
 </div>
                     ) : (
                         null
                     )}
                     {
                         productsToDisplay.map((product) => {
+                            console.log(product)
                             const { 
                                 id, 
                                 title,
@@ -102,12 +91,48 @@ const Products = ({ products, isAdmin}) => {
                                         <Link  style={{
                                                 textDecoration: 'none'
                                                         }}
-                                                        to={`/products/categories/${id}`}>
+                                                        to={`/products/${id}`}>
                                                         <h3>{title}</h3></Link>
                                                         <p>Description: {description}</p>
                                                         <p>Price: {price}</p>
                                                         <p>Count: {count}</p>
                                     </div>
+                                    {user.isAdmin ?
+                                    <div>
+                                    <Link key={id}
+                                    style={{
+                                        textDecoration: 'none'
+                                    }}
+                                    to={`/products/edit-products/${id}`}
+                                ><Button
+                                    style={{
+                                        height: '3rem',
+                                        margin: '.25rem',
+                                        width: '100%',
+                                        borderRadius: 15,
+                                        backgroundColor: ' #50514F'
+                                    }}
+                                    variant='contained'
+                                    type='submit'>Edit Product
+                                    </Button> </Link>
+                                    
+                                <Button
+                                    style={{
+                                        height: '3rem',
+                                        margin: '.25rem',
+                                        width: '100%',
+                                        borderRadius: 15,
+                                        backgroundColor: ' #50514F'
+                                    }}
+                                    variant='contained'
+                                    type='submit' onClick={async () => {
+                                        await deleteProduct(token, id)
+                                        fetchProducts()
+                                    }}>Delete Product
+                                    </Button> 
+                                    </div>:
+                                    null}
+                                    
                                 </Card>
                             )
                         })

@@ -6,7 +6,7 @@ import {
     Cart,
     Category,
     Checkout,
-    CreateProduct,
+    AddProduct,
     EditCart,
     EditProduct,
     Home,
@@ -22,9 +22,7 @@ import {
 import {
     getProducts,
     getUserDetails,
-    createProduct,
-    updateProduct,
-    deleteProduct
+  
 } from './api';
 
 const App = () => {
@@ -57,6 +55,7 @@ const App = () => {
         }
 
         const results = await getUserDetails(token);
+        console.log(results, 'USER RESULTS')
         if (results) {
             setUser(results);
         } else {
@@ -96,25 +95,43 @@ const App = () => {
                 navigate={navigate}
                 products={products} 
                 isAdmin={isAdmin}
-                token={token} />}
+                token={token}
+                fetchProducts={fetchProducts} />}
                 />
                  <Route
-              path='/products/create-product'
-              element={<CreateProduct
+              path='/products/add-product'
+              element={<AddProduct
                 fetchProducts={fetchProducts}
-                isAdmin={isAdmin}
+                user={user}
                 token={token}
                 navigate={navigate} />}
             />
             <Route
-              path='/activities/edit-activity/:activityID'
+              path='/products/edit-products/:productId'
               element={<EditProduct
                 navigate={navigate}
                 products={products}
-                isAdmin={isAdmin}
+                fetchProducts={fetchProducts}
+                user={user}
                 token={token}
               />}
             />
+            <Route
+                path='/products/:productId'
+                element={<SingleProductView
+                  products={products}
+                  fetchProducts={fetchProducts}
+                  user={user}
+                  token={token}
+                  navigate={navigate}
+                />}
+              />
+             <Route
+                path='/profile'
+                element={<Profile
+                  user={user}
+                  navigate={navigate} />}
+              />
                 <Route
                     path='/cart'
                     element={<Cart />}

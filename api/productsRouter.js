@@ -11,33 +11,40 @@ const { requireAdmin } = require('./utils');
 const productsRouter = express.Router();
 
 productsRouter.get('/', async (req, res, next) => {
+  console.log('in products route')
   try {
     const allProducts = await getAllProducts();
-    res.send(allProducts)
-
+    console.log(allProducts,'allprods')
     if (!allProducts) {
       res.send('No products found.')
     }
+    res.send(allProducts)
+
+   
   } catch (err) {
     console.log('productsRouter.get-productsRouter.js FAILED', err)
+    next(err)
   }
 });
 
 productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
   try {
+    console.log(req.body)
+    console.log('In Products Router Testing')
+    const {title, description, price, count}= req.body
+    console.log(title)
     const product = await createProduct({
       title,
       description,
       price,
-      count
-      // req.body instead?
+      count      
     })
 
-    if (product && requireAdmin) {
       res.send(product)
-    }
+    
   } catch (err) {
     console.log('productsRouter.post FAILED', err)
+    next(err)
   }
 });
 
@@ -72,21 +79,24 @@ productsRouter.patch('/:productId', requireAdmin, async (req, res, next) => {
     }
   } catch (err) {
     console.log('productsRouter.patch FAILED', err)
+    next(err)
   }
 });
 
 productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
   try {
-    const product = await getProductById(productId)
-    const deletedProduct = await deleteProduct(product.id, { active: false })
+    console.log('in delete product')
+    const { productId } = req.params;    
+    const deletedProduct = await deleteProduct(productId)
 
     if (deletedProduct) {
-      res.send(deletedProduct, 'This product was deleted.')
+      res.send(deletedProduct)
     } else {
       res.send('Error deleting product.')
     }
   } catch (err) {
     console.log('productRouter.delete FAILED', err)
+    next(err)
   }
 });
 
