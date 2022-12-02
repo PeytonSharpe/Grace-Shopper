@@ -1,6 +1,6 @@
-const productsRouter = require('../../api/products');
+const productsRouter = require('../api/productsRouter');
 const client = require('../client');
-const { createUser } = require('./user');
+const { createUser } = require('./users');
 
 async function createCartOrdersTable(){
   try {
