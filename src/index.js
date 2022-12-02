@@ -33,7 +33,7 @@ const App = () => {
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate();
-    const [category, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     function logout() {
         window.localStorage.removeItem('token');
@@ -77,8 +77,9 @@ const App = () => {
         getMe();
     }, [token])
 
-    useEffect (() => {
-        fetchCategories()
+    useEffect (async() => {
+        const categories = await fetchCategories();
+        console.log(categories)
     }, [])
     
 
@@ -142,7 +143,7 @@ const App = () => {
                 element={<Category
                     user={user}
             navigate={navigate}
-            category={category} 
+            categories={categories} 
             isAdmin={isAdmin}
             token={token}
             fetchCategories={fetchCategories} />}

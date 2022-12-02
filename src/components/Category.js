@@ -1,21 +1,23 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, Paper, Textfield } from '@mui/material';
+import { Button, Card, Paper, TextField } from '@mui/material';
 
 
 const Categories = ({ categories, user, token, fetchCategories }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    console.log(categories)
     function categoryMatches(categories, string) {
         const { 
             id,
             name,
             description
              } = categories;
-            console.log(categories)
+            
         if (name.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
             return categories;
         }
     }
+    // const categories = await fetchCategories();
     const filteredCategories = categories.filter(category => categoryMatches(category, searchTerm));
     const categoriesToDisplay = searchTerm.length ? filteredCategories : categories;
 
