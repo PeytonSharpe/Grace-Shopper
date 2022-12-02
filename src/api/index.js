@@ -157,6 +157,7 @@ export const deleteProduct = async (token, id) => {
   }
 }
 
+
 export const createReview = async ({ productId, token, Review }) => {
   try {
     const response = await fetch(`${baseURL}/products/${productId}/reviews`, {
@@ -168,8 +169,14 @@ export const createReview = async ({ productId, token, Review }) => {
       body: JSON.stringify({
         review
       })
-
-
+    })
+    const results = await response.json();
+    console.log(results)
+  } catch (error) {
+    console.log('error creating review')
+    console.log(error)
+    throw error
+  }};
   export const getCategories = async () => {
     try {
       const response = await fetch(`${baseURL}/categories`, {
@@ -183,16 +190,4 @@ export const createReview = async ({ productId, token, Review }) => {
       console.log('error getting all categories')
       console.log(error)
       throw error
-    }
-  }
-
-    })
-    const results = await response.json();
-    console.log(results)
-  } catch (error) {
-    console.log('error creating review')
-    console.log(error)
-    throw error
-  }
-}
-
+    }}
