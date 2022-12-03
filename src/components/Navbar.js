@@ -12,6 +12,9 @@ const Navbar = ({ logout, token }) => {
             borderColor: '#CBD4C2',
             backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15
           }}>HOME</button></Link>
+          <Link style={{ textDecoration: 'none' }} to='/categories'><button style={{
+            borderColor: '#CBD4C2',
+            backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15}}>CATEGORIES</button></Link>
                <Link style={{ textDecoration: 'none' }} to='/products'><button style={{
             borderColor: '#CBD4C2',
             backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15}}>PRODUCTS</button></Link>

@@ -84,7 +84,7 @@ export const getUserDetails = async (token) => {
     throw error
   }
 }
-export const createProduct = async (token, { title, description, price, count }) => {
+export const createProduct = async (token, { title, description, price, count, image }) => {
   try {
     console.log(title)
     const response = await fetch(`${baseURL}/products/create-product`, {
@@ -98,8 +98,8 @@ export const createProduct = async (token, { title, description, price, count })
         title,
         description,
         price,
-        count
-
+        count,
+        image
       })
     })
     const results = await response.json();
@@ -111,7 +111,7 @@ export const createProduct = async (token, { title, description, price, count })
   }
 }
 
-export const updateProduct = async ({ title, description, price, count, id }, token) => {
+export const updateProduct = async ({ title, description, price, count, image, id }, token) => {
   try {
 
     const response = await fetch(`${baseURL}/products/${id}`, {
@@ -125,12 +125,13 @@ export const updateProduct = async ({ title, description, price, count, id }, to
         title,
         description,
         price,
-        count
+        count,
+        image
 
       })
     })
     const results = await response.json();
-    console.log(results,"updating Product")
+    console.log(results, "updating Product")
     return (results)
 
   } catch (ex) {
@@ -157,8 +158,20 @@ export const deleteProduct = async (token, id) => {
   }
 }
 
+export const getAllReviewsForProduct = async ({productId}) => {
+  try{
+    const response = await fetch(`${baseURL}/reviews/product/${productId}`)
+    const result = await response.json();
+    return result
+  } catch(error){
+    console.log('error getting reviews for products')
+    console.log(error)
+    throw error
+  }
+}
 
-export const createReview = async ({ productId, token, Review }) => {
+
+export const createReview = async ({ productId, token, review }) => {
   try {
     const response = await fetch(`${baseURL}/products/${productId}/reviews`, {
       method: "POST",
@@ -176,18 +189,20 @@ export const createReview = async ({ productId, token, Review }) => {
     console.log('error creating review')
     console.log(error)
     throw error
-  }};
-  export const getCategories = async () => {
-    try {
-      const response = await fetch(`${baseURL}/categories`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const results = await response.json();
-      return results;
-    } catch (error) {
-      console.log('error getting all categories')
-      console.log(error)
-      throw error
-    }}
+  }
+};
+export const getCategories = async () => {
+  try {
+    const response = await fetch(`${baseURL}/categories`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const results = await response.json();
+    return results;
+  } catch (error) {
+    console.log('error getting all categories')
+    console.log(error)
+    throw error
+  }
+}

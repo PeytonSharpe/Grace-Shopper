@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, Paper, Textfield } from '@mui/material';
+import { Button, Card, Paper, TextField } from '@mui/material';
 
-const Categories = ({ categories, isAdmin }) => {
+
+const Categories = ({ categories, user, token, fetchCategories }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    console.log(categories)
     function categoryMatches(categories, string) {
         const { 
             id,
@@ -15,6 +17,7 @@ const Categories = ({ categories, isAdmin }) => {
             return categories;
         }
     }
+    // const categories = await fetchCategories();
     const filteredCategories = categories.filter(category => categoryMatches(category, searchTerm));
     const categoriesToDisplay = searchTerm.length ? filteredCategories : categories;
 
@@ -48,7 +51,7 @@ const Categories = ({ categories, isAdmin }) => {
 
                 </div>
                 <div>
-                    {isAdmin ? (
+                    {user.isAdmin ? (
 <div>
                         <Link style={{
                              textDecoration: 'none'
@@ -64,22 +67,7 @@ const Categories = ({ categories, isAdmin }) => {
                             Create Category
                         </Button></Link>
 
-                         <Link
-                         style={{
-                             textDecoration: 'none'
-                         }}
-                         to={`/categories/edit-category/${id}`}
-                     ><Button
-                         style={{
-                             height: '3rem',
-                             margin: '.25rem',
-                             width: '100%',
-                             borderRadius: 15,
-                             backgroundColor: ' #50514F'
-                         }}
-                         variant='contained'
-                         type='submit'>Edit Category
-                         </Button> </Link>
+
 </div>
                     ) : (
                         null
@@ -107,6 +95,26 @@ const Categories = ({ categories, isAdmin }) => {
                                                         <p>Description: {description}</p>
                                                         
                                     </div>
+                                    {user.isAdmin ?
+                                    <div>
+                                    <Link key={id}
+                                    style={{
+                                        textDecoration: 'none'
+                                    }}
+                                    to={`/categories/edit-category/${id}`}
+                                ><Button
+                                    style={{
+                                        height: '3rem',
+                                        margin: '.25rem',
+                                        width: '100%',
+                                        borderRadius: 15,
+                                        backgroundColor: ' #50514F'
+                                    }}
+                                    variant='contained'
+                                    type='submit'>Edit Category
+                                    </Button> </Link>
+                                    </div>:
+                                    null}
                                 </Card>
                             )
                         })

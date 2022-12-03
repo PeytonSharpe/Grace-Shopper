@@ -17,6 +17,7 @@ const CreateProduct = ({  user, fetchProducts, navigate, token }) => {
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
   const [count, setCount] = useState('')
+  const [image, setImage] = useState('')
   
  
 
@@ -25,12 +26,11 @@ const CreateProduct = ({  user, fetchProducts, navigate, token }) => {
 
   const handleClick = async (event) => {
     const newProduct = {
-     
       title,
       description,
       price,
       count,
-      
+      image
     }
     setAnchorEl(event.currentTarget);
     const results = await createProduct(token, newProduct);
@@ -96,6 +96,12 @@ const CreateProduct = ({  user, fetchProducts, navigate, token }) => {
             label="Count*"
             value={count}
             onChange={(event) => setCount(event.target.value)}
+          />
+          <TextField style={{ background: '#FFFCFF', color: '#000000'}}
+            type='text'
+            label="Enter image URL"
+            value={image}
+            onChange={(event) => setImage(event.target.value)}
           />
         </CardContent>
 

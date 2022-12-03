@@ -55,6 +55,9 @@ apiRouter.use('/categories', categoriesRouter);
 const addressRouter = require('./addressRouter');
 apiRouter.use('/address', addressRouter);
 
+const reviewsRouter = require('./reviewsRouter');
+apiRouter.use('/reviews',reviewsRouter);
+
 // const singleProduct = require('./singleProduct');
 // apiRouter.use('/:productId', singleProduct);
 

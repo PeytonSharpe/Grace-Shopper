@@ -41,32 +41,66 @@ const SendReview = ({ productId, token, navigate }) => {
     )
 }
 
-const SingleProductView = ({ products, fetchProducts, user, navigate, getMe }) => {
+const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, token }) => {
+    const [review, setReview] = useState({ content: '' })
+    
+
+    async function addReview() {
+        await createReview({ productId, review, token })
+    }
     const [activeReview, setActiveReview] = useState(false);
     const { productId } = useParams();
-
+console.log(productId,"Prod ID")
     if (products.length) {
-        const [currentProduct] = products.filter(products => products.id === productId);
-        const { title, description, price, count, updatedAt, createdAt } = currentProduct;
+        console.log(products,"products")
+        const [currentProduct] = products.filter(products => products.id ===parseInt (productId));
+        console.log(currentProduct, 'Single Prod')
+        const { title, description, price, count } = currentProduct;
 
         return (
             <Card style={{ padding: '.5rem', margin: '.5rem', background: 'B4D2E7', }} elevation={6}>
                 <Card style={{ padding: '.5rem', margin: '.5rem', background: 'B4D2E7', }} elevation={6}>
                     <h3>{title}</h3>
                     <p>Description: {description}</p>
-                    <p>Price: {price}</p>
+                    <p>Price: ${price}</p>
                     <p>Count: {count}</p>
                     
                 </Card>
+                <Card style={{ padding: '.5rem', margin: '.5rem', background: '#001242', }} elevation={6}>
+        <form onSubmit={(ev) => {
+            ev.preventDefault();
+            addReview();
+            navigate('/product')
+        }}>
+            <TextField
+            style={{borderColor:'Gray', backgroundColor:'whitesmoke'}}
+                type='text'
+                label="Enter Review"
+                onChange={(ev) => setReview({ content: ev.target.value })}
+            />
+            <Button style={{
+              marginTop: "2%",
+              width: "100%",
+              borderRadius: 35,
+              background: "#55586F",
+              opacity: "70%",
+              color: "#24A6D1",
+              borderColor: "#55586F",
+            }} type='submit'onClick={() =>{
+                addReview();
+                navigate('/products') 
+            }}>Send Review </Button>
+        </form>
+        </Card>
                 {
                     user.isAdmin ? (
                         <>
-                            <Link style={{ textDecoration: 'none' }} to={`/posts`}><Button  style={{
+                            <Link style={{ textDecoration: 'none' }} to={`/products`}><Button  style={{
                                                     height: '3rem',
                                                     margin: '.25rem', width: '100%', borderRadius: 15
                                                 }}
                                                 variant='contained' >View All</Button></Link>
-                            <Link style={{ textDecoration: 'none' }} to={`/posts`}><Button  style={{
+                            <Link style={{ textDecoration: 'none' }} to={`/products`}><Button  style={{
                                                     height: '3rem',
                                                     margin: '.25rem', width: '100%', borderRadius: 15
                                                 }}
@@ -75,7 +109,7 @@ const SingleProductView = ({ products, fetchProducts, user, navigate, getMe }) =
                     ) : (
 
                         <>
-                            <Link style={{ textDecoration: 'none' }} to={`/posts`}><Button  style={{
+                            <Link style={{ textDecoration: 'none' }} to={`/products`}><Button  style={{
                                                     height: '3rem',
                                                     margin: '.25rem', width: '100%', borderRadius: 15, backgroundColor:'#55586F'
                                                 }}
@@ -97,10 +131,7 @@ const SingleProductView = ({ products, fetchProducts, user, navigate, getMe }) =
                         </>
                     )
                 }
-                <div>
-                    <p className="singlePostStamp">Created At: {createdAt}</p>
-                    <p className="singlePostStamp">Updated At: {updatedAt}</p>
-                </div>
+                
             </Card>
         )
     } else {
