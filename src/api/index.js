@@ -158,6 +158,18 @@ export const deleteProduct = async (token, id) => {
   }
 }
 
+export const getAllReviewsForProduct = async ({productId}) => {
+  try{
+    const response = await fetch(`${baseURL}/reviews/product/${productId}`)
+    const result = await response.json();
+    return result
+  } catch(error){
+    console.log('error getting reviews for products')
+    console.log(error)
+    throw error
+  }
+}
+
 
 export const createReview = async ({ productId, token, review }) => {
   try {

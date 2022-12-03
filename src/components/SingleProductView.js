@@ -41,7 +41,13 @@ const SendReview = ({ productId, token, navigate }) => {
     )
 }
 
-const SingleProductView = ({ products, fetchProducts, user, navigate, getMe }) => {
+const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, token }) => {
+    const [review, setReview] = useState({ content: '' })
+    
+
+    async function addReview() {
+        await createReview({ productId, review, token })
+    }
     const [activeReview, setActiveReview] = useState(false);
     const { productId } = useParams();
 console.log(productId,"Prod ID")
@@ -60,6 +66,32 @@ console.log(productId,"Prod ID")
                     <p>Count: {count}</p>
                     
                 </Card>
+                <Card style={{ padding: '.5rem', margin: '.5rem', background: '#001242', }} elevation={6}>
+        <form onSubmit={(ev) => {
+            ev.preventDefault();
+            addReview();
+            navigate('/product')
+        }}>
+            <TextField
+            style={{borderColor:'Gray', backgroundColor:'whitesmoke'}}
+                type='text'
+                label="Enter Review"
+                onChange={(ev) => setReview({ content: ev.target.value })}
+            />
+            <Button style={{
+              marginTop: "2%",
+              width: "100%",
+              borderRadius: 35,
+              background: "#55586F",
+              opacity: "70%",
+              color: "#24A6D1",
+              borderColor: "#55586F",
+            }} type='submit'onClick={() =>{
+                addReview();
+                navigate('/products') 
+            }}>Send Review </Button>
+        </form>
+        </Card>
                 {
                     user.isAdmin ? (
                         <>

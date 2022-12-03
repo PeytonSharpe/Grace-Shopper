@@ -4,7 +4,8 @@ const {
   createProduct,
   updateProduct,
   getProductById,
-  deleteProduct } = require('../db');
+  deleteProduct } = require('../db/products.js');
+ 
 
 const { requireAdmin } = require('./utils');
 
@@ -12,6 +13,7 @@ const productsRouter = express.Router();
 
 productsRouter.get('/', async (req, res, next) => {
   console.log('in products route')
+  console.log(typeof getAllProducts,'Products')
   try {
     const allProducts = await getAllProducts();
     console.log(allProducts,'allprods')
