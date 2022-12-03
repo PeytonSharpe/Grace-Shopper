@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardMedia, Paper, TextField } from '@mui/material';
+import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
 import { deleteProduct, getAllReviewsForProduct } from '../api';
 
@@ -69,9 +69,9 @@ const Products = ({ products, user, token, fetchProducts }) => {
                 ) : (
                     null
                 )}
-                {productsToDisplay.map(async (product) => {
+                {productsToDisplay.map( (product) => {
                     console.log(product)
-                    const reviews = await getAllReviewsForProduct({ productId: product.id })
+                    const reviews = getAllReviewsForProduct({ productId: product.id })
                     console.log(reviews, 'Reviews')
                     const {
                         id,
@@ -105,9 +105,12 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
                             }} elevation={2}>
+                                console.log(reviews, "above reviews in Product")
                                 <h1>Review on Products:</h1>
+                                
                                 {reviews && reviews.map(review => {
-                                    const fromUserID = review.fromUser._id;
+                                    console.log(reviews, "PROD Reviews")
+                                    const fromUserID = review.fromUserId;
                                     const { username } = review.fromUser;
                                     const { title } = review.product;
 
