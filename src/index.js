@@ -79,8 +79,8 @@ const App = () => {
         getMe();
     }, [token])
 
-    useEffect (async() => {
-        const categories = await fetchCategories();
+    useEffect (() => {
+        fetchCategories();
         console.log(categories)
     }, [])
     
