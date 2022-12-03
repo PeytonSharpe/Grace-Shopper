@@ -125,7 +125,7 @@ async function createInitialCartItems(){
   try {
     const itemsToAdd = [
       {
-        productId: 1,>>>>>>> main
+        productId: 1,
         priceAtPurchase: 13.99,
         cart_id: 1
       },
