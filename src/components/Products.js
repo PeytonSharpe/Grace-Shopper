@@ -1,13 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
 import { deleteProduct, getAllReviewsForProduct } from '../api';
-
-const Products = ({ products, user, token, fetchProducts }) => {
+import DeleteIcon from '@mui/icons-material/Delete';
+const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
     console.log(user, "user")
-    console.log(products, 'products')
-    const userID = user._id;
+    console.log(reviews, 'reviews')
+    const userId = user._id;
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         const {
@@ -69,7 +69,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                 ) : (
                     null
                 )}
-                {productsToDisplay.map( (product) => {
+                {productsToDisplay.map((product) => {
                     console.log(product)
                     const reviews = getAllReviewsForProduct({ productId: product.id })
                     console.log(reviews, 'Reviews')
@@ -99,22 +99,24 @@ const Products = ({ products, user, token, fetchProducts }) => {
                             <p>Description: {description}</p>
                             <p>Price: ${price}</p>
                             <p>Count: {count}</p>
-                            <Card style={{
+                            {/* <Card style={{
                                 padding: '.5rem',
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
                             }} elevation={2}>
                                 console.log(reviews, "above reviews in Product")
+                                
                                 <h1>Review on Products:</h1>
                                 
                                 {reviews && reviews.map(review => {
+                                    
                                     console.log(reviews, "PROD Reviews")
-                                    const fromUserID = review.fromUserId;
+                                    const fromUserId = review.fromUserId;
                                     const { username } = review.fromUser;
                                     const { title } = review.product;
 
-                                    if (userID !== fromUserID) {
+                                    if (userId !== fromUserId) {
                                         return (
                                             <Card style={{
                                                 padding: '.5rem',
@@ -122,8 +124,8 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                                 backgroundColor: 'blue',
                                                 color: 'FFFFF'
                                             }} elevation={6}
-                                                key={message._id}>
-                                                <p>From User:{username}</p>
+                                                key={message.id}>
+                                                <p>From User:{usernameId}</p>
                                                 <p>Review: {review.content}</p>
                                                 <p>Product Reference: {title}</p>
                                             </Card>
@@ -132,7 +134,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                 })
 
                                 }
-                            </Card>
+                            </Card> */}
 
                             {user.isAdmin ?
                                 <>
@@ -166,6 +168,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                             await deleteProduct(token, id)
                                             fetchProducts()
                                         }}>Delete Product
+                                        <DeleteIcon/>
                                     </Button>
                                 </> :
                                 null}

@@ -23,6 +23,7 @@ import {
     getProducts,
     getUserDetails,
     getCategories,
+    getAllReviewsForProduct
 
 } from './api';
 
@@ -32,6 +33,7 @@ const App = () => {
 
     const [products, setProducts] = useState([]);
     const [isAdmin, setIsAdmin] = useState('');
+    const [reviews, setReviews] =useState([]);
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate();
@@ -46,6 +48,10 @@ const App = () => {
         const results = await getProducts()
         setProducts(results);
 
+    }
+    async function fetchReviews(){
+        const results = await getAllReviewsForProduct()
+        setReviews(results);
     }
     async function fetchCategories() {
         const results = await getCategories()
@@ -73,6 +79,7 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
+        fetchReviews()
     }, [])
 
     useEffect(() => {
@@ -110,6 +117,8 @@ const App = () => {
                                     products={products}
                                     isAdmin={isAdmin}
                                     token={token}
+                                    Review={Review}
+                                    fetchReviews={fetchReviews}
                                     fetchProducts={fetchProducts} />}
                             />
                             <Route
@@ -153,7 +162,7 @@ const App = () => {
                             <Route
                                 path='/profile'
                                 element={<Profile
-                                    user={user}
+                                    user={user}                                                                
                                     navigate={navigate} />}
                             />
                             <Route

@@ -158,7 +158,7 @@ export const deleteProduct = async (token, id) => {
   }
 }
 
-export const getAllReviewsForProduct = async ({productId}) => {
+export const getAllReviewsForProduct = async (productId) => {
   try{
     const response = await fetch(`${baseURL}/reviews/product/${productId}`)
     const result = await response.json();

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, TextField, Card, Paper } from '@mui/material';
 
-const Profile = ({ user }) => {
+const Profile = ({ user, productId }) => {
   const reviews = user.reviews;
   const userID = user._id;
 
