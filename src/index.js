@@ -23,7 +23,7 @@ import {
     getProducts,
     getUserDetails,
     getCategories,
-    getAllReviewsForProduct
+    getAllReviewsForProduct,
 
 } from './api';
 
@@ -118,8 +118,19 @@ const App = () => {
                                     isAdmin={isAdmin}
                                     token={token}
                                     Review={Review}
-                                    fetchReviews={fetchReviews}
+                                    fetchReviews={fetchReviews}                                                                       
                                     fetchProducts={fetchProducts} />}
+                            />
+                            <Route
+                            path='/products/:productId/reviews'
+                            element={<SingleProductView
+                                user={user}
+                                navigate={navigate}
+                                products={products}
+                                token={token}
+                                Review={Review}
+                                fetchReviews={fetchReviews}                                                                  
+                                fetchProducts={fetchProducts} />}
                             />
                             <Route
                                 path='/products/add-product'

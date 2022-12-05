@@ -26,7 +26,7 @@ reviewsRouter.get('/product/:productId', async (req, res, next) => {
   }
 });
 
-reviewsRouter.post('/create-reviews', requireAdmin, async (req, res, next) => {
+reviewsRouter.post('/product/:productId/create-reviews', requireAdmin, async (req, res, next) => {
   try {
     // console.log(req.body)
     // console.log('In Products Router Testing')
@@ -44,7 +44,7 @@ reviewsRouter.post('/create-reviews', requireAdmin, async (req, res, next) => {
   }
 });
 
-reviewsRouter.delete('/:reviewsId', requireAdmin, async (req, res, next) => {
+reviewsRouter.delete('/product/:productId/:reviewsId', requireAdmin, async (req, res, next) => {
   try {
     console.log('in delete product')
     const { reviewsId } = req.params;

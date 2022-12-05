@@ -23,14 +23,16 @@ const SendReview = ({ productId, token, navigate }) => {
                 navigate('/product')
             }}>
                 <TextField
-                    style={{ borderColor: 'Gray', backgroundColor: 'whitesmoke' }}
+                    style={{ borderColor: 'Gray',
+                     backgroundColor: 'whitesmoke',
+                    }}
                     type='text'
                     label="Enter Review"
                     onChange={(ev) => setReview({ content: ev.target.value })}
                 />
                 <Button style={{
                     marginTop: "2%",
-                    width: "100%",
+                    width: "50%",
                     borderRadius: 35,
                     background: "#55586F",
                     opacity: "70%",
