@@ -4,10 +4,14 @@ import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
 import { deleteProduct, getAllReviewsForProduct } from '../api';
 import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
+
 const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
-    console.log(user, "user")
-    console.log(reviews, 'reviews')
-    const userId = user._id;
+    console.log(user, "User")
+    console.log(reviews, 'Reviews')
+    console.log(products, "Products")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         const {
@@ -70,9 +74,9 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                     null
                 )}
                 {productsToDisplay.map((product) => {
-                    console.log(product)
-                    const reviews = getAllReviewsForProduct({ productId: product.id })
-                    console.log(reviews, 'Reviews')
+                    console.log(product, "product map")
+                    const reviewsToDisplay = getAllReviewsForProduct({ productId: product.id })
+                    console.log(reviews, 'Reviews get all')
                     const {
                         id,
                         title,
@@ -99,17 +103,16 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                             <p>Description: {description}</p>
                             <p>Price: ${price}</p>
                             <p>Count: {count}</p>
-                            {/* <Card style={{
+                            <Card style={{
                                 padding: '.5rem',
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
-                            }} elevation={2}>
-                                console.log(reviews, "above reviews in Product")
+                            }} elevation={2}>          
+                             
+                            <h1>Review on Product:</h1>
                                 
-                                <h1>Review on Products:</h1>
-                                
-                                {reviews && reviews.map(review => {
+                                {reviews && reviewsToDisplay.map(review => {
                                     
                                     console.log(reviews, "PROD Reviews")
                                     const fromUserId = review.fromUserId;
@@ -125,7 +128,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                                 color: 'FFFFF'
                                             }} elevation={6}
                                                 key={message.id}>
-                                                <p>From User:{usernameId}</p>
+                                                <p>From User:{username}</p>
                                                 <p>Review: {review.content}</p>
                                                 <p>Product Reference: {title}</p>
                                             </Card>
@@ -134,7 +137,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                 })
 
                                 }
-                            </Card> */}
+                            </Card> 
 
                             {user.isAdmin ?
                                 <>
