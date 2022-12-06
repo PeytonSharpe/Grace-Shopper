@@ -1,4 +1,4 @@
-import React, { useState, useEffect,Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactDOM from 'react-dom/client'
 import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
@@ -33,7 +33,7 @@ const App = () => {
 
     const [products, setProducts] = useState([]);
     const [isAdmin, setIsAdmin] = useState('');
-    const [reviews, setReviews] =useState([]);
+    const [reviews, setReviews] = useState([]);
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ const App = () => {
         setProducts(results);
 
     }
-    async function fetchReviews(){
+    async function fetchReviews() {
         const results = await getAllReviewsForProduct()
         setReviews(results);
     }
@@ -88,7 +88,7 @@ const App = () => {
 
     useEffect(() => {
         const categories = fetchCategories();
-        console.log(categories,"categories")
+        console.log(categories, "categories")
     }, [])
 
 
@@ -118,19 +118,19 @@ const App = () => {
                                     isAdmin={isAdmin}
                                     token={token}
                                     Review={Review}
-                                    fetchReviews={fetchReviews}                                                                       
+                                    fetchReviews={fetchReviews}
                                     fetchProducts={fetchProducts} />}
                             />
                             <Route
-                            path='/products/:productId/reviews'
-                            element={<SingleProductView
-                                user={user}
-                                navigate={navigate}
-                                products={products}
-                                token={token}
-                                Review={Review}
-                                fetchReviews={fetchReviews}                                                                  
-                                fetchProducts={fetchProducts} />}
+                                path='/products/:productId/reviews'
+                                element={<SingleProductView
+                                    user={user}
+                                    navigate={navigate}
+                                    products={products}
+                                    token={token}
+                                    Review={Review}
+                                    fetchReviews={fetchReviews}
+                                    fetchProducts={fetchProducts} />}
                             />
                             <Route
                                 path='/products/add-product'
@@ -173,7 +173,11 @@ const App = () => {
                             <Route
                                 path='/profile'
                                 element={<Profile
-                                    user={user}                                                                
+                                    user={user}
+                                    token={token}
+                                    Review={Review}
+                                    fetchReviews={fetchReviews}
+                                    fetchProducts={fetchProducts}
                                     navigate={navigate} />}
                             />
                             <Route

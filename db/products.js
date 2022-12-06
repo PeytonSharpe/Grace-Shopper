@@ -5,9 +5,26 @@ async function getAllProducts() {
   try {
     const { rows } = await client.query(`
     SELECT * FROM products;
+
     `)
+    const newReviews =rows.map(async (row) => {
+      const {rows:reviews} = await client.query(`
+      SELECT * FROM reviews
+      WHERE reviews."productId" = $1`
+      ,[row.id])
+      rows.reviews = reviews
+      
+    })
+    // rows.forEach(async(row,idx)=>{
+    //   const {rows:reviews} = await client.query(`
+    //   SELECT * FROM reviews
+    //   WHERE reviews."productId" = $1`
+    //   ,[row.id])
+    //   rows[idx].reviews = reviews
+    // })
+    
 // console.log(rows)
-    return rows;
+    return newReviews;
   } catch (err) {
     console.log('getAllProducts-products.js FAILED', err)
     throw err

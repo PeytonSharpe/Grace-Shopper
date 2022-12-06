@@ -2,19 +2,24 @@ const { client } = require('./client');
 
 async function createReview({
     
-    description,
+    review,
     stars,
     userId,
     productId
 }) {
     try{
-        const {rows:[review] } =await client.query(`
-        INSERT INTO reviews (description, stars, "userId","productId")
+        console.log(
+            review,
+            stars,
+            userId,
+            productId)
+        const {rows:[newReview] } =await client.query(`
+        INSERT INTO reviews (review, stars, "userId","productId")
         VALUES ($1,$2,$3,$4)
         RETURNING *;
-        `[description, stars, userId,productId])
+        `,[review, stars, userId,productId])
         
-        return review;
+        return newReview;
     }
     catch (err) {
         console.log('createReviews-reviews.js FAILED', err)
@@ -22,12 +27,14 @@ async function createReview({
       }
 
 }
+
+
  async function getAllReviewsForProduct({
     productId
  }) {
     try{
         const { rows: reviews } = await client.query(`
-        SELECT * FROM reviews        
+        SELECT * FROM reviews                
         WHERE "productId"= $1;
         `,[productId])
         return reviews

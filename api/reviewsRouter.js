@@ -13,7 +13,7 @@ reviewsRouter.get('/product/:productId', async (req, res, next) => {
   try {
     const { productId } = req.params
     const allReviews = await getAllReviewsForProduct({ productId });
-
+console.log(allReviews, "allreviews")
     if (!allReviews) {
       res.send('No reviews found.')
     }
@@ -26,17 +26,20 @@ reviewsRouter.get('/product/:productId', async (req, res, next) => {
   }
 });
 
-reviewsRouter.post('/product/:productId/create-reviews', requireAdmin, async (req, res, next) => {
+reviewsRouter.post('/products/:productId/reviews', requireAdmin, async (req, res, next) => {
   try {
-    // console.log(req.body)
+    console.log(req.body)
     // console.log('In Products Router Testing')
-    const { description, stars, userId, productId } = req.body
+    const { review, stars, productId } = req.body
 
-    const review = await createReview({
-      description, stars, userId, productId
+    const newReview = await createReview({
+      review,
+       stars,
+        userId:req.user.id,
+         productId
     })
 
-    res.send(review)
+    res.send(newReview)
 
   } catch (err) {
     console.log('reviewsRouter.post FAILED', err)
