@@ -14,6 +14,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
     console.log(products, "Products")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
+        console.log(products, string,"STRING")
         const {
             title,
             description,
@@ -23,9 +24,14 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
             return products;
         }
     }
-    const filteredProducts = products.filter(product => productMatches(product, searchTerm));
+    const filteredProducts = products.filter((product) => {
+        console.log(product,"FILTERED")
+       return productMatches(product, searchTerm)
+    });
+    console.log(searchTerm,'Search')
     const productsToDisplay = searchTerm.length ? filteredProducts : products;
-
+    // const productsToDisplay = products
+// console.log(filteredProducts,'PRODUCTS Filter')
     return (
         <Card style={{
             padding: '.5rem',
@@ -71,11 +77,13 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                 ) : (
                     null
                 )}
-                {console.log("Products to Render",productsToDisplay.map((product) => {
+                
+                {productsToDisplay.map( (product) => {
+
                     // console.log(product, "product map")
-                    console.log(product.id, 'product.id')
-                    const reviewsToDisplay =  getAllReviewsForProduct( product.id )
-                    console.log(reviewsToDisplay, 'Reviews get all')
+                    console.log( 'product.id')
+                    // const reviewsToDisplay = await getAllReviewsForProduct( product.id )
+                    // console.log(reviewsToDisplay, 'Reviews get all')
                     const {
                         id,
                         title,
@@ -111,28 +119,27 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                              
                             <h1>Review on Product:</h1>
                                 
-                                {reviews && reviewsToDisplay.map((review) => {
+                                {product.reviews && product.reviews.map((review) => {
                                     
                                     console.log( "PROD Reviews")
-                                    const fromUserId = review.fromUserId;
-                                    const { username } = review.fromUser;
-                                    const { title } = review.product;
-return "Some Text"
-                                    // if (userId !== fromUserId) {
-                                        // return (
-                                        //     <Card style={{
-                                        //         padding: '.5rem',
-                                        //         margin: '.5rem',
-                                        //         backgroundColor: 'blue',
-                                        //         color: 'FFFFF'
-                                        //     }} elevation={6}
-                                        //         key={message.id}>
-                                        //         <p>From User:{username}</p>
-                                        //         <p>Review: {review.content}</p>
-                                        //         <p>Product Reference: {title}</p>
-                                        //     </Card>
-                                        // )
-                                    // }
+                                    
+                                    
+
+                                    
+                                        return (
+                                            <Card style={{
+                                                padding: '.5rem',
+                                                margin: '.5rem',
+                                                backgroundColor: 'blue',
+                                                color: 'FFFFF'
+                                            }} elevation={6}
+                                                key={review.id}>
+                                                <p>From User:{review.username}</p>
+                                                <p>Review: {review.review}</p>
+                                                
+                                            </Card>
+                                        )
+                                    
                                 })
 
                                 }
@@ -177,7 +184,7 @@ return "Some Text"
                         </Card>
                     )
                 })
-                )}
+                }
             </>
         </Card>
     )

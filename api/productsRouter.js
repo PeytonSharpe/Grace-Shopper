@@ -3,8 +3,9 @@ const {
   getAllProducts,
   createProduct,
   updateProduct,
-  getProductById,
+  getProductById,  
   deleteProduct } = require('../db/products.js');
+  const{getAllReviewsForProduct} = require('../db/reviews.js');
  
 
 const { requireAdmin } = require('./utils');
@@ -16,7 +17,12 @@ productsRouter.get('/', async (req, res, next) => {
   console.log(typeof getAllProducts,'Products')
   try {
     const allProducts = await getAllProducts();
-    console.log(allProducts,'allprods')
+    for(let i = 0; i< allProducts.length; i++){
+    const reviews = await getAllReviewsForProduct({productId:allProducts[i].id})
+    console.log(reviews)
+    allProducts[i].reviews = reviews
+    }
+    console.log(allProducts,'allprodsHERE')
     if (!allProducts) {
       res.send('No products found.')
     }

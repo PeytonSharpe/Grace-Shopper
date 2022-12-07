@@ -28,13 +28,32 @@ async function createReview({
 
 }
 
+async function getallReviewsByUser({
+    userId
+}) {
+    try{
+        const { rows: reviews } = await client.query(`
+        SELECT * FROM reviews
+        WHERE reviews."userId" = $1`,[userId])
+    }
+}
+
+async function getAllReviews(){
+    try{
+        const {rows: reivews} = await client.query(`
+        SELECT reviews.*, users.username FROM reviews
+        JOIN users ON reviews."userId"= users.id
+        `)
+    }
+}
 
  async function getAllReviewsForProduct({
     productId
  }) {
     try{
         const { rows: reviews } = await client.query(`
-        SELECT * FROM reviews                
+        SELECT reviews.*, users.username FROM reviews 
+        JOIN users ON reviews."userId" = users.id              
         WHERE "productId"= $1;
         `,[productId])
         return reviews
