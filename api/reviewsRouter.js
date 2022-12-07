@@ -1,52 +1,56 @@
 const express = require('express');
 const {
-    createReview,
-    getAllReviewsForProduct,
-    deleteReview } = require('../db');
+  createReview,
+  getAllReviewsForProduct,
+  deleteReview } = require('../db');
 
 
-
+const { requireAdmin } = require('./utils');
 const reviewsRouter = express.Router();
 
-reviewsRouter.get('/', async (req, res, next) => {
-  
+reviewsRouter.get('/product/:productId', async (req, res, next) => {
+
   try {
-    const allReviews = await getAllReviewsForProduct();
-    
+    const { productId } = req.params
+    const allReviews = await getAllReviewsForProduct({ productId });
+console.log(allReviews, "allreviews")
     if (!allReviews) {
       res.send('No reviews found.')
     }
     res.send(allReviews)
 
-   
+
   } catch (err) {
     console.log('reviewsRouter.get-reviewsRouter.js FAILED', err)
     next(err)
   }
 });
 
-reviewsRouter.post('/create-reviews', requireAdmin, async (req, res, next) => {
+reviewsRouter.post('/products/:productId/reviews', requireAdmin, async (req, res, next) => {
   try {
-    // console.log(req.body)
+    console.log(req.body)
     // console.log('In Products Router Testing')
-    const { description, stars, userId, productId}= req.body
-    
-    const review = await createReview({
-        description, stars, userId, productId 
+    const { review, stars, productId } = req.body
+
+    const newReview = await createReview({
+      review,
+       stars,
+        userId:req.user.id,
+         productId
     })
 
-      res.send(review)
-    
+    res.send(newReview)
+
   } catch (err) {
     console.log('reviewsRouter.post FAILED', err)
     next(err)
   }
 });
 
-reviewsRouter.delete('/:reviewsId', requireAdmin, async (req, res, next) => {
+reviewsRouter.delete('/product/:productId/:reviewsId', requireAdmin, async (req, res, next) => {
   try {
     console.log('in delete product')
-    const { reviewsId } = req.params;    
+    const { reviewsId } = req.params;
     const deletedReview = await deleteReview(reviewsId)
 
     if (deletedReview) {

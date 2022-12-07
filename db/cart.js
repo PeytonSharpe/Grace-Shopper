@@ -1,4 +1,5 @@
 const productsRouter = require('../api/productsRouter');
+
 const client = require('./client');
 const { createUser } = require('./users');
 
@@ -10,7 +11,9 @@ async function createCartOrdersTable(){
       CREATE TABLE cart_orders
       (
         id SERIAL PRIMARY KEY,
+
         userId INTEGER REFERENCES users(id),
+
         order_status VARCHAR(255) DEFAULT 'active' CHECK(order_status IN ('active', 'pending', 'shipped', 'canceled', 'lost at sea')),
         session_id TEXT
       );
@@ -23,6 +26,7 @@ async function createCartOrdersTable(){
 }
 
 async function createCartItemsTable(){
+
   try {
     console.log("Creating cart items table...")
 
@@ -54,6 +58,7 @@ async function createUserCart({ userId, order_status }){
       RETURNING *;
     `, [ userId, order_status ])
 
+
     return cart;
   } catch (error) {
     console.log("Error creating user cart")
@@ -62,6 +67,7 @@ async function createUserCart({ userId, order_status }){
 }
 
 async function createGuestCart({ session_id, order_status }){
+
   try {
     const { rows: [ cart ]} = await client.query(`
       INSERT INTO cart_orders(session_id, order_status)
@@ -123,42 +129,58 @@ async function createInitialCartItems(){
         cart_id: 1
       },
       {
+
         productId: 1,
+
         priceAtPurchase: 13.99,
         cart_id: 1
       },
       {
+
         productId: 3,
+
         priceAtPurchase: 99.99,
         cart_id: 1
       },
       {
+
         productId: 5,
+
         priceAtPurchase: 9.99,
         cart_id: 2
       },
       {
+
         productId: 9,
+
         priceAtPurchase: 43.99,
         cart_id: 2
       },
       {
+
         productId: 7,
+
         priceAtPurchase: 81.99,
         cart_id: 2
       },
       {
+
         productId: 9,
+
         priceAtPurchase: 99.90,
         cart_id: 3
       },
       {
+
         productId: 4,
+
         priceAtPurchase: 99.90,
         cart_id: 3
       },
       {
+
         productId: 15,
+
         priceAtPurchase: 99.90,
         cart_id: 4
       },
@@ -174,23 +196,29 @@ async function createInitialCartItems(){
 
 async function joinProductsInfoWithCartItems() {
   // This function will be used to get relevant product info (name, img)
+
   // and join it with individual_cart_items at produc=products(id)
 }
 //ACTIVE CART WITH ITEMS
 async function getMyCartWithItems(userId){
+
   // requires user authentication
   try {
     const { rows: [cart] } = await client.query(`
       SELECT * 
       FROM cart_orders
+
       WHERE order_status='active' AND userId=$1;
     `, [userId])
+
 
 
     const { rows: items } = await client.query(`
       SELECT carted_items.*, products.name AS product_name, products.img_url AS product_img
       FROM carted_items
+
       JOIN products ON products.id = carted_items.productI;
+
     `)
     
     if (items.length === 0){
@@ -199,8 +227,10 @@ async function getMyCartWithItems(userId){
       const itemsToAdd = items.filter(item => item.cart_id === cart.id)
       cart.items = itemsToAdd
       return cart
+
     }
   
+
 
   } catch (error) {
     console.log("Error getting cart with items");
@@ -225,6 +255,7 @@ async function getMyPreviousOrdersWithItems(userId){
       JOIN products ON products.id = carted_items.productI;
     `)
 
+
     for(const cart of carts){
       const itemsToAdd = items.filter(item => item.cart_id === cart.id)
 
@@ -234,9 +265,11 @@ async function getMyPreviousOrdersWithItems(userId){
     return carts
   } catch (error) {
     console.log("Error getting cart with items");
+
     throw error;
   }
 }
+
 
 async function deleteItemFromCart(cartedItemId){
   
@@ -278,6 +311,7 @@ async function checkOut(id){
       RETURNING *
     `, [id])
 
+
     return cart;
   } catch (error) {
     console.log("Error in checkOut function in db/models/cart")
@@ -285,10 +319,12 @@ async function checkOut(id){
   }
 }
 
+
 // Admin functions
 // gets all cart_orders with carted_items
 // update cartOrders
 // getCartOrdersWithItemsByUserId - on admin dashboard, if looking at user, admin can pull up cart_orders for a user
+
 
 
 async function updateCartStatus(id, status) {
@@ -299,6 +335,7 @@ async function updateCartStatus(id, status) {
       WHERE id=${id}
       RETURNING *;
     `, [status]);
+
 
     return cart;
   } catch (error) {
@@ -506,3 +543,4 @@ module.exports = {
 //   // // getActiveCartId,
 //   // deleteAbandonedGuestCarts
 // };
+
