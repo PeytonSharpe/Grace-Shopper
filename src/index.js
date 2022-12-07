@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactDOM from 'react-dom/client'
 import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
@@ -23,7 +23,8 @@ import {
     getProducts,
     getUserDetails,
     getCategories,
-  
+    getAllReviewsForProduct,
+
 } from './api';
 
 import './style.css'
@@ -32,6 +33,7 @@ const App = () => {
 
     const [products, setProducts] = useState([]);
     const [isAdmin, setIsAdmin] = useState('');
+    const [reviews, setReviews] = useState([]);
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate();
@@ -46,6 +48,10 @@ const App = () => {
         const results = await getProducts()
         setProducts(results);
 
+    }
+    async function fetchReviews() {
+        const results = await getAllReviewsForProduct()
+        setReviews(results);
     }
     async function fetchCategories() {
         const results = await getCategories()
@@ -73,113 +79,131 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
+        fetchReviews()
     }, [])
 
     useEffect(() => {
         getMe();
     }, [token])
 
-    useEffect (async() => {
-        const categories = await fetchCategories();
-        console.log(categories)
+    useEffect(() => {
+        const categories = fetchCategories();
+        console.log(categories, "categories")
     }, [])
-    
+
 
     return (
         <React.Fragment>
-        <CssBaseline />
-        <Paper  elevation={16} 
-        style={{
-          background:'#CBD4C2',
-          width:'100%',
-          height: '100%'
-           }}>
-        <header>
-        <nav id='main-nav'>
-            <Navbar  logout={logout} token={token}/>
-            <Routes>
-                <Route
-                    path='/'
-                    element={<Home />}
-                />
-                <Route
-                    path='/products'
-                    element={<Products
-                        user={user}
-                navigate={navigate}
-                products={products} 
-                isAdmin={isAdmin}
-                token={token}
-                fetchProducts={fetchProducts} />}
-                />
-                 <Route
-              path='/products/add-product'
-              element={<AddProduct
-                fetchProducts={fetchProducts}
-                user={user}
-                token={token}
-                navigate={navigate} />}
-            />
-            <Route
-              path='/products/edit-products/:productId'
-              element={<EditProduct
-                navigate={navigate}
-                products={products}
-                fetchProducts={fetchProducts}
-                user={user}
-                token={token}
-              />}
-            />
-            <Route
-                path='/products/:productId'
-                element={<SingleProductView
-                  products={products}
-                  fetchProducts={fetchProducts}
-                  user={user}
-                  token={token}
-                  navigate={navigate}
-                />}
-              />
-            <Route
-                path='/categories'
-                element={<Category
-                    user={user}
-            navigate={navigate}
-            categories={categories} 
-            isAdmin={isAdmin}
-            token={token}
-            fetchCategories={fetchCategories} />}
-            />
-             <Route
-                path='/profile'
-                element={<Profile
-                  user={user}
-                  navigate={navigate} />}
-              />
-                <Route
-                    path='/cart'
-                    element={<Cart />}
-                />
-                <Route
-                    path='/login'
-                    element={<Login
-                        setToken={setToken}
-                        navigate={navigate}
-                    />}
-                />
-                <Route
-                    path='/register'
-                    element={<Register
-                        setToken={setToken}
-                        token={token}
-                        navigate={navigate}
-                    />}
-                />
-            </Routes>
-        </nav>
-        </header>
-        </Paper>
-    </React.Fragment>
+            <CssBaseline />
+            <Paper elevation={16}
+                style={{
+                    background: '#CBD4C2',
+                    width: '100%',
+                    height: '100%'
+                }}>
+                <header>
+                    <nav id='main-nav'>
+                        <Navbar logout={logout} token={token} />
+                        <Routes>
+                            <Route
+                                path='/'
+                                element={<Home />}
+                            />
+                            <Route
+                                path='/products'
+                                element={<Products
+                                    user={user}
+                                    navigate={navigate}
+                                    products={products}
+                                    isAdmin={isAdmin}
+                                    token={token}
+                                    Review={Review}
+                                    fetchReviews={fetchReviews}
+                                    fetchProducts={fetchProducts} />}
+                            />
+                            <Route
+                                path='/products/:productId/reviews'
+                                element={<SingleProductView
+                                    user={user}
+                                    navigate={navigate}
+                                    products={products}
+                                    token={token}
+                                    Review={Review}
+                                    fetchReviews={fetchReviews}
+                                    fetchProducts={fetchProducts} />}
+                            />
+                            <Route
+                                path='/products/add-product'
+                                element={<AddProduct
+                                    fetchProducts={fetchProducts}
+                                    user={user}
+                                    token={token}
+                                    navigate={navigate} />}
+                            />
+                            <Route
+                                path='/products/edit-products/:productId'
+                                element={<EditProduct
+                                    navigate={navigate}
+                                    products={products}
+                                    fetchProducts={fetchProducts}
+                                    user={user}
+                                    token={token}
+                                />}
+                            />
+                            <Route
+                                path='/products/:productId'
+                                element={<SingleProductView
+                                    products={products}
+                                    fetchProducts={fetchProducts}
+                                    user={user}
+                                    token={token}
+                                    navigate={navigate}
+                                />}
+                            />
+                            <Route
+                                path='/categories'
+                                element={<Category
+                                    user={user}
+                                    navigate={navigate}
+                                    categories={categories}
+                                    isAdmin={isAdmin}
+                                    token={token}
+                                    fetchCategories={fetchCategories} />}
+                            />
+                            <Route
+                                path='/profile'
+                                element={<Profile
+                                    user={user}
+                                    token={token}
+                                    Review={Review}
+                                    fetchReviews={fetchReviews}
+                                    fetchProducts={fetchProducts}
+                                    navigate={navigate} />}
+                            />
+                            <Route
+                                path='/cart'
+                                element={<Cart />}
+                            />
+                            <Route
+                                path='/login'
+                                element={<Login
+                                    setToken={setToken}
+                                    navigate={navigate}
+                                />}
+                            />
+                            <Route
+                                path='/register'
+                                element={<Register
+                                    setToken={setToken}
+                                    token={token}
+                                    navigate={navigate}
+                                />}
+                            />
+                        </Routes>
+                    </nav>
+                </header>
+            </Paper>
+        </React.Fragment>
     )
 }
 
