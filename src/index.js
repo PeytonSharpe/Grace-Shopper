@@ -92,7 +92,6 @@ const App = () => {
         console.log(categories)
     }, [])
 
-
     return (
         <React.Fragment>
         <CssBaseline />

@@ -7,8 +7,13 @@ const Navbar = ({ logout, token }) => {
         backgroundColor: '#b5b6e4',
         margin: '2rem',
         textDecoration: 'none',
-        color: '#211a21'
+        color: '#211a21',
+        "&:hover": {
+            color: "red"
+        },
       };
+
+
 
     return (
         <header>
