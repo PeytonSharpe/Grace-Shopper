@@ -245,3 +245,25 @@ export const deleteCategory = async (token, id) => {
   }
 }
 
+export const createCategory = async ({name, description }, token) => {
+  try {
+    const response = await fetch(`${baseURL}/categories/create-category`, {
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+
+        name,
+        description
+      })
+    })
+    const results = await response.json();
+    return (results)
+  } catch (error) {
+    console.log('error creating new category', error)
+    throw error
+  }
+}  
+

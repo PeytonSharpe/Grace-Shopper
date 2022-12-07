@@ -4,7 +4,7 @@ import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
 import {
     Cart,
-    Category,
+    Categories,
     Checkout,
     AddProduct,
     EditCart,
@@ -139,7 +139,7 @@ const App = () => {
               />
             <Route
                 path='/categories'
-                element={<Category
+                element={<Categories
                     user={user}
             navigate={navigate}
             categories={categories} 
