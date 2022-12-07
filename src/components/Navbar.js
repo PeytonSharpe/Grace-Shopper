@@ -3,41 +3,36 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ logout, token }) => {
 
+    const linkStyle = {
+        backgroundColor: '#b5b6e4',
+        margin: '2rem',
+        textDecoration: 'none',
+        color: '#211a21'
+      };
+
     return (
         <header>
-            <nav className='Navbar'>
-            <h1 >Grace Shopper</h1>
-            <Link style={{ textDecoration: 'none' }} to='/'><button
-          style={{
-            borderColor: '#CBD4C2',
-            backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15
-          }}>HOME</button></Link>
-          <Link style={{ textDecoration: 'none' }} to='/categories'><button style={{
-            borderColor: '#CBD4C2',
-            backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15}}>CATEGORIES</button></Link>
-               <Link style={{ textDecoration: 'none' }} to='/products'><button style={{
-            borderColor: '#CBD4C2',
-            backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15}}>PRODUCTS</button></Link>
-               <Link style={{ textDecoration: 'none' }}  to='/cart'><button style={{
-            borderColor: '#CBD4C2',
-            backgroundColor: '#247BA0', color: '#FFFCFF', width: '100%', borderRadius: 15}}>CART</button></Link>
+            <h1 className='title'>Grace Shopper</h1>
+            <nav>
+                <div className='nav-links'>
+            <Link to='/' style={linkStyle}>HOME</Link>
+            <Link to='/categories' style={linkStyle}>CATEGORIES</Link>
+            <Link to='/products' style={linkStyle}>PRODUCTS</Link>
+            <Link to='/cart' style={linkStyle}>CART</Link>
                 {token ? (
                     <>
-                        <Link style={{ textDecoration: 'none' }} to='/' onClick={() => logout()}><button style={{
-            borderColor: '#247BA0',
-            backgroundColor: '#C3B299', color: '#000000', width: '100%', borderRadius: 15}}>LOGOUT</button></Link>
+                        <Link to='/'
+                            style={linkStyle}
+                            onClick={() => logout()}>LOGOUT</Link>
                     </>
                 ) : (
                     <>
-                        <Link style={{ textDecoration: 'none' }} to='/register'><button style={{
-            borderColor: '#247BA0',
-            backgroundColor: '#CBD4C2', color: '#000000', width: '100%', borderRadius: 15}}>REGISTER</button></Link>
-                        <Link style={{ textDecoration: 'none' }} to='/login'><button style={{
-            borderColor: '#247BA0',
-            backgroundColor: '#CBD4C2', color: '#000000', width: '100%', borderRadius: 15}}>LOGIN</button></Link>
+                        <Link to='/register' style={linkStyle}>REGISTER</Link>
+                        <Link to='/login' style={linkStyle}>LOGIN</Link>
                     </>
                 )
                 }
+                </div>
             </nav>
 
         </header>
