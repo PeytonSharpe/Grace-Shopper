@@ -28,19 +28,19 @@ const theme = createTheme({
 const Cart = ({ isLoggedIn, user, guestCart }) => {
     const [myCart, setMyCart] = useState({});
   
-    useEffect(() => {
-  
-      if (isLoggedIn){
-        getMyCart().then((myCart) => {
-        setMyCart(myCart);
-        })
-      } else {
-        getGuestCart().then((myCart) => {
-          setMyCart(myCart)
-        })
-      };
+    // useEffect(() => {
+    //         console.log("in use effect");
+    //   if (isLoggedIn){
+    //     getMyCart().then((myCart) => {
+    //     setMyCart(myCart);
+    //     })
+    //   } else {
+    //     getGuestCart().then((myCart) => {
+    //       setMyCart(myCart)
+    //     })
+    //   };
       
-    }, [guestCart]);
+    // }, [guestCart]);
   
   
   

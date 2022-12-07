@@ -102,7 +102,7 @@ usersRouter.post('/register', async (req, res, next) => {
 // GET /api/users/me
 usersRouter.get('/me', requireUser, async (req, res, next) => {
   const user = req.user;
-console.log(user)
+console.log("user", user)
   res.send(user)
 })
 
