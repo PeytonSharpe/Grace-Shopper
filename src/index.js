@@ -88,7 +88,6 @@ const App = () => {
         getMe();
     }, [token]) 
 
-
     return (
         <React.Fragment>
         <CssBaseline />
