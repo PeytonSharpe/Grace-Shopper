@@ -79,19 +79,13 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
-        fetchReviews()
+        fetchCategories();
+        console.log(categories)
     }, [])
 
     useEffect(() => {
         getMe();
     }, [token])
-
-
-    useEffect (() => {
-        fetchCategories();
-        console.log(categories)
-    }, [])
-
 
     return (
         <React.Fragment>

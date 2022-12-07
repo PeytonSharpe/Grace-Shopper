@@ -12,9 +12,14 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { createTheme } from "@mui/material";
-
-
-import { getMyCart, addCartItem, deleteCartItem, getGuestCart, removeItemFromGuestCart, addItemToGuestCart, setGuestCart } from "../axios-services/cart";
+import { getMyCart, 
+    addCartItem, 
+    deleteCartItem, 
+    // getGuestCart, 
+    // removeItemFromGuestCart, 
+    // addItemToGuestCart, 
+    // setGuestCart 
+} from "../axios-services/cart";
 
 
 const theme = createTheme({
@@ -35,9 +40,9 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
         setMyCart(myCart);
         })
       } else {
-        getGuestCart().then((myCart) => {
-          setMyCart(myCart)
-        })
+        // getGuestCart().then((myCart) => {
+        //   setMyCart(myCart)
+        // })
       };
       
     }, [guestCart]);
@@ -57,9 +62,9 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
   
         const itemIdx = event.target.dataset.idx
   
-        const remainingItems = await removeItemFromGuestCart(itemIdx)
-        setMyCart(remainingItems)
-        getGuestCart().then((myCart) => setMyCart(myCart))
+        // const remainingItems = await removeItemFromGuestCart(itemIdx)
+        // setMyCart(remainingItems)
+        // getGuestCart().then((myCart) => setMyCart(myCart))
         
       }
     };
@@ -84,8 +89,8 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
           product_name: product_name,
           priceAtPurchase: Number(price),
         };
-        const sessionCart = await addItemToGuestCart(guestCartItem);
-        getGuestCart().then((myCart) => setMyCart(myCart))
+        // const sessionCart = await addItemToGuestCart(guestCartItem);
+        // getGuestCart().then((myCart) => setMyCart(myCart))
       }
   
     };
