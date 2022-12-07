@@ -27,6 +27,7 @@ import {
 } from './api';
 
 import './style.css'
+import EditCategory from './components/EditCategory';
 
 const App = () => {
 
@@ -73,16 +74,12 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
+        fetchCategories()
     }, [])
 
     useEffect(() => {
         getMe();
     }, [token])
-
-    useEffect (async() => {
-        const categories = await fetchCategories();
-        console.log(categories)
-    }, [])
     
 
     return (
@@ -149,6 +146,14 @@ const App = () => {
             isAdmin={isAdmin}
             token={token}
             fetchCategories={fetchCategories} />}
+            />
+            <Route
+                path='/categories/edit-category/:categoryId'
+                element={<EditCategory
+                navigate={navigate}
+                categories={categories}
+                token={token}
+                fetchCategories={fetchCategories} />}
             />
              <Route
                 path='/profile'

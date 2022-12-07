@@ -206,3 +206,42 @@ export const getCategories = async () => {
     throw error
   }
 }
+export const updateCategory = async ({id, name, description}, token) => {
+  try {
+    const response = await fetch (`${baseURL}/categories/${id}`, {
+      method:"PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name,
+        description
+      })
+    })
+    const results = await response.json();
+    console.log("Updating Category", results)
+    return(results)
+  } catch (ex) {
+    console.log('error updating Category', ex)
+    throw ex
+  }
+}
+
+export const deleteCategory = async (token, id) => {
+  try {
+    const response = await fetch(`${baseURL}/categories/${id}`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    const result = await response.json();
+    return result
+  } catch (error) {
+    console.log(`error deleting Category`, error)
+    throw error
+  }
+}
+
