@@ -160,7 +160,7 @@ export const deleteProduct = async (token, id) => {
 
 export const getAllReviewsForProduct = async (productId) => {
   try{
-    console.log(productId,"GETALL")
+    console.log(productId,"GETALL_1")
     const response = await fetch(`${baseURL}/reviews/product/${productId}`)
     const result = await response.json();
     console.log(result,'Result')
