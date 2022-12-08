@@ -8,27 +8,27 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
-const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {    
+const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
     
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
-       
+    
         const {
             title,
             description,
         } = products;
-        
+
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
             return products;
         }
     }
     const filteredProducts = products.filter((product) => {
-        
-       return productMatches(product, searchTerm)
+
+        return productMatches(product, searchTerm)
     });
-   
+
     const productsToDisplay = searchTerm.length ? filteredProducts : products;
-    
+
     return (
         <Card style={{
             padding: '.5rem',
@@ -74,10 +74,8 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                 ) : (
                     null
                 )}
-                
                 {productsToDisplay.map( (product) => {
 
-                   
                     const {
                         id,
                         title,
@@ -109,31 +107,29 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
-                            }} elevation={2}>          
-                             
-                            <h1>Review on Product:</h1>
-                                
-                                {product.reviews && product.reviews.map((review) => {                                
-                                    
+
+                            }} elevation={2}>
+
+                                <h1>Review on Product:</h1>
+
+                                {product.reviews && product.reviews.map((review) => {
                                     return (
-                                            <Card style={{
-                                                padding: '.5rem',
-                                                margin: '.5rem',
-                                                backgroundColor: 'blue',
-                                                color: 'FFFFF'
-                                            }} elevation={6}
-                                                key={review.id}>
-                                                <p>From User:{review.username}</p>
-                                                <p>Review: {review.review}</p>
-                                                
-                                            </Card>
-                                        )
-                                    
+                                        <Card style={{
+                                            padding: '.5rem',
+                                            margin: '.5rem',
+                                            backgroundColor: 'blue',
+                                            color: 'FFFFF'
+                                        }} elevation={6}
+                                            key={review.id}>
+                                            <p>From User:{review.username}</p>
+                                            <p>Review: {review.review}</p>
+                                        </Card>
+                                    )
+
                                 })
 
                                 }
-                            </Card> 
-
+                            </Card>
                             {user.isAdmin ?
                                 <>
                                     <Link key={id}
@@ -152,7 +148,6 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                         variant='contained'
                                         type='submit'>Edit Product
                                         </Button> </Link>
-
                                     <Button
                                         style={{
                                             height: '3rem',
@@ -166,7 +161,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                             await deleteProduct(token, id)
                                             fetchProducts()
                                         }}>Delete Product
-                                        <DeleteIcon/>
+                                        <DeleteIcon />
                                     </Button>
                                 </> :
                                 null}
