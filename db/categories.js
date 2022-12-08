@@ -69,6 +69,10 @@ async function getCategoryById(categoryId) {
 async function deleteCategory(id) {
   console.log(id)
   try {
+    await client.query(`
+      DELETE FROM prod_categories
+      WHERE "categoryId" = $1;
+    `, [id]);
     const { rows: [category] } = await client.query(`
         DELETE FROM categories
         WHERE id=$1
