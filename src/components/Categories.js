@@ -146,7 +146,7 @@ const Categories = ({ categories, user, token, fetchCategories }) => {
                                         <Link  style={{
                                                 textDecoration: 'none'
                                                         }}
-                                                        to={`/categories/${id}`}>
+                                                        to={`/categories/${name}`}>
                                                         <h3>{name}</h3></Link>
                                                         <p>Description: {description}</p>
                                                         

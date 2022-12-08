@@ -267,3 +267,13 @@ export const createCategory = async ({name, description }, token) => {
   }
 }  
 
+export const productsByCategory = async (categoryName) => {
+  try{
+    const response = await fetch(`${baseURL}/categories/${categoryName}`)
+    const result = await response.json();
+    return result
+  } catch(error){
+    console.log('error getting category products', error)
+    throw error
+  }
+}

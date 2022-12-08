@@ -5,6 +5,7 @@ import { CssBaseline, Paper } from '@mui/material';
 import {
     Cart,
     Categories,
+    Category,
     Checkout,
     AddProduct,
     EditCart,
@@ -136,7 +137,7 @@ const App = () => {
                   token={token}
                   navigate={navigate}
                 />}
-              />
+            />
             <Route
                 path='/categories'
                 element={<Categories
@@ -146,6 +147,14 @@ const App = () => {
             isAdmin={isAdmin}
             token={token}
             fetchCategories={fetchCategories} />}
+            />
+            <Route
+                path='/categories/:category'
+                element={<Category
+                    user={user}
+                    token={token}
+                    products={products}
+                    navigate={navigate} />}
             />
             <Route
                 path='/categories/edit-category/:categoryId'

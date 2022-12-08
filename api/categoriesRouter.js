@@ -11,6 +11,7 @@ const {
   getCategoryById,
   deleteCategory,
   getCategoryByName,
+  getProductByCategory
 } = require ('../db');
 
 categoriesRouter.get('/', async (req, res, next) => {
@@ -18,6 +19,17 @@ categoriesRouter.get('/', async (req, res, next) => {
 
         const allCategories = await getAllCategories();
         res.send(allCategories)
+    } catch (error) {
+        console.error ('categoriesRouter.get-categoriesRouter.js FAILED', error)
+    }
+    
+});
+
+categoriesRouter.get('/:category', async (req, res, next) => {
+    try {
+        const { category } = req.params;
+        const categoryProducts = await getProductByCategory(category);
+        res.send(categoryProducts)
     } catch (error) {
         console.error ('categoriesRouter.get-categoriesRouter.js FAILED', error)
     }
