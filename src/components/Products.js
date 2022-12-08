@@ -3,35 +3,32 @@ import { Link } from 'react-router-dom';
 import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
 import { deleteProduct, getAllReviewsForProduct } from '../api';
-// import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
 
 const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {    
-    // console.log(user, "User")
-    // console.log(reviews, 'Reviews')
-    console.log(products, "Products")
+    
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
-        console.log(products, string,"STRING")
+       
         const {
             title,
             description,
         } = products;
-        // console.log(products)
+        
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
             return products;
         }
     }
     const filteredProducts = products.filter((product) => {
-        console.log(product,"FILTERED")
+        
        return productMatches(product, searchTerm)
     });
-    console.log(searchTerm,'Search')
+   
     const productsToDisplay = searchTerm.length ? filteredProducts : products;
-    // const productsToDisplay = products
-// console.log(filteredProducts,'PRODUCTS Filter')
+    
     return (
         <Card style={{
             padding: '.5rem',
@@ -80,10 +77,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                 
                 {productsToDisplay.map( (product) => {
 
-                    // console.log(product, "product map")
-                    console.log( 'product.id')
-                    // const reviewsToDisplay = await getAllReviewsForProduct( product.id )
-                    // console.log(reviewsToDisplay, 'Reviews get all')
+                   
                     const {
                         id,
                         title,
@@ -119,14 +113,9 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                              
                             <h1>Review on Product:</h1>
                                 
-                                {product.reviews && product.reviews.map((review) => {
+                                {product.reviews && product.reviews.map((review) => {                                
                                     
-                                    console.log( "PROD Reviews")
-                                    
-                                    
-
-                                    
-                                        return (
+                                    return (
                                             <Card style={{
                                                 padding: '.5rem',
                                                 margin: '.5rem',
