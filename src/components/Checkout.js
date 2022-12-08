@@ -47,9 +47,9 @@ export default function Checkout(props) {
       setMyCart(myCart);
       })
     } else {
-      getGuestCart().then((myCart) => {
-        setMyCart(myCart)
-      })
+      // getGuestCart().then((myCart) => {
+      //   setMyCart(myCart)
+      // })
     };
   }, []);
 
@@ -66,10 +66,10 @@ export default function Checkout(props) {
       return completedOrder, newCart
     } else {
       // sessionStorage.removeItem(guestCart)
-      await checkOutGuestCart();
-      getGuestCart().then((myCart) => {
-        setMyCart(myCart)
-      })
+      // await checkOutGuestCart();
+      // getGuestCart().then((myCart) => {
+      //   setMyCart(myCart)
+      // })
     }
   }
 

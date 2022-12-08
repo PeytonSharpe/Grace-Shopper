@@ -8,11 +8,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
-const Products = ({ products, user, token, fetchProducts }) => {
-
+const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
+    
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
-        console.log(products, string, "STRING")
+        
         const {
             title,
             description,
@@ -73,7 +73,8 @@ const Products = ({ products, user, token, fetchProducts }) => {
                 ) : (
                     null
                 )}
-                {productsToDisplay.map((product) => {
+                {productsToDisplay.map( (product) => {
+                 
                     const {
                         id,
                         title,

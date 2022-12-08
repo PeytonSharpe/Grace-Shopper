@@ -81,11 +81,13 @@ const App = () => {
         fetchProducts()
         // fetchReviews()
         fetchCategories()
+
     }, [])
 
     useEffect(() => {
         getMe();
     }, [token]) 
+
 
     return (
         <React.Fragment>
