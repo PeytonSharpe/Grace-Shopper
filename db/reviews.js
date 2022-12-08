@@ -2,19 +2,24 @@ const { client } = require('./client');
 
 async function createReview({
     
-    description,
+    review,
     stars,
     userId,
     productId
 }) {
     try{
-        const {rows:[review] } =await client.query(`
-        INSERT INTO reviews (description, stars, "userId","productId")
+        console.log(
+            review,
+            stars,
+            userId,
+            productId)
+        const {rows:[newReview] } =await client.query(`
+        INSERT INTO reviews (review, stars, "userId","productId")
         VALUES ($1,$2,$3,$4)
         RETURNING *;
-        `[description, stars, userId,productId])
+        `,[review, stars, userId,productId])
         
-        return review;
+        return newReview;
     }
     catch (err) {
         console.log('createReviews-reviews.js FAILED', err)
@@ -22,12 +27,39 @@ async function createReview({
       }
 
 }
+
+async function getAllReviewsByUser({
+    userId
+}) {
+    try{
+        const { rows: reviews } = await client.query(`
+        SELECT * FROM reviews
+        WHERE reviews."userId" = $1`,[userId])
+    }catch (err) {
+        console.log('getAllReviewsByUser FAILED', err)
+        throw err
+      }
+}
+
+async function getAllReviews(){
+    try{
+        const {rows: reivews} = await client.query(`
+        SELECT reviews.*, users.username FROM reviews
+        JOIN users ON reviews."userId"= users.id
+        `)
+    }catch (err) {
+        console.log('getAllReviews FAILED', err)
+        throw err
+      }
+}
+
  async function getAllReviewsForProduct({
     productId
  }) {
     try{
         const { rows: reviews } = await client.query(`
-        SELECT * FROM reviews        
+        SELECT reviews.*, users.username FROM reviews 
+        JOIN users ON reviews."userId" = users.id              
         WHERE "productId"= $1;
         `,[productId])
         return reviews

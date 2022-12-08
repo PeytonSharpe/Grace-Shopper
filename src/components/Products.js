@@ -1,29 +1,34 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardMedia, Paper, TextField } from '@mui/material';
+import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
 import { deleteProduct, getAllReviewsForProduct } from '../api';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const Products = ({ products, user, token, fetchProducts }) => {
-    console.log(user, "user")
-    console.log(products, 'products')
-    const userID = user._id;
+
+
+
+const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {    
+    
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
+       
         const {
-
             title,
             description,
-
         } = products;
-        console.log(products)
+        
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
             return products;
         }
     }
-    const filteredProducts = products.filter(product => productMatches(product, searchTerm));
+    const filteredProducts = products.filter((product) => {
+        
+       return productMatches(product, searchTerm)
+    });
+   
     const productsToDisplay = searchTerm.length ? filteredProducts : products;
-
+    
     return (
         <Card style={{
             padding: '.5rem',
@@ -69,10 +74,10 @@ const Products = ({ products, user, token, fetchProducts }) => {
                 ) : (
                     null
                 )}
-                {productsToDisplay.map(async (product) => {
-                    console.log(product)
-                    const reviews = await getAllReviewsForProduct({ productId: product.id })
-                    console.log(reviews, 'Reviews')
+                
+                {productsToDisplay.map( (product) => {
+
+                   
                     const {
                         id,
                         title,
@@ -104,32 +109,30 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
-                            }} elevation={2}>
-                                <h1>Review on Products:</h1>
-                                {reviews && reviews.map(review => {
-                                    const fromUserID = review.fromUser._id;
-                                    const { username } = review.fromUser;
-                                    const { title } = review.product;
-
-                                    if (userID !== fromUserID) {
-                                        return (
+                            }} elevation={2}>          
+                             
+                            <h1>Review on Product:</h1>
+                                
+                                {product.reviews && product.reviews.map((review) => {                                
+                                    
+                                    return (
                                             <Card style={{
                                                 padding: '.5rem',
                                                 margin: '.5rem',
                                                 backgroundColor: 'blue',
                                                 color: 'FFFFF'
                                             }} elevation={6}
-                                                key={message._id}>
-                                                <p>From User:{username}</p>
-                                                <p>Review: {review.content}</p>
-                                                <p>Product Reference: {title}</p>
+                                                key={review.id}>
+                                                <p>From User:{review.username}</p>
+                                                <p>Review: {review.review}</p>
+                                                
                                             </Card>
                                         )
-                                    }
+                                    
                                 })
 
                                 }
-                            </Card>
+                            </Card> 
 
                             {user.isAdmin ?
                                 <>
@@ -163,6 +166,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                             await deleteProduct(token, id)
                                             fetchProducts()
                                         }}>Delete Product
+                                        <DeleteIcon/>
                                     </Button>
                                 </> :
                                 null}
