@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { createReview, deleteProduct } from "../api";
 import { Button, TextField, Card, Paper } from '@mui/material';
+import { Image } from 'mui-image';
 
 // const SendReview = ({ productId, token, navigate }) => {
 //     const [review, setReview] = useState('')
@@ -67,26 +68,42 @@ const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, tok
             title,
             description,
             price,
-            count
+            count,
+            image
         } = currentProduct;
 
         return (
-            <Card style={{
-                padding: '.5rem',
-                margin: '.5rem',
-                background: 'B4D2E7',
-            }} elevation={6}>
+            
                 <Card style={{
-                    padding: '.5rem',
-                    margin: '.5rem',
+                    textAlign: 'center',
+                    padding: '1.5rem',
+                    margin: '1.5rem',
                     background: 'B4D2E7',
                 }} elevation={6}>
+                    <Image title={title} src={image} style={{
+                        height: '25%',
+                        width: '25%'
+                    }} />
                     <h3>{title}</h3>
-                    <p>Description: {description}</p>
-                    <p>Price: ${price}</p>
-                    <p>Count: {count}</p>
+                    <p className="price">${price}</p>
+                    <p className="count">{count} in stock</p>
 
-                </Card>
+                    <p className="prod-desc">{description}</p>
+
+                    <h1>Review on Product:</h1>
+                                        <Card style={{
+                                            padding: '.5rem',
+                                            margin: '.5rem',
+                                            backgroundColor: 'blue',
+                                            color: 'FFFFF'
+                                        }} elevation={6}
+                                            key={review.id}>
+                                            <p>From User:{review.username}</p>
+                                            <p>Review: {review.review}</p>
+
+                                        </Card>
+
+                {/* </Card> */}
                 <Card style={{
                     padding: '.5rem',
                     margin: '.5rem',
@@ -104,7 +121,7 @@ const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, tok
                             }}
                             type='text'
                             label="Enter Review1"
-                            onChange={(ev) => setReview( ev.target.value)}
+                            onChange={(ev) => setReview(ev.target.value)}
                         />
                         <Button style={{
                             marginTop: "2%",
@@ -149,7 +166,7 @@ const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, tok
                                     borderRadius: 15,
                                     backgroundColor: '#55586F'
                                 }}
-                                    variant='contained' >View All</Button></Link>
+                                    variant='contained'>View All</Button></Link>
                             {token &&
                                 <>
 

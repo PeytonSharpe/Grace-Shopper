@@ -35,6 +35,8 @@ async function getallReviewsByUser({
         const { rows: reviews } = await client.query(`
         SELECT * FROM reviews
         WHERE reviews."userId" = $1`,[userId])
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -44,6 +46,8 @@ async function getAllReviews(){
         SELECT reviews.*, users.username FROM reviews
         JOIN users ON reviews."userId"= users.id
         `)
+    } catch(error) {
+        console.log(error)
     }
 }
 
