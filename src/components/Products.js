@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
-import { deleteProduct, getAllReviewsForProduct } from '../api';
+import { deleteProduct } from '../api';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
 
-const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {    
+const Products = ({ products, user, token, fetchProducts }) => {    
     
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
@@ -143,11 +143,10 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                         to={`/products/edit-products/${id}`}
                                     ><Button
                                         style={{
-                                            height: '3rem',
-                                            margin: '.25rem',
-                                            width: '100%',
-                                            borderRadius: 15,
-                                            backgroundColor: ' #50514F'
+                                             height: '2rem',
+                            width: '100%',
+                            borderRadius: 15,
+                            background: '#001242'
                                         }}
                                         variant='contained'
                                         type='submit'>Edit Product

@@ -1,27 +1,13 @@
 const { client } = require('./client');
 
 async function getAllProducts() {
-  // console.log(' in get all prods')
+ 
   try {
     const { rows } = await client.query(`
     SELECT * FROM products;
 
     `)
-    // const newReviews =rows.map(async (row) => {
-    //   const {rows:reviews} = await client.query(`
-    //   SELECT * FROM reviews
-    //   WHERE reviews."productId" = $1`
-    //   ,[row.id])
-    //   rows.reviews = reviews
-      
-    // })
-    // rows.forEach(async(row,idx)=>{
-    //   const {rows:reviews} = await client.query(`
-    //   SELECT * FROM reviews
-    //   WHERE reviews."productId" = $1`
-    //   ,[row.id])
-    //   rows[idx].reviews = reviews
-    // })
+   
     
 console.log(rows)
     return rows;
@@ -37,11 +23,6 @@ async function getProductById(id) {
     SELECT * FROM products
     WHERE id = $1
     `, [id])
-//     const{rows: reviews}= await client.query(`
-//     SELECT * FROM reviews
-//     WHERE "productId" = $1
-//   `, [id])
-// product.reviews = reviews
     return product;
   } catch (err) {
     console.log('getProductById-products.js FAILED', err)
