@@ -12,7 +12,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
     
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
-        
+    
         const {
             title,
             description,
@@ -23,6 +23,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
         }
     }
     const filteredProducts = products.filter((product) => {
+
         return productMatches(product, searchTerm)
     });
 
@@ -74,7 +75,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                     null
                 )}
                 {productsToDisplay.map( (product) => {
-                 
+
                     const {
                         id,
                         title,
@@ -106,6 +107,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
+
                             }} elevation={2}>
 
                                 <h1>Review on Product:</h1>
@@ -123,6 +125,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                             <p>Review: {review.review}</p>
                                         </Card>
                                     )
+
                                 })
 
                                 }

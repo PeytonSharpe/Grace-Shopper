@@ -4,7 +4,7 @@ import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
 import {
     Cart,
-    Category,
+    Categories,
     Checkout,
     AddProduct,
     EditCart,
@@ -28,6 +28,7 @@ import {
 } from './api';
 
 import './style.css'
+import EditCategory from './components/EditCategory';
 
 const App = () => {
 
@@ -79,15 +80,13 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
-        // fetchReviews()
+        fetchReviews()
         fetchCategories()
-
     }, [])
 
     useEffect(() => {
         getMe();
-    }, [token]) 
-
+    }, [token])
 
     return (
         <React.Fragment>
@@ -146,13 +145,21 @@ const App = () => {
               />
             <Route
                 path='/categories'
-                element={<Category
+                element={<Categories
                     user={user}
             navigate={navigate}
             categories={categories} 
             isAdmin={isAdmin}
             token={token}
             fetchCategories={fetchCategories} />}
+            />
+            <Route
+                path='/categories/edit-category/:categoryId'
+                element={<EditCategory
+                navigate={navigate}
+                categories={categories}
+                token={token}
+                fetchCategories={fetchCategories} />}
             />
              <Route
                 path='/profile'
