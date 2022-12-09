@@ -4,6 +4,7 @@ import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
 import {
     Cart,
+    Categories,
     Category,
     Checkout,
     AddProduct,
@@ -28,6 +29,7 @@ import {
 } from './api';
 
 import './style.css'
+import EditCategory from './components/EditCategory';
 
 const App = () => {
 
@@ -79,24 +81,24 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
-        // fetchReviews()
+        fetchReviews()
         fetchCategories()
-
     }, [])
 
     useEffect(() => {
         getMe();
-    }, [token]) 
+    }, [token])
 
     return (
         <React.Fragment>
-        <CssBaseline />
-        {/* <Paper  elevation={16} 
+            <CssBaseline />
+            {/* <Paper  elevation={16} 
         style={{
           background:'#CBD4C2',
           width:'100%',
           height: '100%'
-           }}> */}
+
+           }}>
         <header>
         <nav id='main-nav'>
             <Navbar  logout={logout} token={token}/>
@@ -142,16 +144,32 @@ const App = () => {
                   token={token}
                   navigate={navigate}
                 />}
-              />
+            />
             <Route
                 path='/categories'
-                element={<Category
+                element={<Categories
                     user={user}
             navigate={navigate}
             categories={categories} 
             isAdmin={isAdmin}
             token={token}
             fetchCategories={fetchCategories} />}
+            />
+            <Route
+                path='/categories/:category'
+                element={<Category
+                    user={user}
+                    token={token}
+                    products={products}
+                    navigate={navigate} />}
+            />
+            <Route
+                path='/categories/edit-category/:categoryId'
+                element={<EditCategory
+                navigate={navigate}
+                categories={categories}
+                token={token}
+                fetchCategories={fetchCategories} />}
             />
              <Route
                 path='/profile'
@@ -181,8 +199,9 @@ const App = () => {
             </Routes>
         </nav>
         </header>
-        {/* </Paper> */}
+        </Paper>
     </React.Fragment>
+
     )
 }
 
