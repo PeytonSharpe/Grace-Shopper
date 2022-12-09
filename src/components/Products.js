@@ -149,23 +149,24 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                     ><Button
                                         style={{
 
-                                             height: '2rem',
-                            width: '100%',
-                            borderRadius: 15,
-                            background: '#001242'
-
+                                            height: '3rem',
+                                            margin: '0.5rem',
+                                            width: '100%',
+                                            borderRadius: 15,
+                                            backgroundColor: '#4f43ae'
                                         }}
                                         variant='contained'
-                                        type='submit'>
+                                        type='submit'>Edit Product
+                                        </Button></Link>
 
-                                        </Button> </Link>
+
                                     <Button
                                         style={{
                                             height: '3rem',
-                                            margin: '.25rem',
-                                            width: '100%',
+                                            margin: '0.5rem',
+                                            width: '38%',
                                             borderRadius: 15,
-                                            backgroundColor: ' #50514F'
+                                            backgroundColor: '#4f43ae'
                                         }}
                                         variant='contained'
                                         type='submit' onClick={async () => {

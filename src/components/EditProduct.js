@@ -39,62 +39,49 @@ console.log(title,description,price,count)
         }
 
         return (
-            <Card elevation={6} style={{
-                background: '#50514F',
-                margin: '2rem 4rem 6rem 2rem',
-                padding: '2rem',
-                color: '#FFFCFF',
-                textAlign: 'center',
-                alignContent: 'center'
-
-            }}>
+            <Card className='card-main' elevation={6} style={{ 
+                background: '#cec9cc'
+                }}>
                 <div className="edit-main-div" >
                     <form onSubmit={(event) => {
                         event.preventDefault();
                         EditProduct();
                     }}>
-                        <h1>Edit Product</h1>
+                        <h3>EDIT PRODUCT</h3>
 
                         <TextField style={{
-                            flexWrap: 'center',
                             margin: '.25rem',
-                            width: '100%',
-                            backgroundColor: '#FFFCFF',
-
+                            width: '90%',
+                            backgroundColor: '#FFFCFF'
                         }}
                             type='text'
                             placeholder={title}
                             onChange={(event) => setNewTitle(event.target.value)}
                         />
                         <TextField style={{
-                            flexWrap: 'center',
                             margin: '.25rem',
-                            width: '100%',
-                            backgroundColor: '#FFFCFF',
-
+                            width: '90%',
+                            backgroundColor: '#FFFCFF'
                         }}
                             type='text'
-                            value={newDescription}
-                            label='description'
+                            placeholder={description}
                             onChange={(event) => setNewDescription(event.target.value)}
                         />
                         <TextField style={{
-                            flexWrap: 'center',
-                            margin: '.25rem',
-                            width: '100%',
-                            backgroundColor: '#FFFCFF',
-
+                           flexWrap: 'center',
+                           margin: '.25rem',
+                           width: '90%',
+                           backgroundColor: '#FFFCFF'
                         }}
                             type='text'
                             placeholder={price}
                             onChange={(event) => setNewPrice(event.target.value)}
                         />
                         <TextField style={{
-                            flexWrap: 'center',
-                            margin: '.25rem',
-                            width: '100%',
-                            backgroundColor: '#FFFCFF',
-
+                           flexWrap: 'center',
+                           margin: '.25rem',
+                           width: '90%',
+                           backgroundColor: '#FFFCFF'
                         }}
                             type='text'
                             placeholder={count}
@@ -102,16 +89,15 @@ console.log(title,description,price,count)
                         />
 
                         <Button style={{
-                            marginTop: "2%",
-                            width: "100%",
-                            borderRadius: 35,
-                            background: "#001242",
-                            opacity: "70%",
-                            color: "#FFFCFF",
-                            borderColor: "#24A6D1",
+                            fontFamily: 'Lato',
+                            fontSize: '1rem',
+                            height: '3rem',
+                            margin: '.25rem',
+                            width: '15%',
+                            backgroundColor: '#4f43ae'
                         }}
                             type="submit"
-                            variant="outlined"
+                            variant="contained"
                             onClick={() => {
                                 EditProduct();
                             }}>Edit Product</Button>

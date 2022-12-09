@@ -51,13 +51,8 @@ const Login = ({ setToken, navigate }) => {
 
   return (
     <>
-    <Card className='register-main-card' elevation={6} style={{ 
-      margin:'2rem 4rem ',
-      background: '#50514F',
-      color:'#FFFCFF',
-      textAlign:'center',
-      alignContent:'center'    
-    
+    <Card className='card-main' elevation={6} style={{ 
+      background: '#cec9cc'
       }}>
     <form className='login'
       onSubmit={(event) => {
@@ -65,38 +60,37 @@ const Login = ({ setToken, navigate }) => {
         handleSubmit();
       }}
     >
-      <h1>Log In</h1>
-      <input style={{ margin: '.25rem', width: '100%', backgroundColor: 'whitesmoke' }}
-        label='Enter Username'
+      <h3>LOGIN</h3>
+      <TextField style={{
+         margin: '.25rem',
+         width: '90%',
+         backgroundColor: '#FFFCFF',
+      }}
+        placeholder='Enter Username'
         onChange={(event) => setUsername(event.target.value)}
       />
-      <input style={{ margin: '.25rem', width: '100%', backgroundColor: 'whitesmoke' }}
-        label='Enter Password'
+      <TextField style={{
+         margin: '.25rem',
+         width: '90%',
+         backgroundColor: '#FFFCFF',
+      }}
+        placeholder='Enter Password'
         onChange={(event) => setPassword(event.target.value)}
       />
-      <button style={{ height: '3rem', margin: '.25rem', backgroundColor:'#247BA0',color:'#FFFCFF' }} variant='contained' type='submit' onClick={handleClick}>
-        Log In
-      </button>
-      <Snackbar
-        open={open}
-        autoHideDuration={5000}
-        onClose={handleClose}>
-          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-    This is a success message!
-  </Alert>
-  </Snackbar>
-      <Link style={{ textDecoration: 'none' }} to='/register'>
-        <button
-          style={{
-            height: '3rem',
-            margin: '.25rem', backgroundColor:'#001242',color:'#FFFCFF'
-          }}
-          variant='contained'
-          type='submit'>
-          Don't have an account? Sign Up
-        </button>
-      </Link>
+      <Button
+            style={{
+              fontFamily: 'Lato',
+              fontSize: '1.5rem',
+              height: '3rem',
+              margin: '.25rem',
+              width: '15%',
+              backgroundColor: '#4f43ae'
+            }}
+            variant='contained'
+            type='submit'>Login</Button>
+    
     </form>
+      <p>Don't have an account? <a href='/register'>Sign up</a></p>
     </Card>
     </>
   )
