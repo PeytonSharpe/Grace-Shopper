@@ -38,30 +38,22 @@ const Categories = ({ categories, user, token, fetchCategories }) => {
 
     
     return (
-        <Card style={{
-            padding: '.5rem',
-            margin: '.5rem',
-            background: '#247BA0'
-                }} elevation={6} >
+        
             <div className="main-category-div">
                 <div >
                     <form onSubmit={(event) => {
                         event.preventDefault();
                     }}>
-                        <Card style={{ 
-                            padding: '.5rem',
-                             margin: '.5rem',
-                              background: '#C3B299'
-                               }} >
+                        
                             <TextField style={{ 
                                 width: '100%',
-                                 background: '#FFFCFF'
+                                background: '#FFFCFF'
                                  }}
                                 type='text'
                                 label='Search'
                                 onChange={(event) => setSearchTerm(event.target.value)}
                             ></TextField>
-                        </Card>
+                        
                     </form>
 
                 </div>
@@ -177,7 +169,6 @@ const Categories = ({ categories, user, token, fetchCategories }) => {
                     }
                 </div>
             </div>
-        </Card>
     )
 
 

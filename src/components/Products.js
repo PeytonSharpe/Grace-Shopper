@@ -4,10 +4,6 @@ import { Button, Card, TextField, Box } from '@mui/material';
 import { Image } from 'mui-image';
 
 import { deleteProduct } from '../api';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-
-// import { DeleteIcon } from '@mui/icons-material';
 
 
 const Products = ({ products, user, token, fetchProducts }) => { 
@@ -59,26 +55,18 @@ const Products = ({ products, user, token, fetchProducts }) => {
     
 
     return (
-        <Card style={{
-            padding: '.5rem',
-            margin: '.5rem',
-            background: '#247BA0'
-        }} elevation={6} >
+        
         <>
             <form className='search-bar' onSubmit={(event) => {
                 event.preventDefault();
             }}>
-                <Card style={{
-                        padding: '.5rem',
-                        margin: '.5rem',
-                        background: '#C3B299'
-                    }} >
+                
                 <TextField 
                     variant='outlined'
                     label='Search'
                     onChange={(event) => setSearchTerm(event.target.value)}
                 ></TextField>
-                </Card>
+                
             </form>
 
             {user.isAdmin ? (
@@ -118,58 +106,38 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                 height: '200px',
                                 width: '200px'
                             }} />
-                            <p>Description: {description}</p>
+                            {/* <p>Description: {description}</p>
                             <p>Price: ${price}</p>
-                            <p>Count: {count}</p>
-                            <Card className='review-card-main' style={{
-                                padding: '.5rem',
-                                margin: '.5rem',
-                                backgroundColor: '#040F16',
-                                color: 'whitesmoke'
+                            <p>Count: {count}</p><br/> */}
 
-                            }} elevation={2}>
-
-                                <h1>Review on Product:</h1>
+                                {/* <h2>Review on Product:</h2> */}
 
                                 {product.reviews && product.reviews.map((review) => {
 
                                     console.log("PROD Reviews")
 
 
-                                    return (
-                                        <Card style={{
-                                            padding: '.5rem',
-                                            margin: '.5rem',
-                                            backgroundColor: 'blue',
-                                            color: 'FFFFF'
-                                        }} elevation={6}
-                                            key={review.id}>
-                                            <p>From User:{review.username}</p>
-                                            <p>Review: {review.review}</p>
-
-
-                                        </Card>
-                                    )
+                                    // return (
+                                        // <>  
+                                        //     <p>From User:{review.username}</p>
+                                        //     <p>Review: {review.review}</p>
+                                        // </>
+                                    // )
 
                                 })
 
 
                                 } 
-                             </Card> 
-                            
-
                                     <Button style={{
                                         height: '3rem',
                                         margin: '.25rem',
-                                        width: '100%',
+                                        width: '30%',
                                         borderRadius: 15
                                     }}
                                         variant='contained' onClick={() => handleAdd(token, id)}>Add To Cart
                                     </Button>
+                             </Card> 
 
-
-                                
-                            </Card>
 
 
                             {user.isAdmin ?
@@ -194,7 +162,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                         style={{
                                             height: '3rem',
                                             margin: '0.5rem',
-                                            width: '38%',
+                                            width: '30%',
                                             borderRadius: 15,
                                             backgroundColor: '#4f43ae'
                                         }}
@@ -213,7 +181,6 @@ const Products = ({ products, user, token, fetchProducts }) => {
             })
             }
         </>
-     </Card>
     )
 }
 

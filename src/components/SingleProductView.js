@@ -71,16 +71,39 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                         <Box>
                             <h2>Reviews:</h2>
                         <p>User: {review.username}</p>
-                        <p>Review: {review.review}</p>
+                        <p>Review: {review.review}</p><br></br>
+
+
+                        <form onSubmit={(ev) => {
+                            ev.preventDefault();
+                            addReview();
+                            navigate('/products')
+                        }}>
+                        <TextField
+                                
+                                type='text'
+                                label="Enter Review"
+                                onChange={(ev) => setReview(ev.target.value)}
+                            /><br></br>
+                            <Button style={{
+                                height: '3rem',
+                                margin: '0.5rem',
+                                width: '30%',
+                                borderRadius: 15,
+                                backgroundColor: '#4f43ae',
+                                color: 'white'
+                            }} type='submit'>Send Review</Button>
+                        </form>
+
                         </Box>
                     )}
-                        <form onSubmit={(ev) => {
+                        {/* <form onSubmit={(ev) => {
                             ev.preventDefault();
                             addReview();
                            const results = fetchProducts();
                             navigate('/products')
-                        }}>
-                            <TextField
+                        }}> */}
+                            {/* <TextField
                                 style={{
                                     width: '50%',
                                     borderColor: 'Gray',
@@ -96,9 +119,9 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                 borderRadius: 35,
                                 opacity: "70%",
                             }} type='submit'>Send Review </Button>
-                        </form>
+                        </form> */}
 
-                    <h1>Review on Product:</h1>
+                    {/* <h1>Review on Product:</h1>
                     <Card style={{
                         padding: '.5rem',
                         margin: '.5rem',
@@ -140,7 +163,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                 borderColor: "#55586F",
                             }} type='submit'>Send Review </Button>
                         </form>
-                    </Card>
+                    </Card> */}
                     {
                         user.isAdmin ? (
                             <>
@@ -169,10 +192,10 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                 <Link style={{ textDecoration: 'none' }} to={`/products`}>
                                     <Button style={{
                                         height: '3rem',
-                                        margin: '.25rem',
-                                        width: '100%',
+                                        margin: '0.5rem',
+                                        width: '30%',
                                         borderRadius: 15,
-                                        backgroundColor: '#55586F'
+                                        backgroundColor: '#4f43ae'
                                     }}
                                         variant='contained'>Back</Button></Link>
                                 {token &&
