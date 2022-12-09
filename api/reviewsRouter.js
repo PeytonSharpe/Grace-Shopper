@@ -5,7 +5,7 @@ const {
   deleteReview } = require('../db');
 
 
-const { requireAdmin } = require('./utils');
+const { requireAdmin, requireUser } = require('./utils');
 const reviewsRouter = express.Router();
 
 reviewsRouter.get('/product/:productId', async (req, res, next) => {
@@ -26,7 +26,7 @@ console.log(allReviews, "allreviews")
   }
 });
 
-reviewsRouter.post('/products/:productId/reviews', requireAdmin, async (req, res, next) => {
+reviewsRouter.post('/products/:productId/reviews', requireUser, async (req, res, next) => {
   try {
     console.log(req.body)
     // console.log('In Products Router Testing')
