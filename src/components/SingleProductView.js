@@ -4,7 +4,7 @@ import { createReview, deleteProduct } from "../api";
 import { Button, TextField, Card, Tabs, Tab, Box } from '@mui/material';
 import { Image } from 'mui-image';
 
-const SingleProductView = ({ products, user, navigate, getMe, token, fetchProducts }) => {
+const SingleProductView = ({ products, user, navigate, getMe, token }) => {
     const [review, setReview] = useState('')
     const [tabIndex, setTabIndex] = useState(0);
 
@@ -98,7 +98,6 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                         <p>Review: {review.review}</p>
                         </Box>
                     )}
-
                                     <Button style={{
                                         height: '3rem',
                                         margin: '.25rem',
@@ -110,14 +109,8 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
 
 
                         {/* <form onSubmit={(ev) => {
-
-                        <form onSubmit={(ev) => {
-                            console.log('IN SUBMIT')
-
                             ev.preventDefault();
                             addReview();
-                           const results = fetchProducts();
-                           console.log(results,"RESULTS REVIEW")
                             navigate('/products')
                         }}>
                             <TextField
@@ -136,9 +129,9 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                 borderRadius: 35,
                                 opacity: "70%",
                             }} type='submit'>Send Review </Button>
-                        </form>
+                        </form> */}
 
-                    <h1>Review on Product:</h1>
+                    {/* <h1>Review on Product:</h1>
                     <Card style={{
                         padding: '.5rem',
                         margin: '.5rem',
@@ -149,19 +142,16 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                         <p>From User:{review.username}</p>
                         <p>Review: {review.review}</p>
 
-                    </Card>
+                    </Card> */}
 
-                    <Card style={{
+                    {/* <Card style={{
                         padding: '.5rem',
                         margin: '.5rem',
                         background: '#001242',
                     }} elevation={6}>
                         <form onSubmit={(ev) => {
-                           
                             ev.preventDefault();
                             addReview();
-                            fetchProducts();
-                          
                             navigate('/products')
                         }}>
                             <TextField
@@ -183,7 +173,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                 borderColor: "#55586F",
                             }} type='submit'>Send Review </Button>
                         </form>
-                    </Card>
+                    </Card> */}
                     {
                         user.isAdmin ? (
                             <>

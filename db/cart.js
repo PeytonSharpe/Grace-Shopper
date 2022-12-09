@@ -1,6 +1,7 @@
 const productsRouter = require('../api/productsRouter');
 
-const client = require('./client');
+const { client } = require('./client');
+
 const { createUser } = require('./users');
 
 async function createCartOrdersTable(){
@@ -34,7 +35,7 @@ async function createCartItemsTable(){
       CREATE TABLE carted_items
       (
         id SERIAL PRIMARY KEY,
-        productId INTEGER REFERENCES products(id),
+        "productId" INTEGER REFERENCES products(id),
         "priceAtPurchase" FLOAT DEFAULT 0.00,
         cart_id INTEGER REFERENCES cart_orders(id)
       );
@@ -83,15 +84,15 @@ async function createGuestCart({ session_id, order_status }){
 }
 
 
-async function addItemToCart({ produc, priceAtPurchase, cart_id }){
+async function addItemToCart({ productId, userId }){
   // produc and priceAtPurchase can be taken from the frontend
   // cart_id can be stored in a useState, and a useEffect can be used to fetch cart
   try {
     const { rows: [ item ]} = await client.query(`
-      INSERT INTO carted_items(productId, "priceAtPurchase", cart_id)
-      VALUES ($1, $2, $3)
+      INSERT INTO cart("productId", "userId")
+      VALUES ($1, $2)
       RETURNING *;
-    `, [ productI, priceAtPurchase, cart_id ])
+    `, [ productId, userId ])
 
     return item;
   } catch (error) {
@@ -206,31 +207,31 @@ async function getMyCartWithItems(userId){
   try {
     const { rows: [cart] } = await client.query(`
       SELECT * 
-      FROM cart_orders
-
-      WHERE order_status='active' AND userId=$1;
+      FROM cart
+      JOIN products ON products.id = cart."productId"
+      WHERE cart."userId" = $1;
     `, [userId])
 
 
 
-    const { rows: items } = await client.query(`
-      SELECT carted_items.*, products.name AS product_name, products.img_url AS product_img
-      FROM carted_items
+    // const { rows: items } = await client.query(`
+    //   SELECT carted_items.*, products.name AS product_name, products.img_url AS product_img
+    //   FROM carted_items
 
-      JOIN products ON products.id = carted_items.productI;
+    //   JOIN products ON products.id = carted_items."productId";
 
-    `)
+    // `)
     
-    if (items.length === 0){
-      cart.items = []
-    } else {
-      const itemsToAdd = items.filter(item => item.cart_id === cart.id)
-      cart.items = itemsToAdd
-      return cart
+    // if (items.length === 0){
+    //   cart.items = []
+    // } else {
+    //   const itemsToAdd = items.filter(item => item.cart_id === cart.id)
+    //   cart.items = itemsToAdd
+    //   return cart
 
-    }
+    // }
   
-
+    return cart
 
   } catch (error) {
     console.log("Error getting cart with items");
@@ -252,7 +253,7 @@ async function getMyPreviousOrdersWithItems(userId){
     const { rows: items } = await client.query(`
       SELECT carted_items.*, products.name AS product_name
       FROM carted_items
-      JOIN products ON products.id = carted_items.productI;
+      JOIN products ON products.id = carted_items."productId";
     `)
 
 

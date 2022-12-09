@@ -4,13 +4,14 @@ import { Button, Card, TextField, Box } from '@mui/material';
 import { Image } from 'mui-image';
 
 import { deleteProduct } from '../api';
+import { addCartItem, getMyCart } from '../axios-services/cart.js'
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
 // import { DeleteIcon } from '@mui/icons-material';
 
 
-const Products = ({ products, user, token, fetchProducts }) => { 
+const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => { 
     
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
@@ -26,27 +27,28 @@ const Products = ({ products, user, token, fetchProducts }) => {
         }
     }
 
-    const handleAdd = async (event) => {
+    const handleAdd = async (event, id) => {
         event.preventDefault();
-    
-        const { product_id, price, cart_id, product_name } = event.target.dataset;
-        if (isLoggedIn){
+    console.log("PRODUCTS TEST",token)
+        // const { product_id, price, cart_id, product_name } = event.target.dataset;
+        // if (isLoggedIn){
           const addedItem = await addCartItem({
-            product_id: product_id,
-            priceAtPurchase: price,
-            cart_id: cart_id,
-          });
-          getMyCart().then((myCart) => setMyCart(myCart));
+            productId: id,
+            // priceAtPurchase: price,
+            // cart_id: cart_id,
+          }, token);
+          console.log("ADDED ITEM", addedItem)
+        //   getMyCart().then((myCart) => setMyCart(myCart));
           return addedItem;
-        } else {
+        // } else {
         //   const guestCartItem = {
-        //     product_id: Number(product_id),
+        //     productId: Number(product_id),
         //     product_name: product_name,
         //     priceAtPurchase: Number(price),
         //   };
           // const sessionCart = await addItemToGuestCart(guestCartItem);
           // getGuestCart().then((myCart) => setMyCart(myCart))
-        }
+        // }
       };
 
     const filteredProducts = products.filter((product) => {
@@ -123,18 +125,18 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                 height: '200px',
                                 width: '200px'
                             }} />
-                            <p>Description: {description}</p>
+                            {/* <p>Description: {description}</p>
                             <p>Price: ${price}</p>
-                            <p>Count: {count}</p>
-                            <Card className='review-card-main' style={{
+                            <p>Count: {count}</p> */}
+                            {/* <Card className='review-card-main' style={{
                                 padding: '.5rem',
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
 
-                            }} elevation={2}>
+                            }} elevation={2}> */}
 
-                                <h1>Review on Product:</h1>
+                                {/* <h1>Review on Product:</h1>
 
                                 {product.reviews && product.reviews.map((review) => {
 
@@ -156,8 +158,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                         </Card>
                                     )
 
-                                })
-
+                                }) */}
 
                                 {/* } */}
                             {/* </Card> */}
@@ -169,12 +170,9 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                         width: '100%',
                                         borderRadius: 15
                                     }}
-                                        variant='contained' onClick={() => handleAdd(token, id)}>Add To Cart
+                                        variant='contained' onClick={(event) => handleAdd(event, id)}>Add To Cart
                                     </Button>
 
-
-                                }
-                            </Card>
 
 
                             {user.isAdmin ?

@@ -25,6 +25,7 @@ import {
     getUserDetails,
     getCategories,
     getAllReviewsForProduct,
+    getMyCart
 
 } from './api';
 
@@ -40,6 +41,7 @@ const App = () => {
     const [user, setUser] = useState({})
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
+    const [cart, setCart] = useState([]);
 
     function logout() {
         window.localStorage.removeItem('token');
@@ -55,6 +57,13 @@ const App = () => {
     async function fetchCategories() {
         const results = await getCategories()
         setCategories(results);
+    }
+
+    async function fetchCart() {
+        console.log("ABOVE")
+        const results = await getMyCart(token)
+        console.log("BELOW")
+        setCart(results);
     }
 
     async function getMe() {
@@ -78,12 +87,13 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
-        
         fetchCategories()
+
     }, [])
 
     useEffect(() => {
         getMe();
+        fetchCart()
     }, [token])
 
     return (
@@ -176,7 +186,10 @@ const App = () => {
               />
                 <Route
                     path='/cart'
-                    element={<Cart />}
+                    element={<Cart
+                        cart={cart}
+                        token={token}
+                        />}
                 />
                 <Route
                     path='/login'

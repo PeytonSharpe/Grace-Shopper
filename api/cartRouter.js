@@ -10,6 +10,7 @@ const {
   // createGuestCart,
   checkOut
 } = require("../db/cart");
+// const { getMyCart } = require('../db');
 
 
 cartRouter.use((req, res, next) => {
@@ -23,11 +24,12 @@ cartRouter.get("/myCart", requireUser, async (req, res, next) => {
 
   try {
     const myCart = await getMyCartWithItems(userId);
-    if (myCart.length !== 0){
+    console.log("CART", myCart)
+    // if (myCart.length !== 0){
       res.send(myCart)
-    } else {
-      res.send("There is no cart")
-    }
+    // } else {
+    //   res.send("There is no cart")
+    // }
   } catch (error) {
     next(error);
   }
@@ -121,14 +123,16 @@ cartRouter.post("/newUserCart", async (req, res, next) => {
 
 
 // Adds item to a cart
-cartRouter.post("/", async (req, res, next) => {
+cartRouter.post("/", requireUser, async (req, res, next) => {
   // const userId = req.user.id;
-  const { productId, priceAtPurchase, cart_id } = req.body;
+  const { productId } = req.body;
+  console.log("ROUTER", productId)
   try {
     const newItem = await addItemToCart({
       productId,
-      priceAtPurchase,
-      cart_id,
+      userId: req.user.id
+      // priceAtPurchase,
+      // cart_id,
     });
     res.send(newItem);
   } catch (error) {

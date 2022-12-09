@@ -22,6 +22,7 @@ import { getMyCart,
 } from "../axios-services/cart";
 
 
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -30,78 +31,79 @@ const theme = createTheme({
   }
 });
 
-const Cart = ({ isLoggedIn, user, guestCart }) => {
+const Cart = ({ token, cart }) => {
     const [myCart, setMyCart] = useState({});
+  console.log ("CART", cart)
+    // useEffect(() => {
   
-    useEffect(() => {
-  
-      if (isLoggedIn){
-        getMyCart().then((myCart) => {
-        setMyCart(myCart);
-        })
-      } else {
-        // getGuestCart().then((myCart) => {
-        //   setMyCart(myCart)
-        // })
-      };
+    //   if (isLoggedIn){
+    //     getMyCart().then((thisCart) => {
+    //       console.log("THIS CART", thisCart)
+    //     setMyCart(thisCart);
+    //     })
+    //   } else {
+    //     // getGuestCart().then((myCart) => {
+    //     //   setMyCart(myCart)
+    //     // })
+    //   };
       
-    }, [guestCart]);
+    // }, []);
   
   
   
-    const handleDelete = async (event) => {
-      const cartedItemId = event.target.id;
+    // const handleDelete = async (event) => {
+    //   const cartedItemId = event.target.id;
   
-      if (isLoggedIn) {
-      event.preventDefault();
-      const deletedItem = await deleteCartItem(cartedItemId);
-      getMyCart().then((myCart) => setMyCart(myCart));
-      return deletedItem;
-      } else {
-        event.preventDefault();
+    //   if (isLoggedIn) {
+    //   event.preventDefault();
+    //   const deletedItem = await deleteCartItem(cartedItemId);
+    //   getMyCart().then((myCart) => setMyCart(myCart));
+    //   return deletedItem;
+    //   } else {
+    //     event.preventDefault();
   
-        const itemIdx = event.target.dataset.idx
+    //     const itemIdx = event.target.dataset.idx
   
         // const remainingItems = await removeItemFromGuestCart(itemIdx)
         // setMyCart(remainingItems)
         // getGuestCart().then((myCart) => setMyCart(myCart))
         
-      }
-    };
+    //   }
+    // };
   
   
   
-    const handleAdd = async (event) => {
-      event.preventDefault();
+    // const handleAdd = async (event) => {
+    //   event.preventDefault();
   
-      const { product_id, price, cart_id, product_name } = event.target.dataset;
-      if (isLoggedIn){
-        const addedItem = await addCartItem({
-          product_id: product_id,
-          priceAtPurchase: price,
-          cart_id: cart_id,
-        });
-        getMyCart().then((myCart) => setMyCart(myCart));
-        return addedItem;
-      } else {
-        const guestCartItem = {
-          product_id: Number(product_id),
-          product_name: product_name,
-          priceAtPurchase: Number(price),
-        };
-        // const sessionCart = await addItemToGuestCart(guestCartItem);
-        // getGuestCart().then((myCart) => setMyCart(myCart))
-      }
+    //   const { product_id, price, cart_id, product_name } = event.target.dataset;
+    //   if (isLoggedIn){
+    //     const addedItem = await addCartItem({
+    //       product_id: product_id,
+    //       priceAtPurchase: price,
+    //       cart_id: cart_id,
+    //     });
+    //     getMyCart().then((myCart) => setMyCart(myCart));
+    //     return addedItem;
+    //   } else {
+    //     const guestCartItem = {
+    //       product_id: Number(product_id),
+    //       product_name: product_name,
+    //       priceAtPurchase: Number(price),
+    //     };
+    //     // const sessionCart = await addItemToGuestCart(guestCartItem);
+    //     // getGuestCart().then((myCart) => setMyCart(myCart))
+    //   }
   
-    };
+    // };
   
-    if (!myCart.items) {
+    if (!cart.items) {
       return (
         <h1>0 items in your cart</h1>
       ) 
     } else {
       let priceArray = [];
-      myCart.items.map((item) => priceArray.push(item.priceAtPurchase));
+      cart.items.map((item) => priceArray.push(item.priceAtPurchase));
       const initialValue = 0;
       const orderTotal = priceArray.reduce(
         (previousValue, currentValue) => Number(previousValue) + Number(currentValue),
@@ -109,7 +111,7 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
       );
       return (
         <div className="cart-container">
-          <h3>{myCart.items.length} items in your cart</h3>
+          <h3>{cart.items.length} items in your cart</h3>
           <TableContainer
             theme={theme}
             component={Paper}
@@ -149,7 +151,7 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {myCart.items.map((item, idx) => (
+                {cart.map((idx) => (
                   <TableRow
                     // key={item.id}
                     key={idx}
@@ -189,7 +191,7 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
                         data-idx={idx} 
                         data-product_id={item.product_id}
                         data-price={item.priceAtPurchase}
-                        data-cart_id={myCart.id}
+                        data-cart_id={cart.id}
                         data-product_name={item.product_name}
                         onClick={(event) => {
                           handleAdd(event)
@@ -209,7 +211,7 @@ const Cart = ({ isLoggedIn, user, guestCart }) => {
   
                   <TableCell align="right" sx={{ fontWeight: "bold", fontSize: "18px" }}>${Number(orderTotal).toFixed(2)}</TableCell>
                   <TableCell align="right">
-                  { myCart.items.length !== 0 ? <Button
+                  { cart.length !== 0 ? <Button
             
   
             component={Link}

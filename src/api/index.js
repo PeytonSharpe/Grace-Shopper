@@ -313,3 +313,21 @@ export const productsByCategory = async (categoryName) => {
     throw error
   }
 }
+
+export const getMyCart = async (token) => {
+  console.log(token)
+  try{
+    const response = await fetch(`${baseURL}/cart/myCart`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    })
+    const result = await response.json();
+    return result
+  } catch (error) {
+    console.log('error getting cart')
+    console.log(error)
+    throw error
+  }
+}

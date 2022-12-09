@@ -1,10 +1,11 @@
 import axios from "axios";
-const API_URL = "http://localhost:4000/api";
+
+const baseURL = 'http://localhost:3001/api' || 'https://graceshopper-rwb0.onrender.com';
 
 export async function getMyCart() {
   try {
     if (localStorage.token){
-      const { data } = await axios.get(`/api/cart/mycart`, {
+      const { data } = await axios.get(`${baseURL}/cart/mycart`, {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
         },
@@ -18,7 +19,7 @@ export async function getMyCart() {
 
 export async function createUserCart({ user_id, order_status }){
   try {
-    const { data } = await axios.post(`/api/cart/newUserCart`, {
+    const { data } = await axios.post(`${baseURL}/cart/newUserCart`, {
       user_id,
       order_status
     });
@@ -43,10 +44,10 @@ export async function createUserCart({ user_id, order_status }){
 export async function addItemToCart ({productId, product_name, priceAtPurchase}) {
 
   try {
-    const { data } = await axios.post(`/api/cart/myCart`, {
+    const { data } = await axios.post(`${baseURL}/cart/myCart`, {
       "productId": productId,
-      "product_name": product_name,
-      "priceAtPurchase": priceAtPurchase
+      // "product_name": product_name,
+      // "priceAtPurchase": priceAtPurchase
     })
 
     return data;
@@ -87,13 +88,17 @@ export async function addItemToCart ({productId, product_name, priceAtPurchase})
 //   }
 // }
 
-export async function addCartItem({ productId, priceAtPurchase, cart_id }) {
+export async function addCartItem({ productId }, token) {
+console.log("AXIOS", token)
   try {
-    const { data } = await axios.post("/api/cart/", {
+    const { data } = await axios.post(`${baseURL}/cart/`, {
       productId,
-      priceAtPurchase,
-      cart_id,
-    });
+
+      // priceAtPurchase,
+      // cart_id,
+    },
+    {headers: { Authorization: `Bearer ${token}` }}
+    );
 
     return data;
   } catch (error) {
@@ -103,7 +108,7 @@ export async function addCartItem({ productId, priceAtPurchase, cart_id }) {
 
 export async function deleteCartItem(cartedItemId) {
   try {
-    const { data } = await axios.delete("/api/cart/", {
+    const { data } = await axios.delete(`${baseURL}/cart/`, {
       data: {
         cartedItemId: cartedItemId
       }
@@ -117,7 +122,7 @@ export async function deleteCartItem(cartedItemId) {
 
 export async function checkOutCart(cart_id){
   try {
-    const { data } = await axios.patch('/api/cart/checkout', {
+    const { data } = await axios.patch(`${baseURL}/cart/checkout`, {
       cart_id
     });
 
