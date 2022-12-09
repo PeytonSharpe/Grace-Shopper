@@ -4,7 +4,7 @@ import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
 import {
     Cart,
-    Category,
+    Categories,
     Checkout,
     AddProduct,
     EditCart,
@@ -28,6 +28,7 @@ import {
 } from './api';
 
 import './style.css'
+import EditCategory from './components/EditCategory';
 
 const App = () => {
 
@@ -79,9 +80,8 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
-        // fetchReviews()
+        fetchReviews()
         fetchCategories()
-
     }, [])
 
     useEffect(() => {
@@ -97,6 +97,7 @@ const App = () => {
           width:'100%',
           height: '100%'
            }}> */}
+
             <header>
                 <nav id='main-nav'>
                     <Navbar logout={logout} token={token} />
@@ -183,6 +184,7 @@ const App = () => {
             </header>
             {/* </Paper> */}
         </React.Fragment>
+
     )
 }
 

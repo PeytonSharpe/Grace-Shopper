@@ -4,20 +4,18 @@ import { Link } from 'react-router-dom';
 const Navbar = ({ logout, token }) => {
 
     const linkStyle = {
+        fontSize: '2rem',
         backgroundColor: '#b5b6e4',
         margin: '2rem',
         textDecoration: 'none',
         color: '#211a21',
-        "&:hover": {
-            color: "red"
-        },
       };
 
 
 
     return (
         <header>
-            <h1 className='title'>Grace Shopper</h1>
+            <h1 className='title'>Go Retro!</h1>
             <nav>
                 <div className='nav-links'>
             <Link to='/' style={linkStyle}>HOME</Link>
