@@ -262,7 +262,7 @@ async function createInitialCategories() {
 
     const controllers = await createCategory({
       name: "Controllers",
-      description: "Constrollers"
+      description: "Controllers"
     });
 
     const other = await createCategory({

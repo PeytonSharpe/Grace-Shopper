@@ -5,13 +5,14 @@ const categoriesRouter = express.Router();
 const { requireUser } = require("./utils");
 
 const {
-    createCategory,
-    updateCategory,
-    getAllCategories,
-    getCategoryById,
-    deleteCategory,
-    getCategoryByName,
-} = require('../db');
+  createCategory,
+  updateCategory,
+  getAllCategories,
+  getCategoryById,
+  deleteCategory,
+  getCategoryByName,
+  getProductByCategory
+} = require ('../db');
 
 categoriesRouter.get('/', async (req, res, next) => {
     try {
@@ -19,15 +20,26 @@ categoriesRouter.get('/', async (req, res, next) => {
         const allCategories = await getAllCategories();
         res.send(allCategories)
     } catch (error) {
-        console.error('categoriesRouter.get-categoriesRouter.js FAILED', error)
+        console.error ('categoriesRouter.get-categoriesRouter.js FAILED', error)
     }
+    
+});
 
+categoriesRouter.get('/:category', async (req, res, next) => {
+    try {
+        const { category } = req.params;
+        const categoryProducts = await getProductByCategory(category);
+        res.send(categoryProducts)
+    } catch (error) {
+        console.error ('categoriesRouter.get-categoriesRouter.js FAILED', error)
+    }
+    
 });
 
 categoriesRouter.post('/create-category', async (req, res, next) => {
     const { name, description } = req.body
 
-    try {
+    try{
         const category = await getCategoryByName(name);
 
         if (category) {
@@ -38,11 +50,11 @@ categoriesRouter.post('/create-category', async (req, res, next) => {
             });
         }
         const newCat = await createCategory({
-            name,
+            name, 
             description
         });
         res.send({
-            message: `Category ${name} created!`
+            message:`Category ${name} created!`
         });
     } catch ({ name, message }) {
         next({ name, message })
@@ -64,15 +76,15 @@ categoriesRouter.patch('/:categoryId', async (req, res, next) => {
     }
 
     try {
-
-        const updatedCategory = await updateCategory(categoryId, updateFields)
+        
+        const updatedCategory = await updateCategory (categoryId, updateFields)
 
         if (updatedCategory) {
             res.send(updatedCategory)
         } else {
-            res.send(`Error updating category`)
+        res.send ({message:`Error updating category`})
         }
-
+        
     } catch (error) {
         console.log('categoriesRouter.patch FAILED', error)
     }
@@ -82,17 +94,18 @@ categoriesRouter.patch('/:categoryId', async (req, res, next) => {
 categoriesRouter.delete('/:categoryId', async (req, res, next) => {
     try {
         const { categoryId } = req.params;
-
         const deletedCategory = await deleteCategory(categoryId)
 
-        if (deletedCategory) {
-            res.send('This Category was deleted.')
-        } else {
-            res.send('Error deleting Category.')
-        }
-    } catch (err) {
-        console.log('categoriesRouter.delete FAILED', err)
-    }
+        if(deletedCategory) {
+            res.send({
+                message:'This Category was deleted.'
+            })
+            } else {
+              res.send('Error deleting Category.')
+            }
+          } catch (err) {
+            console.log('categoriesRouter.delete FAILED', err)
+          }
 });
 
 module.exports = categoriesRouter;
