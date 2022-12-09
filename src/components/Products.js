@@ -54,32 +54,31 @@ const Products = ({ products, user, token, fetchProducts }) => {
         console.log(product, "FILTERED")
         return productMatches(product, searchTerm)
     });
-    console.log(searchTerm, 'Search')
+  
     const productsToDisplay = searchTerm.length ? filteredProducts : products;
-    // const productsToDisplay = products
-    // console.log(filteredProducts,'PRODUCTS Filter')
+    
 
     return (
-        // <Card style={{
-        //     padding: '.5rem',
-        //     margin: '.5rem',
-        //     background: '#247BA0'
-        // }} elevation={6} >
+        <Card style={{
+            padding: '.5rem',
+            margin: '.5rem',
+            background: '#247BA0'
+        }} elevation={6} >
         <>
             <form className='search-bar' onSubmit={(event) => {
                 event.preventDefault();
             }}>
-                {/* <Card style={{
+                <Card style={{
                         padding: '.5rem',
                         margin: '.5rem',
                         background: '#C3B299'
-                    }} > */}
+                    }} >
                 <TextField 
                     variant='outlined'
                     label='Search'
                     onChange={(event) => setSearchTerm(event.target.value)}
                 ></TextField>
-                {/* </Card> */}
+                </Card>
             </form>
 
             {user.isAdmin ? (
@@ -96,11 +95,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
             )}
 
             {productsToDisplay.map((product) => {
-
-                // console.log(product, "product map")
-                console.log('product.id')
-                // const reviewsToDisplay = await getAllReviewsForProduct( product.id )
-                // console.log(reviewsToDisplay, 'Reviews get all')
+               
                 const {
                     id,
                     title,
@@ -159,8 +154,8 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                 })
 
 
-                                {/* } */}
-                            {/* </Card> */}
+                                } 
+                             </Card> 
                             
 
                                     <Button style={{
@@ -173,7 +168,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                     </Button>
 
 
-                                }
+                                
                             </Card>
 
 
@@ -212,13 +207,13 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                     </Button>
                                 </> :
                                 null}
-                        </Card>
+                        
                     </>
                 )
             })
             }
         </>
-        // </Card>
+     </Card>
     )
 }
 

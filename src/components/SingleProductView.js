@@ -15,38 +15,14 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
 
     async function addReview() {
         console.error('in Single product view')
-        await createReview({ product_id, review, token, stars: 5 })
+        await createReview({ productId, review, token, stars: 5 })
     }
-
-    const handleAdd = async (event) => {
-        event.preventDefault();
-    
-        const { product_id, price, cart_id, product_name } = event.target.dataset;
-        if (isLoggedIn){
-          const addedItem = await addCartItem({
-            product_id: product_id,
-            priceAtPurchase: price,
-            cart_id: cart_id,
-          });
-          getMyCart().then((myCart) => setMyCart(myCart));
-          return addedItem;
-        } else {
-        //   const guestCartItem = {
-        //     product_id: Number(product_id),
-        //     product_name: product_name,
-        //     priceAtPurchase: Number(price),
-        //   };
-          // const sessionCart = await addItemToGuestCart(guestCartItem);
-          // getGuestCart().then((myCart) => setMyCart(myCart))
-        }
-      };
-
     const [activeReview, setActiveReview] = useState(false);
-    const { product_id } = useParams();
+    const { productId } = useParams();
 
     if (products.length) {
 
-        const [currentProduct] = products.filter(products => products.id === parseInt(product_id));
+        const [currentProduct] = products.filter(products => products.id === parseInt(productId));
 
         const {
             title,
@@ -98,26 +74,10 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                         <p>Review: {review.review}</p>
                         </Box>
                     )}
-
-                                    <Button style={{
-                                        height: '3rem',
-                                        margin: '.25rem',
-                                        width: '100%',
-                                        borderRadius: 15
-                                    }}
-                                        variant='contained' onClick={() => handleAdd(token, product_id)}>Add To Cart
-                                    </Button>
-
-
-                        {/* <form onSubmit={(ev) => {
-
                         <form onSubmit={(ev) => {
-                            console.log('IN SUBMIT')
-
                             ev.preventDefault();
                             addReview();
                            const results = fetchProducts();
-                           console.log(results,"RESULTS REVIEW")
                             navigate('/products')
                         }}>
                             <TextField
@@ -157,11 +117,8 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                         background: '#001242',
                     }} elevation={6}>
                         <form onSubmit={(ev) => {
-                           
                             ev.preventDefault();
                             addReview();
-                            fetchProducts();
-                          
                             navigate('/products')
                         }}>
                             <TextField
@@ -194,7 +151,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                         width: '100%',
                                         borderRadius: 15
                                     }}
-                                        variant='contained' onClick={() => deleteProduct(token, product_id)}>Delete
+                                        variant='contained' onClick={() => deleteProduct(token, productId)}>Delete
                                     </Button></Link> */}
                                 <Link style={{ textDecoration: 'none' }} to={`/products`}>
                                     <Button style={{
@@ -230,7 +187,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                             variant='contained' onClick={() => setActiveReview(!activeReview)}>Review this product</Button>
 
                                         {
-                                            activeReview && <singleProductView token={token} product_id={product_id} navigate={navigate} getMe={getMe} />
+                                            activeReview && <singleProductView token={token} productId={productId} navigate={navigate} getMe={getMe} />
                                         }
                                     </>
                                 }
