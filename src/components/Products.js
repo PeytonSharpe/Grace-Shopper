@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { Button, Card, TextField, Box } from '@mui/material';
 import { Image } from 'mui-image';
 import { deleteProduct, getAllReviewsForProduct } from '../api';
+
 // import { DeleteIcon } from '@mui/icons-material';
+
 
 const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
 
@@ -16,22 +18,25 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
 
     // }
 
+
     // console.log(user, "User")
     // console.log(reviews, 'Reviews')
     console.log(products, "Products")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         console.log(products, string, "STRING")
+
         const {
             title,
             description,
         } = products;
-        // console.log(products)
+
         if (title.toLowerCase().includes(string.toLowerCase()) || description.toLowerCase().includes(string.toLowerCase())) {
             return products;
         }
     }
     const filteredProducts = products.filter((product) => {
+
         console.log(product, "FILTERED")
         return productMatches(product, searchTerm)
     });
@@ -39,6 +44,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
     const productsToDisplay = searchTerm.length ? filteredProducts : products;
     // const productsToDisplay = products
     // console.log(filteredProducts,'PRODUCTS Filter')
+
     return (
         // <Card style={{
         //     padding: '.5rem',
@@ -68,6 +74,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                         textDecoration: 'none'
                     }} to='/products/add-product'><button>
                             + ADD Product
+
                         </button></Link><br></br>
                 </>
             ) : (
@@ -92,6 +99,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                 return (
                     <>
                         <Card className='product-card' key={id}>
+
                             <Link style={{
                                 textDecoration: 'none'
                             }} to={`/products/${id}`}>
@@ -109,6 +117,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
+
                             }} elevation={2}> */}
 
                                 {/* <h1>Review on Product:</h1>
@@ -116,6 +125,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                 {product.reviews && product.reviews.map((review) => {
 
                                     console.log("PROD Reviews")
+
 
                                     return (
                                         <Card style={{
@@ -128,6 +138,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                             <p>From User:{review.username}</p>
                                             <p>Review: {review.review}</p>
 
+
                                         </Card>
                                     )
 
@@ -135,6 +146,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
 
                                 {/* } */}
                             {/* </Card> */}
+
 
                             {user.isAdmin ?
                                 <>
@@ -151,7 +163,6 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                         type='submit'>
 
                                         </Button> </Link>
-
                                     <Button
                                         style={{
                                             height: '3rem',
@@ -165,6 +176,7 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                             await deleteProduct(token, id)
                                             fetchProducts()
                                         }}>Delete Product
+
                                     </Button>
                                 </> :
                                 null}

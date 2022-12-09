@@ -28,16 +28,18 @@ async function createReview({
 
 }
 
-async function getallReviewsByUser({
+async function getAllReviewsByUser({
     userId
 }) {
     try{
         const { rows: reviews } = await client.query(`
         SELECT * FROM reviews
         WHERE reviews."userId" = $1`,[userId])
-    } catch (error) {
-        console.log(error)
-    }
+
+    }catch (err) {
+        console.log('getAllReviewsByUser FAILED', err)
+        throw err
+      }
 }
 
 async function getAllReviews(){
@@ -46,9 +48,11 @@ async function getAllReviews(){
         SELECT reviews.*, users.username FROM reviews
         JOIN users ON reviews."userId"= users.id
         `)
-    } catch(error) {
-        console.log(error)
-    }
+
+    }catch (err) {
+        console.log('getAllReviews FAILED', err)
+        throw err
+      }
 }
 
  async function getAllReviewsForProduct({

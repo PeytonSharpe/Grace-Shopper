@@ -1,11 +1,26 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Paper, TextField } from '@mui/material';
+import { createCategory } from '../api';
 
 
 const Categories = ({ categories, user, token, fetchCategories }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    console.log(categories)
+    const [createName, setName] = useState('');
+    const [createDescription, setDescription] = useState('');
+
+    async function CreateCategory() {        
+            const newCategory = {
+                token: token,
+                name: createName,
+                description: createDescription
+            }
+            
+            await createCategory(newCategory, token)
+            fetchCategories();
+
+        }
+    
     function categoryMatches(categories, string) {
         const { 
             id,
@@ -52,8 +67,49 @@ const Categories = ({ categories, user, token, fetchCategories }) => {
                 </div>
                 <div>
                     {user.isAdmin ? (
-<div>
-                        <Link style={{
+<div id='create-new-category'>
+                    <form onSubmit={(event) => {
+                        event.preventDefault();
+                    }}>
+                        <TextField style={{
+                            flexWrap: 'center',
+                            margin: '.25rem',
+                            width: '100%',
+                            backgroundColor: '#FFFCFF',
+
+                        }}
+                            type='text'
+                            variant='outlined'
+                            placeholder='New Category Name'
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                        <TextField style={{
+                            flexWrap: 'center',
+                            margin: '.25rem',
+                            width: '100%',
+                            backgroundColor: '#FFFCFF',
+
+                        }}
+                            type='text'
+                            variant='outlined'
+                            placeholder='New Category Description'
+                            onChange={(event) => setDescription(event.target.value)}                            
+                        />
+                        <Button
+                            style={{
+                             height: '4rem',
+                             width: '100%',
+                             borderRadius: 15,
+                             background: '#001242'
+                             }}
+                            variant='contained'
+                            onClick={() => {
+                                CreateCategory();
+                            }}>
+                            Create Category
+                        </Button>
+                    </form>    
+                        {/* <Link style={{
                              textDecoration: 'none'
                              }} to='/categories/create-category'><Button
                             style={{
@@ -65,7 +121,7 @@ const Categories = ({ categories, user, token, fetchCategories }) => {
                             variant='contained'
                             type='submit'>
                             Create Category
-                        </Button></Link>
+                        </Button></Link> */}
 
 
 </div>
