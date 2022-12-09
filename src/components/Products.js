@@ -132,7 +132,8 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                         height: '3rem',
                                         margin: '.25rem',
                                         width: '30%',
-                                        borderRadius: 15
+                                        borderRadius: 15,
+                                        backgroundColor: '#4f43ae'
                                     }}
                                         variant='contained' onClick={() => handleAdd(token, id)}>Add To Cart
                                     </Button>
