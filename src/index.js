@@ -92,7 +92,7 @@ const App = () => {
     return (
         <React.Fragment>
             <CssBaseline />
-            {/* <Paper  elevation={16} 
+            <Paper  elevation={16} 
         style={{
           background:'#CBD4C2',
           width:'100%',

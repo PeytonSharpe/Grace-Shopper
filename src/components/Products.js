@@ -10,12 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // import { DeleteIcon } from '@mui/icons-material';
 
 
-const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
-
-
-const Products = ({ products, user, token, fetchProducts }) => {    
+const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => { 
     
-
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         console.log(products, string, "STRING")
