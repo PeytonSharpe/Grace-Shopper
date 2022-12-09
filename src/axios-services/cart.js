@@ -40,21 +40,21 @@ export async function createUserCart({ user_id, order_status }){
 //   }
 // }
 
-// export async function addItemToGuestCart ({product_id, product_name, priceAtPurchase}) {
+export async function addItemToCart ({productId, product_name, priceAtPurchase}) {
 
-//   try {
-//     const { data } = await axios.post(`/api/cart/guestCart`, {
-//       "product_id": product_id,
-//       "product_name": product_name,
-//       "priceAtPurchase": priceAtPurchase
-//     })
+  try {
+    const { data } = await axios.post(`/api/cart/myCart`, {
+      "productId": productId,
+      "product_name": product_name,
+      "priceAtPurchase": priceAtPurchase
+    })
 
-//     return data;
-//   } catch (error) {
-//     console.log("Error adding item to guestCart")
-//     console.error(error)
-//   }
-// }
+    return data;
+  } catch (error) {
+    console.log("Error adding item to guestCart")
+    console.error(error)
+  }
+}
 
 // export async function removeItemFromGuestCart(idx) {
 
@@ -87,10 +87,10 @@ export async function createUserCart({ user_id, order_status }){
 //   }
 // }
 
-export async function addCartItem({ product_id, priceAtPurchase, cart_id }) {
+export async function addCartItem({ productId, priceAtPurchase, cart_id }) {
   try {
     const { data } = await axios.post("/api/cart/", {
-      product_id,
+      productId,
       priceAtPurchase,
       cart_id,
     });

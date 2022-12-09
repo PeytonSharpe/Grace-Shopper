@@ -17,6 +17,30 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
         console.error('in Single product view')
         await createReview({ productId, review, token, stars: 5 })
     }
+
+    const handleAdd = async (event) => {
+        event.preventDefault();
+    
+        const { product_id, price, cart_id, product_name } = event.target.dataset;
+        if (isLoggedIn){
+          const addedItem = await addCartItem({
+            product_id: product_id,
+            priceAtPurchase: price,
+            cart_id: cart_id,
+          });
+          getMyCart().then((myCart) => setMyCart(myCart));
+          return addedItem;
+        } else {
+        //   const guestCartItem = {
+        //     product_id: Number(product_id),
+        //     product_name: product_name,
+        //     priceAtPurchase: Number(price),
+        //   };
+          // const sessionCart = await addItemToGuestCart(guestCartItem);
+          // getGuestCart().then((myCart) => setMyCart(myCart))
+        }
+      };
+
     const [activeReview, setActiveReview] = useState(false);
     const { productId } = useParams();
 
@@ -74,6 +98,16 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
                         <p>Review: {review.review}</p>
                         </Box>
                     )}
+                                    <Button style={{
+                                        height: '3rem',
+                                        margin: '.25rem',
+                                        width: '100%',
+                                        borderRadius: 15
+                                    }}
+                                        variant='contained' onClick={() => handleAdd(token, productId)}>Add To Cart
+                                    </Button>
+
+                                    
                         {/* <form onSubmit={(ev) => {
                             ev.preventDefault();
                             addReview();
