@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // import { DeleteIcon } from '@mui/icons-material';
 
 
-const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => { 
+const Products = ({ products, user, token, fetchProducts }) => { 
     
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
@@ -99,18 +99,18 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                 height: '200px',
                                 width: '200px'
                             }} />
-                            {/* <p>Description: {description}</p>
+                            <p>Description: {description}</p>
                             <p>Price: ${price}</p>
-                            <p>Count: {count}</p> */}
-                            {/* <Card className='review-card-main' style={{
+                            <p>Count: {count}</p>
+                            <Card className='review-card-main' style={{
                                 padding: '.5rem',
                                 margin: '.5rem',
                                 backgroundColor: '#040F16',
                                 color: 'whitesmoke'
 
-                            }} elevation={2}> */}
+                            }} elevation={2}>
 
-                                {/* <h1>Review on Product:</h1>
+                                <h1>Review on Product:</h1>
 
                                 {product.reviews && product.reviews.map((review) => {
 
@@ -132,10 +132,10 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                         </Card>
                                     )
 
-                                }) */}
+                                })
 
-                                {/* } */}
-                            {/* </Card> */}
+                                }
+                            </Card>
 
 
                             {user.isAdmin ?

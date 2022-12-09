@@ -21,27 +21,28 @@ const Register = ({ setToken, navigate }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [active, setActive] = useState('');
-  const [isAdmin, setIsAdmin] = useState('');
+  // const [active, setActive] = useState('');
+  // const [isAdmin, setIsAdmin] = useState('');
 
 
-  const handleSubmit = async ({ id }) => {
+  const handleSubmit = async () => {
     console.log(username, password, 'testing UN/PW')
     if (password.search(/[A-Z]/) === -1) {
       alert('Please add an uppercase character to your password.')
       return null
     }
     if (password !== confirmPassword) {
-      alert('Passwords do not match.')
+      alert('Password Don\'t Match')
       return null
     }
-    const results = await registerUser(username, password, email, name, { id });
+    const results = await registerUser(username, password, email, name);
 
-    if (results.success) {
+    if (results.token) {
       console.log('Token acquired')
-      setToken(results.data.token)
-      window.localStorage.setItem('token', results.data.token)
+      setToken(results.token)
+      window.localStorage.setItem('token', results.token)
       alert('Register successful.')
+      navigate('/')
       console.log(results, 'Register user')
     } else {
       alert('Register unsuccessful, please try again.')
@@ -58,7 +59,7 @@ const Register = ({ setToken, navigate }) => {
         <form onSubmit={(event) => {
           event.preventDefault();
           handleSubmit(username, password, email);
-          navigate('/')
+          
 
         }}>
 
@@ -70,7 +71,7 @@ const Register = ({ setToken, navigate }) => {
 
           }}
             type='text'
-            placeholder='Enter Username'
+            label='Enter Username'
             required={{ minLength: 3, maxLength: 13 }}
             onChange={(event) => { console.log(event.target.value), setUsername(event.target.value), 'Username' }}
           />
@@ -82,7 +83,7 @@ const Register = ({ setToken, navigate }) => {
           }}
             type='password'
             required={{ minLength: 8, maxLength: 20 }}
-            placeholder='Enter Password'
+            label='Enter Password'
             onChange={(event) => setPassword(event.target.value)} />
 
           <TextField style={{
@@ -92,7 +93,7 @@ const Register = ({ setToken, navigate }) => {
           }}
             type='password'
             required={{ minLength: 8, maxLength: 20 }}
-            placeholder='Confirm Password'
+            label='Confirm Password'
             onChange={(event) => setConfirmPassword(event.target.value)} />
 
           <TextField style={{
@@ -102,7 +103,7 @@ const Register = ({ setToken, navigate }) => {
             backgroundColor: '#FFFCFF'
           }}
             type='text'
-            placeholder='Email Address'
+            label='Email Address'
             onChange={(event) => setEmail(event.target.value)}
           />
 
