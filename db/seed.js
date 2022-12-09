@@ -180,30 +180,111 @@ async function createInitialProducts() {
     console.log('Starting to create products...')
     await createProduct({
       title:
-        "Game Place Holder 1",
+        "Gameboy Original!",
       description:
-        "Description for the first most amazing product ever....",
+        "An Original Gameboy Black and White!",
       price: 999.99,
       count: 100,
-      image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMiiZCrzXRvcnCj1zwrKsOZkMdnR_YL5hIkw&usqp=CAU'
     });
 
     await createProduct({
       title:
-        "Game Place Holder 2",
+        "T2 Pinball Machine",
       description:
-        "Description for the second most amazing product ever....",
+        "Classic Terminator 2 Pinball Machine!",
       count: 100,
-      image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      image: 'https://sternpinball.com/wp-content/uploads/2018/12/flipper-terminator-3-vf107-aab.png'
     });
 
     await createProduct({
       title:
-        "Game Place Holder 3",
+        "Twisted Metal",
       description:
-        "Description for the third most amazing product ever....",
+        "PS1 Twisted Metal Game CD",
       count: 100,
-      image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      image: 'https://i0.wp.com/gamecomplaintdepartment.com/wp-content/uploads/2019/04/twisted-metal-playstation-front-cover.jpg?fit=800%2C783&ssl=1'
+    });
+
+    await createProduct({
+      title:
+        "Pacman",
+      description:
+        "Modern Pacman Arcade Cabinet",
+      count: 100,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCrU-PVrIFISAP7fBl2uuAoEhTK4t3VjNcANQ88r73fdjiwuK6zoNmQsRPqwxD2ZdzgmE&usqp=CAU'
+    });
+
+    await createProduct({
+      title:
+        "Galaga",
+      description:
+        "Classic Galaga Arcade Cabinet",
+      count: 100,
+      image: 'https://i.etsystatic.com/5896056/r/il/795637/1048144274/il_794xN.1048144274_14nf.jpg'
+    });
+
+    await createProduct({
+      title:
+        "Duck Hunt",
+      description:
+        "NES Duckhunt Classic Cartridge",
+      count: 100,
+      image: 'https://m.media-amazon.com/images/I/71nz2DryhML._SX425_.jpg'
+    });
+
+    await createProduct({
+      title:
+        "Super Mario Kart",
+      description:
+        "SNES Mario Cart Original Cartridge!",
+      count: 100,
+      image: 'https://cdn.vox-cdn.com/thumbor/pP0kKYQ924Pj6CValfh7oGTsdRA=/0x0:2100x1534/920x0/filters:focal(0x0:2100x1534):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/3826880/2364824-snes_supermariokart.0.jpg'
+    });
+
+    await createProduct({
+      title:
+        "PitFall",
+      description:
+        "Atari PITFALL Original Cartridge",
+      count: 100,
+      image: 'https://cdn11.bigcommerce.com/s-ymgqt/images/stencil/320w/products/23064/14363/Game%20Atari%202600-pitfall-2__93778.1670452910.jpg?c=2'
+    });
+
+    await createProduct({
+      title:
+        "Power Glove",
+      description:
+        "Nintendo Power Glove!",
+      count: 100,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEnhaCXFG8zxc-9wOasK78GUpsLhJLP81yXQ&usqp=CAU'
+    });
+
+    await createProduct({
+      title:
+        "N64 Controller",
+      description:
+        "N64 Controller Original",
+      count: 100,
+      image: 'https://m.media-amazon.com/images/I/51LiSZkgGKL.jpg'
+    });
+
+    await createProduct({
+      title:
+        "Atari 2600 Console",
+      description:
+        "Original ATari 2600 Wood Panel Console!!",
+      count: 100,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHL8Ws_iaTBhOrCjzKIrkQb_x8JsRQdoS1SIIYCERCBm2af9E20Suq0FZWk8Z3c3rrrVc&usqp=CAU'
+    });
+
+    await createProduct({
+      title:
+        "Nintendo Wii Carrying Case",
+      description:
+        "Carrying Satchel to carry your Wii and accessories!",
+      count: 100,
+      image: 'https://i.ebayimg.com/images/g/r5UAAOSwoZ1jbnnX/s-l500.jpg'
     });
 
     console.log('Finished creating Products')
@@ -218,8 +299,8 @@ async function createInitialCategories() {
   try {
     console.log('Creating initial categories')
     const consoles = await createCategory({
-      name: "Consoles",
-      description: "Console Systems"
+      name: "Consoles FIX THIS",
+      description: "Console Systems FIX THIS"
     });
     console.log("Created Consoles Category", consoles)
 
@@ -360,26 +441,91 @@ async function testDB() {
 
 
     console.log("Adding Category to Product")
-    const [productOne, productTwo, productThree] = await getAllProducts();
+    const [productOne, T2pb, twistedMetal, pacman, galaga, duckHunt, smk, pitfall, powerGlove, n64Con, atari, wii ] = await getAllProducts();
 
     await addCategoryToProduct({
       productId: productOne.id,
+      categoryId: 6
+    });
+
+    await addCategoryToProduct({
+      productId: T2pb.id,
       categoryId: 3
     });
 
     await addCategoryToProduct({
-      productId: productTwo.id,
+      productId: T2pb.id,
+      categoryId: 5
+    });
+
+    await addCategoryToProduct({
+      productId: twistedMetal.id,
       categoryId: 3
     });
 
     await addCategoryToProduct({
-      productId: productTwo.id,
+      productId: twistedMetal.id,
+      categoryId: 7
+    });
+
+    await addCategoryToProduct({
+      productId: pacman.id,
       categoryId: 2
     });
 
     await addCategoryToProduct({
-      productId: productThree.id,
+      productId: galaga.id,
+      categoryId: 2
+    });
+
+    await addCategoryToProduct({
+      productId: duckHunt.id,
+      categoryId: 4
+    });
+
+    await addCategoryToProduct({
+      productId: duckHunt.id,
+      categoryId: 3
+    });
+
+    await addCategoryToProduct({
+      productId: smk.id,
+      categoryId: 4
+    });
+
+    await addCategoryToProduct({
+      productId: smk.id,
+      categoryId: 3
+    });
+
+    await addCategoryToProduct({
+      productId: pitfall.id,
+      categoryId: 4
+    });
+
+    await addCategoryToProduct({
+      productId: pitfall.id,
+      categoryId: 3
+    });
+
+    await addCategoryToProduct({
+      productId: powerGlove.id,
+      categoryId: 8
+    });
+
+    await addCategoryToProduct({
+      productId: n64Con.id,
+      categoryId: 9
+    });
+
+    await addCategoryToProduct({
+      productId: atari.id,
       categoryId: 1
+    });
+
+    await addCategoryToProduct({
+      productId: wii.id,
+      categoryId: 10
     });
 
     console.log(await getAllProdCategories())
@@ -394,8 +540,8 @@ async function testDB() {
 
     console.log("Updating a Category")
     const updatedCategory = await updateCategory(categories[0].id, {
-      name: "Consoles EDITED",
-      description: "Console Systems EDITED"
+      name: "Consoles",
+      description: "Console Systems"
     });
     console.log("The Updated Category Result:", updatedCategory)
 
