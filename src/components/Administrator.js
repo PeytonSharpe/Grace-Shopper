@@ -2,12 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardMedia, Paper, TextField } from '@mui/material';
 import { Image } from 'mui-image';
-import { deleteUser } from '../api';
+import { getAllUsers } from '../api';
 
 
-const Administrator = ({ products, user, token, fetchProducts, fetchCategories, categories}) => {
+const Administrator = ({ getAllUsers}) => {
 
-    console.log(user,"user")
+    console.log(getAllUsers,"GETTING ALL USERS")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         const { 
