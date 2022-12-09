@@ -201,13 +201,13 @@ const SingleProductView = ({ products, user, navigate, getMe, token, fetchProduc
                                 {token &&
                                     <>
 
-                                        <Button style={{
+                                        {/* <Button style={{
                                             height: '3rem',
                                             margin: '.25rem',
                                             width: '100%',
                                             borderRadius: 15
                                         }}
-                                            variant='contained' onClick={() => setActiveReview(!activeReview)}>Review this product</Button>
+                                            variant='contained' onClick={() => setActiveReview(!activeReview)}>Review this product</Button> */}
 
                                         {
                                             activeReview && <singleProductView token={token} productId={productId} navigate={navigate} getMe={getMe} />

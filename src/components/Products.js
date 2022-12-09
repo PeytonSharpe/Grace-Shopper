@@ -137,20 +137,19 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                     }}
                                         variant='contained' onClick={() => handleAdd(token, id)}>Add To Cart
                                     </Button>
-                             </Card> 
 
 
 
                             {user.isAdmin ?
-                                <>
+                                <><br/>
                                     <Link key={id}
                                         to={`/products/edit-products/${id}`}
-                                    ><Button
+                                        ><Button
                                         style={{
-
+                                            
                                             height: '3rem',
                                             margin: '0.5rem',
-                                            width: '100%',
+                                            width: '20%',
                                             borderRadius: 15,
                                             backgroundColor: '#4f43ae'
                                         }}
@@ -158,12 +157,12 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                         type='submit'>Edit Product
                                         </Button></Link>
 
-
+                                    <br/>
                                     <Button
                                         style={{
                                             height: '3rem',
                                             margin: '0.5rem',
-                                            width: '30%',
+                                            width: '20%',
                                             borderRadius: 15,
                                             backgroundColor: '#4f43ae'
                                         }}
@@ -176,6 +175,7 @@ const Products = ({ products, user, token, fetchProducts }) => {
                                     </Button>
                                 </> :
                                 null}
+                                </Card> 
                         
                     </>
                 )
