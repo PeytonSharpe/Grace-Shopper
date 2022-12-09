@@ -2,26 +2,20 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, TextField, Box } from '@mui/material';
 import { Image } from 'mui-image';
-import { deleteProduct, getAllReviewsForProduct } from '../api';
+
+import { deleteProduct } from '../api';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 // import { DeleteIcon } from '@mui/icons-material';
 
 
 const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews }) => {
 
-    // const boxStyle = {
-    //     display: 'inline-flex',
-    //     border: '1px solid black',
-    //     margin: '0.2rem',
-    //     width: '15rem',
-    //     height: '15rem'
 
-    // }
+const Products = ({ products, user, token, fetchProducts }) => {    
+    
 
-
-    // console.log(user, "User")
-    // console.log(reviews, 'Reviews')
-    console.log(products, "Products")
     const [searchTerm, setSearchTerm] = useState('');
     function productMatches(products, string) {
         console.log(products, string, "STRING")
@@ -154,10 +148,12 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                         to={`/products/edit-products/${id}`}
                                     ><Button
                                         style={{
-                                            height: '3rem',
-                                            margin: '.25rem',
-                                            width: '100%',
-                                            borderRadius: 15
+
+                                             height: '2rem',
+                            width: '100%',
+                            borderRadius: 15,
+                            background: '#001242'
+
                                         }}
                                         variant='contained'
                                         type='submit'>

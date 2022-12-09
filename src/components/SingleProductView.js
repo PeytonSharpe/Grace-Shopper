@@ -4,52 +4,7 @@ import { createReview, deleteProduct } from "../api";
 import { Button, TextField, Card, Paper } from '@mui/material';
 import { Image } from 'mui-image';
 
-// const SendReview = ({ productId, token, navigate }) => {
-//     const [review, setReview] = useState('')
-
-
-//     async function addReview() {
-//         console.log('in add Review')
-//         await createReview({ productId, review, token, stars:5 })
-//     }
-
-//     return (
-//         <Card style={{
-//             padding: '.5rem',
-//             margin: '.5rem',
-//             background: '#001242',
-//         }} elevation={6}>
-//             <form onSubmit={(ev) => {
-//                 ev.preventDefault();
-//                 addReview();
-//                 navigate('/product')
-//             }}>
-//                 <TextField
-//                     style={{ borderColor: 'Gray',
-//                      backgroundColor: 'whitesmoke',
-//                     }}
-//                     type='text'
-//                     label="Enter Review2"
-//                     onChange={(ev) => setReview({ content: ev.target.value })}
-//                 />
-//                 <Button style={{
-//                     marginTop: "2%",
-//                     width: "50%",
-//                     borderRadius: 35,
-//                     background: "#55586F",
-//                     opacity: "70%",
-//                     color: "#24A6D1",
-//                     borderColor: "#55586F",
-//                 }} type='submit' onClick={() => {
-//                     addReview();
-//                     navigate('/products')
-//                 }}>Send Review </Button>
-//             </form>
-//         </Card>
-//     )
-// }
-
-const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, token }) => {
+const SingleProductView = ({ products, user, navigate, getMe, token }) => {
     const [review, setReview] = useState('')
 
 
@@ -59,7 +14,7 @@ const SingleProductView = ({ products, fetchProducts, user, navigate, getMe, tok
     }
     const [activeReview, setActiveReview] = useState(false);
     const { productId } = useParams();
-    // console.error('ProductID',productId)
+    
     if (products.length) {
        
         const [currentProduct] = products.filter(products => products.id === parseInt(productId));

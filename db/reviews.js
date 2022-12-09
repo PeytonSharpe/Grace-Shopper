@@ -36,6 +36,8 @@ async function getAllReviewsByUser({
         SELECT * FROM reviews
         WHERE reviews."userId" = $1`,[userId])
 
+        return reviews
+
     }catch (err) {
         console.log('getAllReviewsByUser FAILED', err)
         throw err
@@ -48,6 +50,8 @@ async function getAllReviews(){
         SELECT reviews.*, users.username FROM reviews
         JOIN users ON reviews."userId"= users.id
         `)
+
+        return reviews
 
     }catch (err) {
         console.log('getAllReviews FAILED', err)
@@ -90,5 +94,7 @@ async function deleteReview({
 module.exports = {
     createReview,
     getAllReviewsForProduct,
-    deleteReview
+    deleteReview,
+    getAllReviewsByUser,
+    getAllReviews
 }
