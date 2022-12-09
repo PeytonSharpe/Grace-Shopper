@@ -51,10 +51,10 @@ const App = () => {
         setProducts(results);
 
     }
-    // async function fetchReviews() {
-    //     const results = await getAllReviewsForProduct()
-    //     setReviews(results);
-    // }
+    async function fetchReviews() {
+        const results = await getAllReviewsForProduct()
+        setReviews(results);
+    }
     async function fetchCategories() {
         const results = await getCategories()
         setCategories(results);
