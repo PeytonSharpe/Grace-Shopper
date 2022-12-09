@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { Button, Card, TextField } from '@mui/material';
 import { Image } from 'mui-image';
 import { productsByCategory, deleteProduct, getAllReviewsForProduct } from '../api';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -45,20 +44,12 @@ const Category = ({ user, token }) => {
     const productsToDisplay = searchTerm.length ? filteredProducts : categoryProductList;
 
     return (
-        <Card style={{
-            padding: '.5rem',
-            margin: '.5rem',
-            background: '#247BA0'
-        }} elevation={6} >
+        
             <>
                 <form onSubmit={(event) => {
                     event.preventDefault();
                 }}>
-                    <Card style={{
-                        padding: '.5rem',
-                        margin: '.5rem',
-                        background: '#C3B299'
-                    }} >
+                    
                         <TextField style={{
                             width: '100%',
                             background: '#FFFCFF'
@@ -67,7 +58,6 @@ const Category = ({ user, token }) => {
                             label='Search'
                             onChange={(event) => setSearchTerm(event.target.value)}
                         ></TextField>
-                    </Card>
                 </form>
 
                 {user.isAdmin ? (
@@ -186,7 +176,7 @@ const Category = ({ user, token }) => {
                 })
                 }
             </>
-        </Card>
+
     )
 }
 
