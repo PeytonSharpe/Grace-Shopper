@@ -1,10 +1,12 @@
 import React from 'react';
 
 const Home = () => {
+
     return (
         <>
-        <h1 style={{color:"blue"}}>Home</h1>
-        </>
+        <h1 className='home-header'>Home</h1>
+        <p className='about-site'>About site here</p>
+       </>
     )
 
 

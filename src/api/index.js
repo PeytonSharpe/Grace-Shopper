@@ -1,16 +1,33 @@
 const baseURL = 'http://localhost:3001/api' || 'https://graceshopper-rwb0.onrender.com';
 
-export const getProducts = async () => {
-  try {
-    const response = await fetch(`${baseURL}/products`, {
+export const getAllUsers = async () => {
+  try{
+    const response = await fetch(`${baseURL}/users`, {
       headers: {
         'Content-Type': 'application/json'
-      }
-    });
-    const results = await response.json();
-    return results;
+      },
+    })
+    const result = await response.json();
+    return result
   } catch (error) {
-    console.log('error getting all products')
+    console.log('error getting users')
+    console.log(error)
+    throw error
+  }
+}
+
+export const getUserDetails = async (token) => {
+  try {
+    const response = await fetch(`${baseURL}/users/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    })
+    const result = await response.json();
+    return result
+  } catch (error) {
+    console.log('error getting users details')
     console.log(error)
     throw error
   }
@@ -68,22 +85,25 @@ export const loginUser = async (username, password) => {
   }
 }
 
-export const getUserDetails = async (token) => {
+
+
+export const getProducts = async () => {
   try {
-    const response = await fetch(`${baseURL}/users/me`, {
+    const response = await fetch(`${baseURL}/products`, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-    })
-    const result = await response.json();
-    return result
+        'Content-Type': 'application/json'
+      }
+    });
+    const results = await response.json();
+    return results;
   } catch (error) {
-    console.log('error getting users details')
+    console.log('error getting all products')
     console.log(error)
     throw error
   }
 }
+
+
 export const createProduct = async (token, { title, description, price, count, image }) => {
   try {
     console.log(title)
@@ -158,9 +178,23 @@ export const deleteProduct = async (token, id) => {
   }
 }
 
-export const getAllReviewsForProduct = async ({productId}) => {
+export const getAllReviewsForProduct = async (productId) => {
   try{
+    console.log(productId,"GETALL_1")
     const response = await fetch(`${baseURL}/reviews/product/${productId}`)
+    const result = await response.json();
+    console.log(result,'Result')
+    return result
+  } catch(error){
+    console.log('error getting reviews for products')
+    console.log(error)
+    throw error
+  }
+}
+
+export const getAllReviews = async () => {
+  try{
+    const response = await fetch(`${baseURL}/reviews/products/${productId}/reviews`)
     const result = await response.json();
     return result
   } catch(error){
@@ -170,17 +204,19 @@ export const getAllReviewsForProduct = async ({productId}) => {
   }
 }
 
-
-export const createReview = async ({ productId, token, review }) => {
+export const createReview = async ({ productId, token, review, stars }) => {
   try {
-    const response = await fetch(`${baseURL}/products/${productId}/reviews`, {
+    console.log('stars',stars)
+    const response = await fetch(`${baseURL}/reviews/products/${productId}/reviews`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        review
+        review,
+        stars,
+        productId
       })
     })
     const results = await response.json();

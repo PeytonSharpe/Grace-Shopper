@@ -11,13 +11,26 @@ import {
   CardMedia,
   CardActionArea,
   CardActions,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import './Register';
+
 
 const Login = ({ setToken, navigate }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [isAdmin, setIsAdmin] = useState('');
+    const [open, setOpen] = useState(false)
+
+    const handleClose = (event, reason) => {
+      if ("clickaway" == reason) return;
+      setOpen(false);
+      };
+      
+      const handleClick = () => {
+      setOpen(true);
+      };
 
     const handleSubmit = async () => {
         try {
@@ -35,7 +48,6 @@ const Login = ({ setToken, navigate }) => {
         }
 
     }
-  
 
   return (
     <>
@@ -62,9 +74,17 @@ const Login = ({ setToken, navigate }) => {
         label='Enter Password'
         onChange={(event) => setPassword(event.target.value)}
       />
-      <button style={{ height: '3rem', margin: '.25rem', backgroundColor:'#247BA0',color:'#FFFCFF' }} variant='contained' type='submit'>
+      <button style={{ height: '3rem', margin: '.25rem', backgroundColor:'#247BA0',color:'#FFFCFF' }} variant='contained' type='submit' onClick={handleClick}>
         Log In
       </button>
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+    This is a success message!
+  </Alert>
+  </Snackbar>
       <Link style={{ textDecoration: 'none' }} to='/register'>
         <button
           style={{

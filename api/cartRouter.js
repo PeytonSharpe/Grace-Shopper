@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { requireUser } = require("./utils");
 const cartRouter = express.Router();
 const {
@@ -6,7 +7,7 @@ const {
   getMyCartWithItems,
   deleteItemFromCart,
   createUserCart,
-  createGuestCart,
+  // createGuestCart,
   checkOut
 } = require("../db/cart");
 
@@ -33,60 +34,60 @@ cartRouter.get("/myCart", requireUser, async (req, res, next) => {
 });
 
 
-cartRouter.get('/guestCart', (req, res, next) => {
-  const {guestCart} = req.session;
-  if (!guestCart) {
-    res.send ("No items to display")
-  } else {
-    res.send(req.session.guestCart)
-  }
-})
+// cartRouter.get('/guestCart', (req, res, next) => {
+//   const {guestCart} = req.session;
+//   if (!guestCart) {
+//     res.send ("No items to display")
+//   } else {
+//     res.send(req.session.guestCart)
+//   }
+// })
 
 
-cartRouter.post('/guestCart', (req, res, next) => {
-  const { productId, product_name, priceAtPurchase } = req.body;
+// cartRouter.post('/guestCart', (req, res, next) => {
+//   const { productId, product_name, priceAtPurchase } = req.body;
 
-  const guestItem = { productId, product_name, priceAtPurchase}
-  const { guestCart } = req.session
-  if ( guestCart ) {
-    const { items } = guestCart;
-    items.push(guestItem)
-  } else {
-    req.session.guestCart = {
-      items: [guestItem]
-    }
-  }
-  res.send(req.session.guestCart)
-})
+//   const guestItem = { productId, product_name, priceAtPurchase}
+//   const { guestCart } = req.session
+//   if ( guestCart ) {
+//     const { items } = guestCart;
+//     items.push(guestItem)
+//   } else {
+//     req.session.guestCart = {
+//       items: [guestItem]
+//     }
+//   }
+//   res.send(req.session.guestCart)
+// })
 
-//deletes item from session storage
-cartRouter.delete('/guestCart', (req, res, next) => {
-  try { 
-    const { idx } = req.body;
-    const { guestCart } = req.session
-    const { items } = guestCart
-    items.splice(idx, 1)
-    res.send(guestCart)
-  } catch (error) {
-    next(error)
-  }
-})
+// //deletes item from session storage
+// cartRouter.delete('/guestCart', (req, res, next) => {
+//   try { 
+//     const { idx } = req.body;
+//     const { guestCart } = req.session
+//     const { items } = guestCart
+//     items.splice(idx, 1)
+//     res.send(guestCart)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
-//create guest cart checkout
-cartRouter.post('/guestCart/checkout', async (req, res, next) => {
-  try {
-    const guestCart = await createGuestCart({
-      session_id: req.sessionID,
-      order_status: "pending",
-    });
-    res.status(200).send(guestCart)
-    req.session.destroy(() => {
-      console.log("Session has been destroyed.")
-    });
-  } catch (error) {
-    next(error)
-  }
-})
+// //create guest cart checkout
+// cartRouter.post('/guestCart/checkout', async (req, res, next) => {
+//   try {
+//     const guestCart = await createGuestCart({
+//       session_id: req.sessionID,
+//       order_status: "pending",
+//     });
+//     res.status(200).send(guestCart)
+//     req.session.destroy(() => {
+//       console.log("Session has been destroyed.")
+//     });
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 
 // Create a user's cart
@@ -104,19 +105,19 @@ cartRouter.post("/newUserCart", async (req, res, next) => {
 });
 
 
-// Create a guest cart
-cartRouter.post("/newGuestCart", async (req, res, next) => {
-  const { sessionID } = req;
-  try {
-    const guestCart = await createGuestCart({
-      session_id: sessionID,
-      order_status: "active",
-    });
-    res.send(guestCart);
-  } catch (error) {
-    next(error);
-  }
-});
+// // Create a guest cart
+// cartRouter.post("/newGuestCart", async (req, res, next) => {
+//   const { sessionID } = req;
+//   try {
+//     const guestCart = await createGuestCart({
+//       session_id: sessionID,
+//       order_status: "active",
+//     });
+//     res.send(guestCart);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 
 // Adds item to a cart

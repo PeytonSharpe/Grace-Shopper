@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactDOM from 'react-dom/client'
 import { Route, BrowserRouter, Routes, useNavigate } from 'react-router-dom'
 import { CssBaseline, Paper } from '@mui/material';
@@ -24,7 +24,8 @@ import {
     getProducts,
     getUserDetails,
     getCategories,
-  
+    getAllReviewsForProduct,
+
 } from './api';
 
 import './style.css'
@@ -34,6 +35,7 @@ const App = () => {
 
     const [products, setProducts] = useState([]);
     const [isAdmin, setIsAdmin] = useState('');
+    const [reviews, setReviews] = useState([]);
     const [token, setToken] = useState('');
     const [user, setUser] = useState({})
     const navigate = useNavigate();
@@ -49,6 +51,10 @@ const App = () => {
         setProducts(results);
 
     }
+    // async function fetchReviews() {
+    //     const results = await getAllReviewsForProduct()
+    //     setReviews(results);
+    // }
     async function fetchCategories() {
         const results = await getCategories()
         setCategories(results);
@@ -75,22 +81,23 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts()
+        fetchReviews()
         fetchCategories()
     }, [])
 
     useEffect(() => {
         getMe();
     }, [token])
-    
 
     return (
         <React.Fragment>
-        <CssBaseline />
-        <Paper  elevation={16} 
+            <CssBaseline />
+            {/* <Paper  elevation={16} 
         style={{
           background:'#CBD4C2',
           width:'100%',
           height: '100%'
+
            }}>
         <header>
         <nav id='main-nav'>
@@ -194,6 +201,7 @@ const App = () => {
         </header>
         </Paper>
     </React.Fragment>
+
     )
 }
 
