@@ -168,10 +168,10 @@ const Products = ({ products, user, token, fetchProducts, fetchReviews, reviews 
                                         width: '100%',
                                         borderRadius: 15
                                     }}
-                                        variant='contained' onClick={() => handleAdd(token, productId)}>Add To Cart
+                                        variant='contained' onClick={() => handleAdd(token, id)}>Add To Cart
                                     </Button>
 
-                                    
+
 
                             {user.isAdmin ?
                                 <>

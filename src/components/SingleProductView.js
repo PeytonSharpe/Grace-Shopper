@@ -15,7 +15,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
 
     async function addReview() {
         console.error('in Single product view')
-        await createReview({ productId, review, token, stars: 5 })
+        await createReview({ product_id, review, token, stars: 5 })
     }
 
     const handleAdd = async (event) => {
@@ -42,11 +42,11 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
       };
 
     const [activeReview, setActiveReview] = useState(false);
-    const { productId } = useParams();
+    const { product_id } = useParams();
 
     if (products.length) {
 
-        const [currentProduct] = products.filter(products => products.id === parseInt(productId));
+        const [currentProduct] = products.filter(products => products.id === parseInt(product_id));
 
         const {
             title,
@@ -104,10 +104,10 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
                                         width: '100%',
                                         borderRadius: 15
                                     }}
-                                        variant='contained' onClick={() => handleAdd(token, productId)}>Add To Cart
+                                        variant='contained' onClick={() => handleAdd(token, product_id)}>Add To Cart
                                     </Button>
 
-                                    
+
                         {/* <form onSubmit={(ev) => {
                             ev.preventDefault();
                             addReview();
@@ -184,7 +184,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
                                         width: '100%',
                                         borderRadius: 15
                                     }}
-                                        variant='contained' onClick={() => deleteProduct(token, productId)}>Delete
+                                        variant='contained' onClick={() => deleteProduct(token, product_id)}>Delete
                                     </Button></Link> */}
                                 <Link style={{ textDecoration: 'none' }} to={`/products`}>
                                     <Button style={{
@@ -220,7 +220,7 @@ const SingleProductView = ({ products, user, navigate, getMe, token }) => {
                                             variant='contained' onClick={() => setActiveReview(!activeReview)}>Review this product</Button>
 
                                         {
-                                            activeReview && <singleProductView token={token} productId={productId} navigate={navigate} getMe={getMe} />
+                                            activeReview && <singleProductView token={token} product_id={product_id} navigate={navigate} getMe={getMe} />
                                         }
                                     </>
                                 }
