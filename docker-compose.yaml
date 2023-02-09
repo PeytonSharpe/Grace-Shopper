@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: 'postgres:latest'
+    restart: always
+    ports:
+      - '5432:5432'
+    # environment:
+    #   POSTGRES_PASSWORD: mysecretpassword
+    #   POSTGRES_USER: user
+    #   POSTGRES_DB: graceShopper
+    env_file:
+      - ./.env
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./sql/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+  api:
+    build: .
+    ports:
+      - '3001:3001'
+    command: "npm run start-server"
+    depends_on:
+      - db
+  client:
+    build: .
+    ports:
+      - "3003:3003"
+    command: "npm run start-react"
+    depends_on:
+      - api
+volumes:
+  data:
