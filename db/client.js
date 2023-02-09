@@ -2,7 +2,7 @@ const { Client } = require("pg");
 //postgres://postgres:123456@127.0.0.1:5432/dummy
 const connectionString =
   process.env.DATABASE_URL ||
-  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@db:5432/${process.env.POSTGRES_DB}`;
+  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.DB_HOST}:5432/${process.env.POSTGRES_DB}`;
 
 const client = new Client({
   connectionString,
