@@ -1,9 +1,18 @@
+const client = require('./client');
+const users = require('./users');
+const products = require('./products');
+const addresses = require('./addresses');
+const cart = require('./cart');
+const categories = require('./categories');
+const reviews = require('./reviews');
+
 module.exports = {
-    ...require('./client'), // adds key/values from users.js
-    ...require('./users'), // adds key/values from users.js
-    ...require('./products'),
-    ...require('./addresses'),
-    ...require('./cart'),
-    ...require('./categories'),
-    ...require('./reviews')
-  }
+  client,
+  users,
+  products,
+  addresses,
+  cart,
+  categories,
+  reviews,
+};
+  

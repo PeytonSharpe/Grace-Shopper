@@ -2,65 +2,71 @@ const express = require('express');
 const {
   createReview,
   getAllReviewsForProduct,
-  deleteReview } = require('../db');
-
+  deleteReview
+} = require('../db');
 
 const { requireAdmin, requireUser } = require('./utils');
 const reviewsRouter = express.Router();
 
+// GET /api/reviews/product/:productId - get all reviews for a product
 reviewsRouter.get('/product/:productId', async (req, res, next) => {
-
   try {
-    const { productId } = req.params
+    const { productId } = req.params;
     const allReviews = await getAllReviewsForProduct({ productId });
-console.log(allReviews, "allreviews")
-    if (!allReviews) {
-      res.send('No reviews found.')
+
+    if (!allReviews || allReviews.length === 0) {
+      return res.status(404).json({ message: 'No reviews found.' });
     }
-    res.send(allReviews)
 
-
+    res.json(allReviews);
   } catch (err) {
-    console.log('reviewsRouter.get-reviewsRouter.js FAILED', err)
-    next(err)
+    next(err);
   }
 });
 
+// POST /api/reviews/products/:productId/reviews - create a review for a product (logged-in user)
 reviewsRouter.post('/products/:productId/reviews', requireUser, async (req, res, next) => {
   try {
-    console.log(req.body)
-    // console.log('In Products Router Testing')
-    const { review, stars, productId } = req.body
+    const { productId } = req.params;
+    const { review, stars } = req.body;
 
+    // Basic validation
+    if (!review || typeof review !== 'string') {
+      return res.status(400).json({ error: 'Review text is required and must be a string.' });
+    }
+    if (typeof stars !== 'number' || stars < 1 || stars > 5) {
+      return res.status(400).json({ error: 'Stars must be a number between 1 and 5.' });
+    }
+
+    // Ensure productId from URL and body match or just use param
+    // Here, prefer param to avoid mismatch
     const newReview = await createReview({
       review,
-       stars,
-        userId:req.user.id,
-         productId
-    })
+      stars,
+      userId: req.user.id,
+      productId,
+    });
 
-    res.send(newReview)
-
+    res.status(201).json(newReview);
   } catch (err) {
-    console.log('reviewsRouter.post FAILED', err)
-    next(err)
+    next(err);
   }
 });
 
-reviewsRouter.delete('/product/:productId/:reviewsId', requireAdmin, async (req, res, next) => {
+// DELETE /api/reviews/product/:productId/:reviewId - delete a review (admin only)
+reviewsRouter.delete('/product/:productId/:reviewId', requireAdmin, async (req, res, next) => {
   try {
-    console.log('in delete product')
-    const { reviewsId } = req.params;
-    const deletedReview = await deleteReview(reviewsId)
+    const { reviewId } = req.params;
 
-    if (deletedReview) {
-      res.send(deletedReview)
-    } else {
-      res.send('Error deleting review.')
+    const deletedReview = await deleteReview(reviewId);
+
+    if (!deletedReview) {
+      return res.status(404).json({ error: 'Review not found or already deleted.' });
     }
+
+    res.json({ message: 'Review deleted successfully.', review: deletedReview });
   } catch (err) {
-    console.log('reviewsRouter.delete FAILED', err)
-    next(err)
+    next(err);
   }
 });
 

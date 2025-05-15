@@ -1,10 +1,20 @@
-const { Client } = require('pg');
+const { client } = require('./client'); // adjust path if needed
 
-const connectionString = process.env.DATABASE_URL || 'https://localhost:5432/graceShopper';
+async function testConnection() {
+  try {
+    await client.connect();
+    console.log('Connected to the database successfully!');
+    // Optional: run a simple query to test
+    const res = await client.query('SELECT NOW()');
+    console.log('Current time from DB:', res.rows[0]);
+  } catch (error) {
+    console.error('Failed to connect to the database:', error);
+  } finally {
+    await client.end();
+  }
+}
 
-const client = new Client({
-  connectionString,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
-})
-
-module.exports = { client }
+testConnection();
+// module.exports = {
+//   testConnection,  //   // other exports if needed
+// };
