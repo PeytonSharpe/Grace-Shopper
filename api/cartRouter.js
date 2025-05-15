@@ -16,6 +16,16 @@ cartRouter.use((req, res, next) => {
   next();
 });
 
+// User role check middleware (example assumes req.user.role exists)
+function requireRole(role) {
+  return (req, res, next) => {
+    if (!req.user || req.user.role !== role) {
+      return res.status(403).json({ success: false, error: "Forbidden: insufficient permissions." });
+    }
+    next();
+  };
+}
+
 // Get a user's cart
 cartRouter.get("/myCart", requireUser, async (req, res, next) => {
   try {
@@ -30,7 +40,7 @@ cartRouter.get("/myCart", requireUser, async (req, res, next) => {
 });
 
 // Create a new cart for a user
-cartRouter.post("/newUserCart", async (req, res, next) => {
+cartRouter.post("/newUserCart", requireUser, requireRole("admin"), async (req, res, next) => {
   const { userId, order_status = "active" } = req.body;
 
   if (!userId) {
@@ -66,7 +76,7 @@ cartRouter.post("/", requireUser, async (req, res, next) => {
 });
 
 // Delete item from a cart
-cartRouter.delete("/", async (req, res, next) => {
+cartRouter.delete("/", requireUser, async (req, res, next) => {
   const { cartedItemId } = req.body;
 
   if (!cartedItemId) {
@@ -82,7 +92,7 @@ cartRouter.delete("/", async (req, res, next) => {
 });
 
 // Checkout cart
-cartRouter.patch("/checkout", async (req, res, next) => {
+cartRouter.patch("/checkout", requireUser, async (req, res, next) => {
   const { cart_id } = req.body;
 
   if (!cart_id) {
@@ -98,3 +108,8 @@ cartRouter.patch("/checkout", async (req, res, next) => {
 });
 
 module.exports = cartRouter;
+// Error handling middleware
+cartRouter.use((error, req, res, next) => {
+  console.error(error);
+  res.status(500).json({ success: false, error: "Internal Server Error" });
+});
