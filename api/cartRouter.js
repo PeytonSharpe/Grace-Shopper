@@ -1,6 +1,6 @@
 const express = require("express");
-const { requireUser } = require("./utils");
 const cartRouter = express.Router();
+const { requireUser } = require("./utils");
 
 const {
   addItemToCart,
@@ -10,28 +10,34 @@ const {
   checkOut,
 } = require("../db/cart");
 
-// Middleware logger
+// Logger middleware
 cartRouter.use((req, res, next) => {
   console.log("A request is being made to /cart");
   next();
 });
 
-// User role check middleware (example assumes req.user.role exists)
+// Middleware to restrict route access by role
 function requireRole(role) {
   return (req, res, next) => {
     if (!req.user || req.user.role !== role) {
-      return res.status(403).json({ success: false, error: "Forbidden: insufficient permissions." });
+      return res.status(403).json({
+        success: false,
+        error: "Forbidden: insufficient permissions.",
+      });
     }
     next();
   };
 }
 
-// Get a user's cart
+// GET /cart/myCart - Get the authenticated user's cart
 cartRouter.get("/myCart", requireUser, async (req, res, next) => {
   try {
     const myCart = await getMyCartWithItems(req.user.id);
     if (!myCart || myCart.length === 0) {
-      return res.status(404).json({ success: false, message: "No items found in cart." });
+      return res.status(404).json({
+        success: false,
+        message: "No items found in cart.",
+      });
     }
     res.status(200).json({ success: true, cart: myCart });
   } catch (error) {
@@ -39,12 +45,15 @@ cartRouter.get("/myCart", requireUser, async (req, res, next) => {
   }
 });
 
-// Create a new cart for a user
+// POST /cart/newUserCart - Create a new cart (admin only)
 cartRouter.post("/newUserCart", requireUser, requireRole("admin"), async (req, res, next) => {
   const { userId, order_status = "active" } = req.body;
 
   if (!userId) {
-    return res.status(400).json({ success: false, error: "userId is required" });
+    return res.status(400).json({
+      success: false,
+      error: "userId is required",
+    });
   }
 
   try {
@@ -55,32 +64,34 @@ cartRouter.post("/newUserCart", requireUser, requireRole("admin"), async (req, r
   }
 });
 
-// Add item to a cart
+// POST /cart - Add item to a cart
 cartRouter.post("/", requireUser, async (req, res, next) => {
   const { productId, priceAtPurchase, cart_id } = req.body;
 
   if (!productId || !cart_id || typeof priceAtPurchase !== "number") {
-    return res.status(400).json({ success: false, error: "Missing or invalid fields" });
+    return res.status(400).json({
+      success: false,
+      error: "Missing or invalid fields",
+    });
   }
 
   try {
-    const newItem = await addItemToCart({
-      productId,
-      priceAtPurchase,
-      cart_id,
-    });
+    const newItem = await addItemToCart({ productId, priceAtPurchase, cart_id });
     res.status(201).json({ success: true, item: newItem });
   } catch (error) {
     next(error);
   }
 });
 
-// Delete item from a cart
+// DELETE /cart - Remove item from cart
 cartRouter.delete("/", requireUser, async (req, res, next) => {
   const { cartedItemId } = req.body;
 
   if (!cartedItemId) {
-    return res.status(400).json({ success: false, error: "cartedItemId is required" });
+    return res.status(400).json({
+      success: false,
+      error: "cartedItemId is required",
+    });
   }
 
   try {
@@ -91,12 +102,15 @@ cartRouter.delete("/", requireUser, async (req, res, next) => {
   }
 });
 
-// Checkout cart
+// PATCH /cart/checkout - Checkout the cart
 cartRouter.patch("/checkout", requireUser, async (req, res, next) => {
   const { cart_id } = req.body;
 
   if (!cart_id) {
-    return res.status(400).json({ success: false, error: "cart_id is required" });
+    return res.status(400).json({
+      success: false,
+      error: "cart_id is required",
+    });
   }
 
   try {
@@ -107,9 +121,15 @@ cartRouter.patch("/checkout", requireUser, async (req, res, next) => {
   }
 });
 
-module.exports = cartRouter;
-// Error handling middleware
+// Global error handler for /cart routes
 cartRouter.use((error, req, res, next) => {
-  console.error(error);
-  res.status(500).json({ success: false, error: "Internal Server Error" });
+  console.error("Cart Route Error:", error);
+  res.status(500).json({
+    success: false,
+    error: error.message || "Internal Server Error",
+  });
 });
+
+module.exports = cartRouter;
+// This code defines a set of routes for managing a shopping cart in an e-commerce application.
+// It includes routes for getting the user's cart, creating a new cart, adding items to the cart, removing items from the cart, and checking out.

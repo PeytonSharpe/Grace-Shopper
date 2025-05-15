@@ -1,104 +1,115 @@
 const { client } = require('./client');
 const bcrypt = require('bcrypt');
 
-// database functions
-// user functions
-async function createUser({ username, password, email, name, active, isAdmin }) { // isAdmin might need later
+async function createUser({ username, password, email, name, active = true, isAdmin = false }) {
   const SALT_COUNT = 10;
-  const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
   try {
+    const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
     const { rows: [user] } = await client.query(`
-    INSERT INTO users(username, password, email, name, active, "isAdmin") 
-    VALUES($1, $2, $3, $4, $5, $6) 
-    ON CONFLICT (username) DO NOTHING 
-    RETURNING *;
-  `, [username, hashedPassword, email, name, active, isAdmin]);
-    if (hashedPassword) {
-      delete user.password
-      return user;
+      INSERT INTO users(username, password, email, name, active, "isAdmin") 
+      VALUES($1, $2, $3, $4, $5, $6) 
+      ON CONFLICT (username) DO NOTHING 
+      RETURNING *;
+    `, [username, hashedPassword, email, name, active, isAdmin]);
+
+    if (!user) {
+      throw new Error('User creation failed, username may already exist');
     }
+
+    delete user.password;
     return user;
   } catch (err) {
-    console.log('createUser-users.js FAILED', err)
+    throw new Error(`createUser failed: ${err.message}`);
   }
 }
 
 async function updateUser(id, fields = {}) {
-  // build the set string
-  const setString = Object.keys(fields).map(
-    (key, index) => `"${key}"=$${index + 1}`
-  ).join(', ');
+  if (!id) {
+    throw new Error('updateUser requires a valid user id');
+  }
 
-  // return early if this is called without fields
-  if (setString.length === 0) {
-    return;
+  if (fields.password) {
+    const SALT_COUNT = 10;
+    fields.password = await bcrypt.hash(fields.password, SALT_COUNT);
+  }
+
+  const setString = Object.keys(fields)
+    .map((key, idx) => `"${key}"=$${idx + 1}`)
+    .join(', ');
+
+  if (!setString) {
+    throw new Error('updateUser requires at least one field to update');
   }
 
   try {
     const { rows: [user] } = await client.query(`
       UPDATE users
       SET ${setString}
-      WHERE id=${id}
+      WHERE id=$${Object.keys(fields).length + 1}
       RETURNING *;
-    `, Object.values(fields));
+    `, [...Object.values(fields), id]);
 
+    if (!user) {
+      throw new Error(`User with id ${id} not found`);
+    }
+
+    delete user.password;
     return user;
   } catch (err) {
-    console.log('updateUser-users.js FAILED', err)
+    throw new Error(`updateUser failed: ${err.message}`);
   }
 }
 
 async function getUser({ username, password }) {
-
-  const user = await getUserByUsername(username);
-  const hashedPassword = user.password;
-  const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-
-  if (passwordsMatch) {
-    // return the user object (without the password)
-    delete user.password
-    return user
-  }
-}
-
-async function getAllUsers() {
   try {
-    const { rows } = await client.query(`
-      SELECT id, username, password, email, name
-      FROM users;
-    `);
+    const user = await getUserByUsername(username);
+    if (!user) {
+      throw new Error('Invalid username or password');
+    }
 
-    return rows;
+    const passwordsMatch = await bcrypt.compare(password, user.password);
+    if (!passwordsMatch) {
+      throw new Error('Invalid username or password');
+    }
+
+    delete user.password;
+    return user;
   } catch (err) {
-    console.log('getAllUsers-users.js FAILED', err)
+    throw new Error(`getUser failed: ${err.message}`);
   }
 }
 
 async function getUserById(userId) {
-
-  const { rows: [user] } = await client.query(`
-      SELECT id, username, "isAdmin"
+  try {
+    const { rows: [user] } = await client.query(`
+      SELECT id, username, email, name, active, "isAdmin", email_confirmed
       FROM users
-      WHERE id=${userId}
-    `);
+      WHERE id=$1;
+    `, [userId]);
 
-  if (!user) {
-    return null
+    if (!user) {
+      throw new Error(`User with id ${userId} not found`);
+    }
+
+    return user;
+  } catch (err) {
+    throw new Error(`getUserById failed: ${err.message}`);
   }
-
-  return user;
-
 }
 
 async function getUserByUsername(username) {
-  console.log("inside username", username)
-  const { rows: [user] } = await client.query(`
+  try {
+    const { rows: [user] } = await client.query(`
       SELECT *
       FROM users
       WHERE username=$1;
     `, [username]);
-  console.log("after query", user)
-  return user;
+
+    return user || null;
+  } catch (err) {
+    throw new Error(`getUserByUsername failed: ${err.message}`);
+  }
 }
 
 module.exports = {
@@ -107,5 +118,4 @@ module.exports = {
   getUser,
   getUserById,
   getUserByUsername,
-  getAllUsers
-}
+};

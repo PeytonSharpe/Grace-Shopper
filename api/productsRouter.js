@@ -3,112 +3,138 @@ const {
   getAllProducts,
   createProduct,
   updateProduct,
-  getProductById,  
-  deleteProduct } = require('../db/products.js');
-  const{getAllReviewsForProduct} = require('../db/reviews.js');
- 
+  getProductById,
+  deleteProduct
+} = require('../db/products.js');
 
+const { getAllReviewsForProduct } = require('../db/reviews.js');
 const { requireAdmin } = require('./utils');
 
 const productsRouter = express.Router();
 
+// GET /api/products - fetch all products + their reviews
 productsRouter.get('/', async (req, res, next) => {
-  console.log('in products route')
-  console.log(typeof getAllProducts,'Products')
   try {
     const allProducts = await getAllProducts();
-    for(let i = 0; i< allProducts.length; i++){
-    const reviews = await getAllReviewsForProduct({productId:allProducts[i].id})
-    console.log(reviews)
-    allProducts[i].reviews = reviews
-    }
-    console.log(allProducts,'allprodsHERE')
-    if (!allProducts) {
-      res.send('No products found.')
-    }
-    res.send(allProducts)
 
-   
+    if (!allProducts.length) {
+      return res.status(404).json({ message: 'No products found.' });
+    }
+
+    // Fetch reviews concurrently for all products
+    const productsWithReviews = await Promise.all(
+      allProducts.map(async (product) => {
+        const reviews = await getAllReviewsForProduct({ productId: product.id });
+        return { ...product, reviews };
+      })
+    );
+
+    res.json(productsWithReviews);
   } catch (err) {
-    console.log('productsRouter.get-productsRouter.js FAILED', err)
-    next(err)
+    next(err);
   }
 });
 
-productsRouter.post('/create-product', requireAdmin, async (req, res, next) => {
+// POST /api/products - create a new product (admin only)
+productsRouter.post('/', requireAdmin, async (req, res, next) => {
   try {
-    console.log(req.body)
-    console.log('In Products Router Testing')
-    const {title, description, price, count, image}= req.body
-    console.log(title)
-    const product = await createProduct({
-      title,
-      description,
-      price,
-      count,
-      image     
-    })
+    const { title, description, price, count, image } = req.body;
 
-      res.send(product)
-    
+    // Basic validation
+    if (!title || typeof title !== 'string') {
+      return res.status(400).json({ error: 'Title is required and must be a string.' });
+    }
+    if (price == null || typeof price !== 'number' || price < 0) {
+      return res.status(400).json({ error: 'Price is required and must be a non-negative number.' });
+    }
+    if (count == null || typeof count !== 'number' || count < 0) {
+      return res.status(400).json({ error: 'Count is required and must be a non-negative number.' });
+    }
+    // description and image are optional but if present, validate types
+    if (description && typeof description !== 'string') {
+      return res.status(400).json({ error: 'Description must be a string.' });
+    }
+    if (image && typeof image !== 'string') {
+      return res.status(400).json({ error: 'Image must be a string (URL).' });
+    }
+
+    const product = await createProduct({ title, description, price, count, image });
+    res.status(201).json(product);
   } catch (err) {
-    console.log('productsRouter.post FAILED', err)
-    next(err)
+    next(err);
   }
 });
 
+// PATCH /api/products/:productId - update product fields (admin only)
 productsRouter.patch('/:productId', requireAdmin, async (req, res, next) => {
-  const { productId } = req.params;
-  const { title, description, price, count, image } = req.body;
-  const updateFields = {};
-
-  if (title) {
-    updateFields.title = title;
-  }
-
-  if (description) {
-    updateFields.description = description
-  }
-
-  if (price) {
-    updateFields.price = price;
-  }
-
-  if (count) {
-    updateFields.count = count;
-  }
-
-  if(image) {
-    updateFields.image = image;
-  }
   try {
-    const updatedProduct = await updateProduct(productId, updateFields)
+    const { productId } = req.params;
+    const { title, description, price, count, image } = req.body;
+    const updateFields = {};
 
-    if (updatedProduct) {
-      res.send(updatedProduct)
-    } else {
-      res.send('Error updating product.')
+    if (title !== undefined) {
+      if (typeof title !== 'string') {
+        return res.status(400).json({ error: 'Title must be a string.' });
+      }
+      updateFields.title = title;
     }
+
+    if (description !== undefined) {
+      if (typeof description !== 'string') {
+        return res.status(400).json({ error: 'Description must be a string.' });
+      }
+      updateFields.description = description;
+    }
+
+    if (price !== undefined) {
+      if (typeof price !== 'number' || price < 0) {
+        return res.status(400).json({ error: 'Price must be a non-negative number.' });
+      }
+      updateFields.price = price;
+    }
+
+    if (count !== undefined) {
+      if (typeof count !== 'number' || count < 0) {
+        return res.status(400).json({ error: 'Count must be a non-negative number.' });
+      }
+      updateFields.count = count;
+    }
+
+    if (image !== undefined) {
+      if (typeof image !== 'string') {
+        return res.status(400).json({ error: 'Image must be a string (URL).' });
+      }
+      updateFields.image = image;
+    }
+
+    if (Object.keys(updateFields).length === 0) {
+      return res.status(400).json({ error: 'No valid fields provided for update.' });
+    }
+
+    const updatedProduct = await updateProduct(productId, updateFields);
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Product not found.' });
+    }
+
+    res.json(updatedProduct);
   } catch (err) {
-    console.log('productsRouter.patch FAILED', err)
-    next(err)
+    next(err);
   }
 });
 
+// DELETE /api/products/:productId - delete product (admin only)
 productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
   try {
-    console.log('in delete product')
-    const { productId } = req.params;    
-    const deletedProduct = await deleteProduct(productId)
+    const { productId } = req.params;
+    const deletedProduct = await deleteProduct(productId);
 
-    if (deletedProduct) {
-      res.send(deletedProduct)
-    } else {
-      res.send('Error deleting product.')
+    if (!deletedProduct) {
+      return res.status(404).json({ error: 'Product not found or already deleted.' });
     }
+
+    res.json({ message: 'Product deleted successfully.', product: deletedProduct });
   } catch (err) {
-    console.log('productRouter.delete FAILED', err)
-    next(err)
+    next(err);
   }
 });
 

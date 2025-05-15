@@ -11,19 +11,22 @@ const router = express.Router();
 // POST /api/address/guestaddress
 router.post("/guestaddress", async (req, res, next) => {
   const { address } = req.body;
-  console.log(address)
+  console.log(address);
   try {
     const newAddress = await createAddress(address);
-    res.send(newAddress);
+    res.json(newAddress);
   } catch (error) {
-    throw error;
+    next(error);
   }
 });
+
 // POST /api/address/createaddress
 router.post("/createaddress", requireUser, async (req, res, next) => {
-  console.log(req.body)
   const { userId, label, street1, street2, city, state, zipcode } = req.body;
-  console.log('everything else', userId, label, street1, street2, city, state, zipcode)
+
+  if (req.user.id !== Number(userId)) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
 
   try {
     const address = await createAddress({
@@ -36,59 +39,73 @@ router.post("/createaddress", requireUser, async (req, res, next) => {
       zipcode,
     });
 
-    res.send(address);
-  } catch ({ name, message }) {
-    next({ name, message });
+    res.json(address);
+  } catch (error) {
+    next(error);
   }
 });
 
-// Patch /api/address/:addressId/updateaddress
+// PATCH /api/address/:addressId/:userId
 router.patch("/:addressId/:userId", requireUser, async (req, res, next) => {
   const id = req.params.addressId;
-  const user_id = req.params.userId;
-  const { label, street1, street2, city, state, zip } = req.body;
+  const userId = req.params.userId;
+  const { label, street1, street2, city, state, zipcode } = req.body;
+
+  if (req.user.id !== Number(userId)) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
 
   try {
     const updatedAddress = await updateAddress({
       id,
-      user_id,
+      userId,
       label,
       street1,
       street2,
       city,
       state,
-      zip,
+      zipcode,
     });
 
-    res.send(updatedAddress);
-  } catch ({ name, message }) {
-    next({ name, message });
+    res.json(updatedAddress);
+  } catch (error) {
+    next(error);
   }
 });
 
-// Get /api/address/:userId
-
+// GET /api/address/:userId
 router.get("/:userId", requireUser, async (req, res, next) => {
-  console.log('user.id Address')
   const userId = req.params.userId;
+
+  if (req.user.id !== Number(userId)) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
   try {
     const address = await getAddressByUserId(userId);
-    res.send(address);
-  } catch ({ name, message }) {
-    next({ name, message });
+    res.json(address);
+  } catch (error) {
+    next(error);
   }
 });
 
-// DELETE /api/address/:addressId/deleteaddress
+// DELETE /api/address/:addressId/:userId
 router.delete("/:addressId/:userId", requireUser, async (req, res, next) => {
   const id = req.params.addressId;
   const userId = req.params.userId;
+
+  if (req.user.id !== Number(userId)) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
   try {
     const deletedAddress = await deleteAddress(id, userId);
-    res.send(deletedAddress);
-  } catch ({ name, message }) {
-    next({ name, message });
+    res.json(deletedAddress);
+  } catch (error) {
+    next(error);
   }
 });
 
 module.exports = router;
+// const express = require('express');
+// const {
