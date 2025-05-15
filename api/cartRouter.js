@@ -1,5 +1,6 @@
 const express = require('express');
-
+//updated two years ago
+// const { createGuestCart } = require('../db/cart');
 const { requireUser } = require("./utils");
 const cartRouter = express.Router();
 const {
